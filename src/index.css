@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* Custom font family */
+@font-face {
+  font-family: 'Lufga';
+  src: url('../src/assets/lufga/LufgaRegular.ttf') format('truetype');
+  font-weight:normal;
+  font-style: normal;
+}
+
+
+/* Apply globally */
+body {
+  font-family: "Lufga", sans-serif;
+}
