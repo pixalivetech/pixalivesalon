@@ -13,3 +13,5 @@
 body {
   font-family: "Lufga", sans-serif;
 }
+
+@plugin "daisyui";

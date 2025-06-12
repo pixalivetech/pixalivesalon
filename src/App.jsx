@@ -9,7 +9,7 @@ import Home from './Pages/Home';
 const App = () => {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-[#F6F6F6]">
         <div className="w-full max-w-[1440px] mx-auto">
           
 
