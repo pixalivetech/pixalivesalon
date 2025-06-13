@@ -10,7 +10,7 @@ import Home from './Pages/Home'; // Your Home page component
 const App = () => {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-[#f6f6f6]">
+      <div className="min-h-screen bg-[#F6F6F6]">
         <div className="w-full max-w-[1440px] mx-auto">
           <Header /> {/* Placeholder for your Header component */}
 
