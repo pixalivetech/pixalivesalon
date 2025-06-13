@@ -5,6 +5,7 @@ import Header from './Components/Header/Header'; // Assuming this exists
 import Footer from './Components/Footer/Footer'; // Assuming this exists
 import Service from './Pages/Service'; // Your main service booking component
 import Home from './Pages/Home'; // Your Home page component
+import MapLanding from './Pages/MapLanding';
 
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/service/*" element={<Service />} /> {/* Use /* for nested routes */}
+              <Route path="/map" element={<MapLanding/>} />
             </Routes>
           </main>
 
