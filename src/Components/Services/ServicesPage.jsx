@@ -148,7 +148,7 @@ const ServicesPage = ({
             return (
               <div
                 key={service.id}
-                className="border border-gray-200 p-4 rounded-lg flex justify-between items-center"
+                className="border border-gray-200 p-6 rounded-lg flex justify-between items-center"
               >
                 <div>
                   <p className="font-medium text-black text-base">{service.name}</p>

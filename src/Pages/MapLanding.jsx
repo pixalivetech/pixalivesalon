@@ -3,7 +3,7 @@ import MapComponent from '../Components/Map/MapComponent'
 
 const MapLanding = () => {
   return (
-    <div>
+    <div className='p-6'>
         <MapComponent/>
     </div>
   )
