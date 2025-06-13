@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 /* Custom font family */
 @font-face {
@@ -12,4 +13,8 @@
 /* Apply globally */
 body {
   font-family: "Lufga", sans-serif;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
