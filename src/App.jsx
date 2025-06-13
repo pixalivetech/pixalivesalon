@@ -1,26 +1,27 @@
 // src/App.jsx
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Header from './Components/Header/Header';
-import Footer from './Components/Footer/Footer';
-import Home from './Pages/Home';
+import Header from './Components/Header/Header'; // Assuming this exists
+import Footer from './Components/Footer/Footer'; // Assuming this exists
+import Service from './Pages/Service'; // Your main service booking component
+import Home from './Pages/Home'; // Your Home page component
 
 
 const App = () => {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-[#f6f6f6]">
         <div className="w-full max-w-[1440px] mx-auto">
-          
+          <Header /> {/* Placeholder for your Header component */}
 
           <main>
             <Routes>
               <Route path="/" element={<Home />} />
-             
+              <Route path="/service/*" element={<Service />} /> {/* Use /* for nested routes */}
             </Routes>
           </main>
 
-          <Footer />
+          <Footer /> {/* Placeholder for your Footer component */}
         </div>
       </div>
     </BrowserRouter>
