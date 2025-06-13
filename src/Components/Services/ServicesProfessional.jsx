@@ -95,7 +95,7 @@ const ServicesProfessional = ({
           <button onClick={handleBack} className="flex items-center text-gray-700 hover:text-black">
             <FiChevronLeft className="text-2xl" />
           </button>
-          <h2 className="text-3xl font-bold ml-2">Select Professionals</h2>
+          <h2 className="text-3xl text-black font-bold ml-2">Select Professionals</h2>
         </div>
 
         <div className="flex gap-4 mb-6 overflow-x-auto pb-2">
@@ -111,7 +111,7 @@ const ServicesProfessional = ({
                 <div className="w-10 h-10 bg-gray-300 text-black rounded-full flex items-center justify-center text-sm font-bold">
                   {pro.icon}
                 </div>
-                <p className="text-sm font-semibold">{pro.name}</p>
+                <p className="text-sm  text-black font-semibold">{pro.name}</p>
                 <p className="text-xs text-gray-500">{pro.subtitle}</p>
                 {pro.id !== 'any' && (
                   <div className="text-xs mt-1 bg-gray-100 px-2 py-0.5 rounded-full text-black flex items-center gap-1">
@@ -125,7 +125,7 @@ const ServicesProfessional = ({
         </div>
 
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">Select Date & Time</h2>
+          <h2 className="text-2xl text-black font-bold">Select Date & Time</h2>
           <button
             onClick={() => setIsDatePickerOpen(true)}
             className="flex items-center justify-center w-12 h-12 border border-gray-300 rounded-lg text-gray-600 hover:text-black hover:border-black"

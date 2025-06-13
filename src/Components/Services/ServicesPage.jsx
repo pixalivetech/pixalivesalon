@@ -92,7 +92,7 @@ const ServicesPage = ({
           <button onClick={handleBack} className="flex items-center text-gray-700 hover:text-black">
             <FiChevronLeft className="text-2xl" />
           </button>
-          <h2 className="text-3xl font-bold ml-2">Select Services</h2>
+          <h2 className="text-3xl font-bold text-black ml-2">Select Services</h2>
         </div>
 
         <div className="relative mb-4">
@@ -141,7 +141,7 @@ const ServicesPage = ({
 
         <h3 className="text-xl font-semibold mb-2">{selectedCategory}</h3>
 
-        <div className="space-y-4">
+        <div className="space-y-4 ">
           {/* IMPORTANT: Conditional check for serviceData[selectedCategory] before .map() */}
           {serviceData[selectedCategory] && serviceData[selectedCategory].map((service) => {
             const isAdded = selectedServices.some((s) => s.id === service.id);
@@ -151,9 +151,9 @@ const ServicesPage = ({
                 className="border border-gray-200 p-4 rounded-lg flex justify-between items-center"
               >
                 <div>
-                  <p className="font-medium text-base">{service.name}</p>
+                  <p className="font-medium text-black text-base">{service.name}</p>
                   <p className="text-sm text-gray-500">{service.duration}</p>
-                  <p className="text-sm font-semibold mt-1">₹{service.price}</p>
+                  <p className="text-sm font-semibold text-black mt-1">₹{service.price}</p>
                 </div>
                 <button
                   className="w-9 h-9 rounded-lg bg-gray-200 text-black text-2xl flex items-center justify-center hover:bg-gray-200 transition"

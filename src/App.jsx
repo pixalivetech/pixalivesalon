@@ -12,7 +12,7 @@ const App = () => {
     <BrowserRouter>
       <div className="min-h-screen bg-[#F6F6F6]">
         <div className="w-full max-w-[1440px] mx-auto">
-          <Header /> {/* Placeholder for your Header component */}
+          {/* <Header />  */}
 
           <main>
             <Routes>

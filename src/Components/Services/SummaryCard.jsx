@@ -37,7 +37,7 @@ const SummaryCard = ({
         {/* Display Selected Professional, Date, and Time */}
         {/* As per image */}
         <div className="mt-4 border-t border-gray-200 pt-4">
-          <p className="font-semibold text-sm mb-2">Appointment Details:</p>
+          <p className="font-semibold text-black text-sm mb-2">Appointment Details:</p>
           <ul className="text-sm text-gray-700 space-y-1">
             {selectedProfessional && (
               <li>

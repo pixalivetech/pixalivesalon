@@ -78,7 +78,7 @@ const ReviewConfirmPage = ({ selectedServices, totalAmount, bookingDetails }) =>
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-lg shadow-xl text-center max-w-sm w-full relative">
             <IoCheckmarkCircleOutline className="text-green-500 text-6xl mx-auto mb-4" />
-            <h3 className="text-2xl font-bold mb-3">Booking Confirmed!</h3>
+            <h3 className="text-2xl text-black font-bold mb-3">Booking Confirmed!</h3>
             <p className="text-gray-700 mb-6">Your appointment has been successfully booked.</p>
             <button
               onClick={handleCloseSuccessPopup}
@@ -104,23 +104,23 @@ const ReviewConfirmPage = ({ selectedServices, totalAmount, bookingDetails }) =>
           <button onClick={handleBack} className="flex items-center text-gray-700 hover:text-black">
             <FiChevronLeft className="text-2xl" />
           </button>
-          <h2 className="text-3xl font-bold ml-2">Review & Confirm</h2>
+          <h2 className="text-3xl text-black font-bold ml-2">Review & Confirm</h2>
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl font-normal mb-4">Online Payment</h3>
+          <h3 className="text-xl font-normal text-black mb-4">Online Payment</h3>
           <div className="relative">
-              <div className="border border-gray-300 rounded-lg p-4 cursor-pointer flex justify-between items-center"
+              <div className="border border-gray-300 text-black rounded-lg p-4 cursor-pointer flex justify-between items-center"
                    onClick={() => setShowPaymentOptions(!showPaymentOptions)}>
                 <span>{paymentOptions.find(opt => opt.value === paymentOption)?.label}</span>
                 {showPaymentOptions ? <FaAngleUp /> : <FaAngleDown />}
               </div>
               {showPaymentOptions && (
-                <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-lg mt-2 z-10 shadow-lg">
+                <div className="absolute  top-full left-0 right-0 bg-white border border-gray-300 rounded-lg mt-2 z-10 shadow-lg">
                   {paymentOptions.map((option) => (
                     <div
                       key={option.value}
-                      className="p-3 hover:bg-gray-100 cursor-pointer"
+                      className="p-3 hover:bg-gray-100 text-black cursor-pointer"
                       onClick={(e) => { e.stopPropagation(); handlePaymentOptionChange(option.value); }}
                     >
                       {option.label}
@@ -132,10 +132,10 @@ const ReviewConfirmPage = ({ selectedServices, totalAmount, bookingDetails }) =>
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl font-normal mb-4">Discount Code</h3>
+          <h3 className="text-xl font-normal text-black mb-4">Discount Code</h3>
           <button className="flex items-center justify-between w-full border border-gray-300 rounded-lg p-4 text-left">
             <span className="flex items-center gap-2 text-gray-700">
-              <MdOutlineLocalOffer className="text-xl" />
+              <MdOutlineLocalOffer className="text-xl text-black" />
               Enter Discount Code
             </span>
             <FiChevronRight className="text-xl text-gray-500" />
@@ -143,7 +143,7 @@ const ReviewConfirmPage = ({ selectedServices, totalAmount, bookingDetails }) =>
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl font-normal mb-4">Booking Notes</h3>
+          <h3 className="text-xl font-normal text-black mb-4">Booking Notes</h3>
           <textarea
             className="w-full h-32 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black resize-y"
             placeholder="Add any special requests or notes for the salon..."
