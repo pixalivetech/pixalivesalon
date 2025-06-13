@@ -8,6 +8,7 @@ import TopFranchises from '../Components/Home/TopFranchises'
 import DownloadApp from '../Components/Home/DownloadApp'
 import Review from '../Components/Home/Review'
 import FAQ from '../Components/Home/FAQ'
+import Footer from '../Components/Home/Footer'
 
 const Home = () => {
   return (
@@ -20,6 +21,7 @@ const Home = () => {
       <DownloadApp />
       <Review />
       <FAQ />
+      <Footer />
     </div>
   )
 }

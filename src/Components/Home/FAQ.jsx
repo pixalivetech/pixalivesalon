@@ -7,7 +7,7 @@ const faqData = [
   {
     question: 'How do I book an appointment?',
     answer:
-      'Book salon appointments in under 60 seconds with the Pixalove app or website. Choose services, stylist, time, and pay securely—no calls needed!',
+      'Book salon appointments in under 60 seconds with the Pixalove app or website. Choose services, stylist, time, and pay securely—no calls needed!',
   },
   {
     question: 'Can I request a specific stylist?',
@@ -22,7 +22,7 @@ const faqData = [
   {
     question: 'Can I reschedule or cancel my appointment?',
     answer:
-      'Yes. Head to “My Bookings” in the app or website, choose the appointment and tap “Reschedule” or “Cancel”. No extra fees if done 24 h in advance.',
+      'Yes. Head to “My Bookings” in the app or website, choose the appointment and tap “Reschedule” or “Cancel”. No extra fees if done 24 h in advance.',
   },
   {
     question: 'Do I need to pay in advance for my appointment?',
@@ -32,71 +32,76 @@ const faqData = [
 ];
 
 const FAQ = () => {
-  const [active, setActive] = useState(0); // first item open by default
+  const [active, setActive] = useState(null); // all closed by default
 
-  const toggle = (idx) => {
-    setActive(active === idx ? null : idx);
-  };
+  const toggle = (idx) => setActive(active === idx ? null : idx);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* Heading */}
-      <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800">
-        Frequently Asked Questions
-      </h2>
+    <section className=" py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Heading */}
+        <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800">
+          Frequently Asked Questions
+        </h2>
 
-      {/* Content */}
-      <div className="mt-8 flex flex-col lg:flex-row gap-8">
-        {/* Left Image */}
-        <figure className="flex-shrink-0 w-full lg:w-[280px] xl:w-[320px]">
-          <img
-            src={faqImg}
-            alt="Hair stylist cutting client’s hair"
-            className="w-full h-full object-cover rounded-md"
-            loading='lazy'
-          />
-        </figure>
+        {/* Content */}
+        <div className="mt-10 flex flex-col lg:flex-row gap-10">
+          {/* Fixed‑height image */}
+          <figure className="flex-shrink-0 mx-auto lg:mx-0 w-full sm:w-3/4 md:w-1/2 lg:w-[320px] xl:w-[380px] h-[280px] sm:h-[320px] md:h-[380px] lg:h-[460px] overflow-hidden rounded-lg">
+            <img
+              src={faqImg}
+              alt="Hair stylist cutting client’s hair"
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </figure>
 
-        {/* FAQ List */}
-        <div className="flex-1">
-          {faqData.map((item, idx) => (
-            <div
-              key={idx}
-              className="border-gray-200 border-b first:border-t"
-            >
-              {/* Question Row */}
-              <button
-                type="button"
-                onClick={() => toggle(idx)}
-                className="w-full flex items-start justify-between gap-4 py-4 text-left focus:outline-none"
+          {/* FAQ list */}
+          <div className="flex-1">
+            {faqData.map((item, idx) => (
+              <div
+                key={idx}
+                className="border-gray-200 border-b first:border-t"
               >
-                <div className="flex items-start gap-4">
-                  {/* Number */}
-                  <span className="text-gray-500 font-medium shrink-0">
-                    {(idx + 1).toString().padStart(2, '0')}
-                  </span>
-                  {/* Question */}
-                  <span className="text-sm sm:text-base font-medium text-gray-800">
-                    {item.question}
-                  </span>
+                {/* Question row */}
+                <button
+                  type="button"
+                  onClick={() => toggle(idx)}
+                  className="w-full flex items-start justify-between gap-4 py-5 text-left focus:outline-none"
+                >
+                  <div className="flex items-start gap-4">
+                    {/* Number */}
+                    <span className="text-gray-500 font-medium shrink-0">
+                      {(idx + 1).toString().padStart(2, '0')}
+                    </span>
+                    {/* Question */}
+                    <span className="text-sm sm:text-base cursor-pointer font-medium text-gray-800">
+                      {item.question}
+                    </span>
+                  </div>
+
+                  {/* Icon */}
+                  {active === idx ? (
+                    <MinusIcon className="w-5 h-5 text-gray-500 shrink-0" />
+                  ) : (
+                    <PlusIcon className="w-5 h-5 text-gray-500 shrink-0" />
+                  )}
+                </button>
+
+                {/* Answer with smooth height animation */}
+                <div
+                  className={`pl-12 pr-4 overflow-hidden transition-[max-height] duration-300 ease-in-out ${
+                    active === idx ? 'max-h-96' : 'max-h-0'
+                  }`}
+                  data-accordion
+                >
+                  <p className="pb-5 text-xs sm:text-sm text-gray-500 leading-relaxed">
+                    {item.answer}
+                  </p>
                 </div>
-
-                {/* Icon */}
-                {active === idx ? (
-                  <MinusIcon className="w-5 h-5 text-gray-500 shrink-0" />
-                ) : (
-                  <PlusIcon className="w-5 h-5 text-gray-500 shrink-0" />
-                )}
-              </button>
-
-              {/* Answer */}
-              {active === idx && (
-                <p className="pl-12 pr-4 pb-4 text-xs sm:text-sm text-gray-500 leading-relaxed">
-                  {item.answer}
-                </p>
-              )}
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
