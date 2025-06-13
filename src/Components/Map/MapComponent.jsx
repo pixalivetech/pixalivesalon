@@ -4,11 +4,18 @@ import L from "leaflet";
 import { salons } from "../../data/salonMapData";
 import SalonList from "./SalonMapList";
 import { ZoomControl } from "react-leaflet";
+import FilterBox from "./FilterBox";
 
-const customIcon = new L.Icon({
-  iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+const defaultIcon = new L.Icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
   iconSize: [30, 30],
 });
+
+const selectedIcon = new L.Icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
+  iconSize: [45, 45],  // increased size for selected marker
+});
+
 
 // Zoom in to selected location
 function MapFlyToLocation({ selectedSalon }) {
@@ -27,6 +34,7 @@ function MapFlyToLocation({ selectedSalon }) {
 
 function MapComponent() {
   const [selectedSalon, setSelectedSalon] = useState(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -36,6 +44,7 @@ function MapComponent() {
           onSelect={(salon) => setSelectedSalon(salon)}
           selectedSalon={selectedSalon}
           onBack={() => setSelectedSalon(null)}
+          onOpenFilter={() => setShowFilters(true)}
         />
       </div>
 
@@ -62,7 +71,7 @@ function MapComponent() {
             <Marker
               key={salon.id}
               position={[salon.lat, salon.lng]}
-              icon={customIcon}
+              icon={selectedSalon?.id === salon.id ? selectedIcon : defaultIcon}
               eventHandlers={{
                 click: () => {
                   setSelectedSalon(salon);
@@ -78,6 +87,8 @@ function MapComponent() {
           ))}
         </MapContainer>
       </div>
+      {/* Filter Box */}
+      {showFilters && <FilterBox onClose={() => setShowFilters(false)} />}
     </div>
   );
 }

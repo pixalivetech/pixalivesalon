@@ -3,7 +3,7 @@ import SalonCard from "./SalonMapCard";
 import { HiArrowLeft } from "react-icons/hi";
 import FilterIcon from '../../assets/MapLanding/filter.svg'
 
-export default function SalonMapList({ salons, onSelect, selectedSalon, onBack }) {
+export default function SalonMapList({ salons, onSelect, selectedSalon, onBack, onOpenFilter }) {
   return (
     <div className="w-[480px] p-3 border-r border-gray-300 overflow-y-auto h-screen bg-white hide-scrollbar">
       <div className="flex justify-between items-center mb-4">
@@ -13,7 +13,7 @@ export default function SalonMapList({ salons, onSelect, selectedSalon, onBack }
             : `${salons.length} venues within map area`}
         </p>
         <button
-          onClick={onBack}
+          onClick={selectedSalon ? onBack : onOpenFilter}
           className="px-2 py-1 border border-gray-300 rounded bg-gray-100 hover:bg-gray-200"
         >
           {selectedSalon ? (
