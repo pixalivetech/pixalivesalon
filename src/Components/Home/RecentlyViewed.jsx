@@ -70,10 +70,10 @@ const RecentlyViewed = () => {
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-semibold text-black">Recently Viewed</h2>
                 <div className="flex space-x-2">
-                    <button onClick={handlePrev} className="p-2 cursor-pointer rounded-full bg-gray-400 hover:bg-gray-300">
+                    <button onClick={handlePrev} className="p-2 cursor-pointer rounded-full  hover:bg-gray-300">
                         <ChevronLeft size={20} />
                     </button>
-                    <button onClick={handleNext} className="p-2 cursor-pointer rounded-full bg-gray-400 hover:bg-gray-300">
+                    <button onClick={handleNext} className="p-2 cursor-pointer rounded-full  hover:bg-gray-300">
                         <ChevronRight size={20} />
                     </button>
                 </div>

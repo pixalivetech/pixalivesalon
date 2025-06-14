@@ -1,14 +1,15 @@
 import React from "react";
-import phoneMain from "../../assets/home/phone1.png";   // booking‑screen phone (larger)
-
+import phoneMain from "../../assets/home/phone1.png";  
 import phoneMap from "../../assets/home/phone2.png";
+
 
 const DownloadApp = () => {
   return (
-    <section className="bg-[#f6f6f6] py-14 md:py-20 lg:py-24 overflow-hidden">
-      <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-12 px-4 sm:px-8 lg:px-12">
+    // The section now takes full width without initial padding
+    <section className="py-8 md:px-10 lg:px-20">
+      <div className="w-full flex flex-col-reverse lg:flex-row items-center gap-12 py-12 px-4 sm:px-6 lg:px-8"> {/* Added py-12 for vertical spacing, and px for responsive horizontal padding */}
         {/* ───────────────────────── LEFT */}
-        <div className="w-full lg:w-5/12 text-center lg:text-left">
+        <div className="w-full lg:w-6/12 text-center lg:text-left">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight text-black">
             Download the<br className="hidden sm:block" /> Pixalive&nbsp;app
           </h2>
@@ -25,22 +26,22 @@ const DownloadApp = () => {
               className="shrink-0"
             >
               <img
-                src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-                alt="Get it on Google Play"
-                className="h-12 w-auto object-contain"
+                src={"https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"}
+                alt="Get it on Google Play"
+                className="h-12 w-auto object-contain rounded-md" // Added rounded-md for consistency
                 loading="lazy"
               />
             </a>
 
             <a
               href="#"
-              aria-label="Download on the App Store"
+              aria-label="Download on the App Store"
               className="shrink-0"
             >
               <img
                 src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
-                alt="Download on the App Store"
-                className="h-12 w-auto object-contain"
+                alt="Download on the App Store"
+                className="h-12 w-auto object-contain rounded-md" // Added rounded-md for consistency
                 loading="lazy"
               />
             </a>
@@ -49,21 +50,22 @@ const DownloadApp = () => {
 
         {/* ───────────────────────── RIGHT */}
         <div className="w-full lg:w-7/12 flex justify-center lg:justify-end">
-          <div className="flex items-end gap-6 sm:gap-10">
-            {/* main phone */}
+          {/* Changed items-end to items-start to align content from the top */}
+          <div className="flex items-start gap-6 sm:gap-10">
+            {/* main phone - using placeholder image */}
             <img
-              src={phoneMain}
+              src={phoneMain} 
               alt="Pixalive booking screen"
               loading="lazy"
-              className="w-28 sm:w-36 md:w-40 lg:w-48 xl:w-56 shadow-sm "
+              className="w-28 sm:w-36 md:w-40 lg:w-48 xl:w-56 shadow-sm border border-gray-200 rounded-lg"
             />
 
-            {/* map phone */}
+            {/* map phone - using placeholder image */}
             <img
               src={phoneMap}
               alt="Nearby salons map"
               loading="lazy"
-              className="w-28 sm:w-36 md:w-40 lg:w-48 xl:w-56 pt-5 shadow-sm "
+              className="w-28 sm:w-36 md:w-40 lg:w-48 xl:w-50 pt-5 mt-20 shadow-sm border-2 border-black rounded-lg" // pt-5 retained to maintain the staggered visual effect
             />
           </div>
         </div>
