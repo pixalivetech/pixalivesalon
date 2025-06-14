@@ -22,7 +22,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 bg-white z-50 shadow px-6 py-3">
+    <nav className="sticky top-0 bg-gray-200 px-6 py-4">
       <ul className="flex gap-5 text-sm font-medium text-gray-700">
         {navLinks.map((item) => (
           <li

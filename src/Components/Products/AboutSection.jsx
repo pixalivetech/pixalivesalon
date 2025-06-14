@@ -4,7 +4,7 @@ import MapImage from "../../assets/Product/map.png"; // Replace with your import
 
 const AboutSection = () => {
   return (
-    <section className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-14 2xl:px-30 pt-8 md:p-4 font-lufga">
+    <section className="p-6">
       <div className="flex flex-col md:flex-row gap-8 items-start">
         {/* Left Content */}
         <div className="md:w-1/2 space-y-6">

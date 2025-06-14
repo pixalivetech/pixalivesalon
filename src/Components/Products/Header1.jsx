@@ -42,7 +42,7 @@ const SalonPage = () => {
   const mapsUrl = "https://www.google.com/maps/dir/?api=1&destination=Koramangala+Mantri+Avenue+Bengaluru";
 
   return (
-    <div className=" px-4 sm:px-6 md:px-8 lg:px-12 xl:px-14 2xl:px-30  pt-8 md:p-10 font-lufga">
+    <div className=" p-6">
       {/* Breadcrumb */}
       <nav className="text-sm md:text-md xl:text-md text-gray-500 mb-6 flex items-center space-x-1">
         <Link to="/" className="text-gray-500 hover:underline cursor-pointer">Home</Link> &nbsp;&gt;&nbsp;

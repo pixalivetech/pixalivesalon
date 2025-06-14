@@ -69,7 +69,7 @@ const RecentlyViewed = () => {
     ];
 
     return (
-        <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-14 2xl:px-30 pt-8 md:p-4 font-lufga">
+        <div className="p-6">
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl md:text-3xl font-lufga text-black">Venues nearby</h2>
                 <div className="flex space-x-2">

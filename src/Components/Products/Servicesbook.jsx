@@ -51,7 +51,7 @@ const Services = () => {
   const filteredServices = allServices.filter((s) => s.category === activeTab);
 
   return (
-    <div className="max-w-[1440px] mx-auto mt-10 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-14 2xl:px-30 pt-8 md:p-4 font-lufga">
+    <div className="p-6">
       <div className="w-full xl:w-[98%] mx-auto">
         {/* Title */}
         <motion.h2

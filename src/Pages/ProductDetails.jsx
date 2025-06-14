@@ -7,7 +7,7 @@ import AboutSection from '../Components/Products/AboutSection'
 import OpeningTimes from '../Components/Products/OpeningTimes'
 import OtherLocation from '../Components/Products/OtherLocation'
 import Venue from '../Components/Products/Venue'
-import FAQ from '../Components/Products/FAQ'
+import FAQ from '../Components/Salons/Faq'
 const ProductDetails = () => {
   return (
     <div className="font-sans">
@@ -22,9 +22,7 @@ const ProductDetails = () => {
         <ServicesBook />
       </section>
 
-      <section id="reviews">
-        <UserReviews />
-      </section>
+      
 
       <section id="about">
         <AboutSection />
@@ -36,6 +34,10 @@ const ProductDetails = () => {
 
       <section id="other-location">
         <OtherLocation />
+      </section>
+
+      <section id="reviews">
+        <UserReviews />
       </section>
 
       <section id="venue">

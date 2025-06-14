@@ -7,7 +7,7 @@ import OpeningTimes from '../Components/Products/OpeningTimes'
 import OtherLocation from '../Components/Products/OtherLocation'
 import Venue from '../Components/Products/Venue'
 import AboutSection from '../Components/Products/AboutSection'
-import FAQ from '../Components/Products/FAQ'
+import FAQ from '../Components/Salons/Faq'
 
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -29,10 +29,11 @@ const Product = () => {
       <Header1 />
       <AmenitiesSection />
       <ServicesBook />
-      <UserReviews />
+      
       <AboutSection />
       <OpeningTimes />
       <OtherLocation />
+      <UserReviews />
       <Venue />
       <FAQ />
     </div>

@@ -83,7 +83,7 @@ export default function Testimonials() {
   };
 
   return (
-     <div className="max-w-[1440px] mx-auto mt-10 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-14 2xl:px-30 pt-8 md:p-4 font-lufga">
+     <div className="p-6">
       <div className="font-lufga">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <h2 className="text-3xl font-bold text-black mb-4 md:mb-0">Hear from our users</h2>
