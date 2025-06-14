@@ -114,7 +114,7 @@ const Header = () => {
     prevMonthButtonDisabled,
     nextMonthButtonDisabled,
   }) => (
-    <div className="flex justify-center gap-2 my-2">
+    <div className="flex justify-center gap-2 my-2 ">
       <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
         {"<"}
       </button>
@@ -261,11 +261,11 @@ const Header = () => {
 
   /* ───────────────────────────────────────── JSX ───────────────────────────────────────── */
   return (
-    <div className="min-h-screen font-lufga bg-[#f6f6f6] overflow-x-hidden pb-10">
+    <div className="min-h-screen font-lufga bg-[#f6f6f6] overflow-x-hidden ">
       {/* ───────────────────────── header ───────────────────────── */}
       <header
         ref={headerRef}
-        className={`flex justify-between items-center px-6 py-4 transition-all duration-300 ${isHeaderFixed ? "fixed top-0 left-0 right-0 bg-white shadow-md z-[100]" : ""
+        className={`flex justify-between items-center px-4 py-4 md:px-10 lg:px-20 transition-all duration-300 ${isHeaderFixed ? "fixed top-0 left-0 right-0 bg-white shadow-md z-[100]" : ""
           }`}
       >
         <img src={logo} alt="logo" loading="lazy" className="cursor-pointer" />
