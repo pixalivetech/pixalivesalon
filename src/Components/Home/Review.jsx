@@ -1,197 +1,184 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from "react";
+import avatar1 from './../../assets/salon/Avatar1.png' 
 
-const Review = () => {
+const testimonials = [
+  {
+    id: 1,
+    rating: 5,
+    quote: "Pixalive feels less like an office and more like a creative playground. As a freelance designer, I've finally found a space that keeps me focused and inspired.",
+    name: "Ananya R",
+    designation: "UI/UX Designer",
+    avatar: {avatar1} // Placeholder for demonstration
+  },
+  {
+    id: 2,
+    rating: 4,
+    quote: "The seamless booking experience and wide range of services on Pixalive have made my life so much easier. Highly recommend it for anyone looking for beauty services!",
+    name: "Priya S",
+    designation: "Marketing Specialist",
+    avatar: "https://placehold.co/40x40/C0C0C0/333333?text=AVATAR" // Placeholder for demonstration
+  },
+  {
+    id: 3,
+    rating: 5,
+    quote: "I love how easy it is to find top-rated salons near me. Pixalive has become my go-to app for all my beauty appointments.",
+    name: "Karan V",
+    designation: "Software Engineer",
+    avatar: "https://placehold.co/40x40/C0C0C0/333333?text=AVATAR" // Placeholder for demonstration
+  },
+  {
+    id: 4,
+    rating: 5,
+    quote: "A fantastic app for salon and spa bookings! The interface is clean, and the booking process is incredibly smooth. Never going back to manual bookings.",
+    name: "Sneha D",
+    designation: "Fashion Blogger",
+    avatar: "https://placehold.co/40x40/C0C0C0/333333?text=AVATAR" // Placeholder for demonstration
+  },
+  {
+    id: 5,
+    rating: 4,
+    quote: "Pixalive has simplified my search for quality beauty services. The reviews are helpful, and I always find great deals.",
+    name: "Rahul M",
+    designation: "Fitness Trainer",
+    avatar: "https://placehold.co/40x40/C0C0C0/333333?text=AVATAR" // Placeholder for demonstration
+  },
+  {
+    id: 6,
+    rating: 5,
+    quote: "Efficient, user-friendly, and comprehensive. Pixalive is a must-have app for anyone who values convenience and quality in beauty services.",
+    name: "Divya L",
+    designation: "Architect",
+    avatar: "https://placehold.co/40x40/C0C0C0/333333?text=AVATAR" // Placeholder for demonstration
+  },
+];
+
+const TestimonialsCarousel = () => {
+  const carouselRef = useRef(null);
+  const [scrollPosition, setScrollPosition] = useState(0); // This state isn't currently used for scrolling logic in the given code, but kept for consistency.
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    // Function to scroll the carousel
+    const scrollCarousel = () => {
+      // Check if we are at the end, if so, jump to the beginning instantly
+      // Added +1 for tolerance to ensure the condition triggers correctly when at the very end
+      if (carousel.scrollWidth - carousel.scrollLeft <= carousel.clientWidth + 1) {
+        carousel.scrollTo({ left: 0, behavior: 'instant' });
+      } else {
+        // Calculate scroll amount based on 1/3rd of the carousel width to move approximately one card (for lg screens)
+        // For smaller screens, it will move full card width
+        const cardWidth = carousel.querySelector('.flex-none').offsetWidth;
+        carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
+      }
+    };
+
+    // Set up auto-scrolling
+    const interval = setInterval(scrollCarousel, 3000); // Scrolls every 3 seconds
+
+    // Clean up interval on component unmount
+    return () => clearInterval(interval);
+  }, []); // Empty dependency array means this effect runs once on mount
+
+  // Helper to render star ratings
+  const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      stars.push(
+        <svg
+          key={i}
+          className={`w-5 h-5 ${i < rating ? 'text-black' : 'text-gray-300'}`}
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path>
+        </svg>
+      );
+    }
+    return <div className="flex">{stars}</div>;
+  };
+
   return (
-   <>
-    <div className='bg-[#f6f6f6] pb-12'>
-        <div className="text-center">
-      <h1 className="text-3xl md:text-4xl font-semibold text-gray-800">
-        What Our Clients Say
-      </h1>
-      <p className="text-sm md:text-base text-gray-500 mt-4">
-       Hear from our Users
-      </p>
+    <section className="p-6">
+      <div className=" mx-auto ">
+        <h2 className="text-3xl font-extrabold text-left text-black mb-12">
+          Hear from our users
+        </h2>
 
-      <div className="flex flex-wrap justify-center gap-5 mt-16 text-left">
-        {/* ---------- Card 1 ---------- */}
-        <div className="w-80 flex flex-col items-start border border-gray-500/30 p-5 rounded-lg bg-white">
-          {/* Quote icon */}
-          <svg
-            width="40"
-            height="40"
-            viewBox="0 0 44 40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M33.172 5.469q2.555 0 4.547 1.547a7.4 7.4 0 0 1 2.695 4.007q.47 1.711.469 3.61 0 2.883-1.125 5.86a22.8 22.8 0 0 1-3.094 5.577 33 33 0 0 1-4.57 4.922A35 35 0 0 1 26.539 35l-3.398-3.398q5.296-4.243 7.218-6.563 1.946-2.32 2.016-4.617-2.86-.329-4.781-2.461-1.923-2.133-1.922-4.992 0-3.117 2.18-5.297 2.202-2.203 5.32-2.203m-20.625 0q2.555 0 4.547 1.547a7.4 7.4 0 0 1 2.695 4.007q.47 1.711.469 3.61 0 2.883-1.125 5.86a22.8 22.8 0 0 1-3.094 5.577 33 33 0 0 1-4.57 4.922A35 35 0 0 1 5.914 35l-3.398-3.398q5.296-4.243 7.218-6.563 1.946-2.32 2.016-4.617-2.86-.329-4.781-2.461-1.922-2.133-1.922-4.992 0-3.117 2.18-5.297 2.202-2.203 5.32-2.203"
-              fill="#2563EB"
-            />
-          </svg>
-
-          {/* Stars */}
-          <div className="flex items-center justify-center mt-3 gap-1">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <svg
-                key={i}
-                width="16"
-                height="15"
-                viewBox="0 0 16 15"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M7.524.464a.5.5 0 0 1 .952 0l1.432 4.41a.5.5 0 0 0 .476.345h4.637a.5.5 0 0 1 .294.904L11.563 8.85a.5.5 0 0 0-.181.559l1.433 4.41a.5.5 0 0 1-.77.559L8.294 11.65a.5.5 0 0 0-.588 0l-3.751 2.726a.5.5 0 0 1-.77-.56l1.433-4.41a.5.5 0 0 0-.181-.558L.685 6.123A.5.5 0 0 1 .98 5.22h4.637a.5.5 0 0 0 .476-.346z"
-                  fill="#FF532E"
-                />
-              </svg>
-            ))}
-          </div>
-
-          {/* Testimonial text */}
-          <p className="text-sm mt-3 text-black">
-            I've been using imagify for nearly two years, primarily for
-            Instagram, and it has been incredibly user-friendly, making my work
-            much easier.
-          </p>
-
-          {/* User info */}
-          <div className="flex items-center gap-3 mt-4">
-            <img
-              className="h-12 w-12 rounded-full"
-              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=100"
-              alt="Donald Jackman"
-            />
-            <div>
-              <h2 className="text-lg text-gray-900 font-medium">
-                Donald Jackman
-              </h2>
-              <p className="text-sm text-gray-500">SWE 1 Amazon</p>
+        <div
+          ref={carouselRef}
+          className="flex overflow-x-scroll snap-x snap-mandatory pb-4 hide-scrollbar" // Custom class for scrollbar hiding
+          style={{ scrollBehavior: 'smooth' }}
+        >
+          {testimonials.map((testimonial) => (
+            <div
+              key={testimonial.id}
+              // Adjusting width and padding to match image gaps and card size
+              className="flex-none w-full sm:w-1/2 lg:w-1/3 px-3 py-6 snap-center" // Smaller px for tighter card spacing
+            >
+              <div className="bg-white rounded-xl shadow-md p-6 h-full flex flex-col justify-between"> {/* Changed shadow-lg to shadow-md */}
+                <div>
+                  {renderStars(testimonial.rating)}
+                  <p className="mt-4 text-gray-800 text-lg leading-relaxed"> {/* Changed text-gray-700 to text-gray-800 */}
+                    "{testimonial.quote}"
+                  </p>
+                </div>
+                <div className="mt-20 flex items-center">
+                  <img
+                    src={avatar1}
+                    alt={testimonial.name}
+                    className="w-10 h-10 rounded-full object-cover mr-3 shadow-sm border border-gray-100" // Smaller avatar, adjusted margin, added border, reduced shadow
+                  />
+                  <div>
+                    <p className="font-semibold text-gray-900">{testimonial.name}</p>
+                    <p className="text-sm text-gray-500">{testimonial.designation}</p>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        {/* ---------- Card 2 ---------- */}
-        <div className="w-80 flex flex-col items-start border border-gray-500/30 p-5 rounded-lg bg-white">
-          {/* Quote icon */}
-          <svg
-            width="44"
-            height="40"
-            viewBox="0 0 44 40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M33.172 5.469q2.555 0 4.547 1.547a7.4 7.4 0 0 1 2.695 4.007q.47 1.711.469 3.61 0 2.883-1.125 5.86a22.8 22.8 0 0 1-3.094 5.577 33 33 0 0 1-4.57 4.922A35 35 0 0 1 26.539 35l-3.398-3.398q5.296-4.243 7.218-6.563 1.946-2.32 2.016-4.617-2.86-.329-4.781-2.461-1.923-2.133-1.922-4.992 0-3.117 2.18-5.297 2.202-2.203 5.32-2.203m-20.625 0q2.555 0 4.547 1.547a7.4 7.4 0 0 1 2.695 4.007q.47 1.711.469 3.61 0 2.883-1.125 5.86a22.8 22.8 0 0 1-3.094 5.577 33 33 0 0 1-4.57 4.922A35 35 0 0 1 5.914 35l-3.398-3.398q5.296-4.243 7.218-6.563 1.946-2.32 2.016-4.617-2.86-.329-4.781-2.461-1.922-2.133-1.922-4.992 0-3.117 2.18-5.297 2.202-2.203 5.32-2.203"
-              fill="#2563EB"
-            />
-          </svg>
-
-          {/* Stars */}
-          <div className="flex items-center justify-center mt-3 gap-1">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <svg
-                key={i}
-                width="16"
-                height="15"
-                viewBox="0 0 16 15"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M7.524.464a.5.5 0 0 1 .952 0l1.432 4.41a.5.5 0 0 0 .476.345h4.637a.5.5 0 0 1 .294.904L11.563 8.85a.5.5 0 0 0-.181.559l1.433 4.41a.5.5 0 0 1-.77.559L8.294 11.65a.5.5 0 0 0-.588 0l-3.751 2.726a.5.5 0 0 1-.77-.56l1.433-4.41a.5.5 0 0 0-.181-.558L.685 6.123A.5.5 0 0 1 .98 5.22h4.637a.5.5 0 0 0 .476-.346z"
-                  fill="#FF532E"
-                />
-              </svg>
-            ))}
-          </div>
-
-          {/* Testimonial text */}
-          <p className="text-sm mt-3 text-black">
-            I've been using imagify for nearly two years, primarily for
-            Instagram, and it has been incredibly user-friendly, making my work
-            much easier.
-          </p>
-
-          {/* User info */}
-          <div className="flex items-center gap-3 mt-4">
-            <img
-              className="h-12 rounded-full"
-              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100"
-              alt="Richard Nelson"
-            />
-            <div>
-              <h2 className="text-lg text-gray-900 font-medium">
-                Richard Nelson
-              </h2>
-              <p className="text-sm text-gray-500">SWE 2 @ Amazon</p>
+          ))}
+          {/* Duplicate some cards to create an infinite loop effect */}
+          {testimonials.slice(0, 3).map((testimonial) => (
+            <div
+              key={`${testimonial.id}-duplicate`}
+              className="flex-none w-full sm:w-1/2 lg:w-1/3 px-3 py-4 snap-center"
+            >
+              <div className="bg-white rounded-xl p-6 h-full flex flex-col justify-between">
+                <div>
+                  {renderStars(testimonial.rating)}
+                  <p className="mt-4 text-gray-800 text-lg leading-relaxed">
+                    "{testimonial.quote}"
+                  </p>
+                </div>
+                <div className="mt-6 flex items-center">
+                  <img
+                    src={avatar1}
+                    alt={testimonial.name}
+                    className="w-10 h-10 rounded-full object-cover mr-3 shadow-sm border border-gray-100"
+                  />
+                  <div>
+                    <p className="font-semibold text-gray-900">{testimonial.name}</p>
+                    <p className="text-sm text-gray-500">{testimonial.designation}</p>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        {/* ---------- Card 3 ---------- */}
-        <div className="w-80 flex flex-col items-start border border-gray-500/30 p-5 rounded-lg bg-white">
-          {/* Quote icon */}
-          <svg
-            width="44"
-            height="40"
-            viewBox="0 0 44 40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M33.172 5.469q2.555 0 4.547 1.547a7.4 7.4 0 0 1 2.695 4.007q.47 1.711.469 3.61 0 2.883-1.125 5.86a22.8 22.8 0 0 1-3.094 5.577 33 33 0 0 1-4.57 4.922A35 35 0 0 1 26.539 35l-3.398-3.398q5.296-4.243 7.218-6.563 1.946-2.32 2.016-4.617-2.86-.329-4.781-2.461-1.923-2.133-1.922-4.992 0-3.117 2.18-5.297 2.202-2.203 5.32-2.203m-20.625 0q2.555 0 4.547 1.547a7.4 7.4 0 0 1 2.695 4.007q.47 1.711.469 3.61 0 2.883-1.125 5.86a22.8 22.8 0 0 1-3.094 5.577 33 33 0 0 1-4.57 4.922A35 35 0 0 1 5.914 35l-3.398-3.398q5.296-4.243 7.218-6.563 1.946-2.32 2.016-4.617-2.86-.329-4.781-2.461-1.922-2.133-1.922-4.992 0-3.117 2.18-5.297 2.202-2.203 5.32-2.203"
-              fill="#2563EB"
-            />
-          </svg>
-
-          {/* Stars */}
-          <div className="flex items-center justify-center mt-3 gap-1">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <svg
-                key={i}
-                width="16"
-                height="15"
-                viewBox="0 0 16 15"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M7.524.464a.5.5 0 0 1 .952 0l1.432 4.41a.5.5 0 0 0 .476.345h4.637a.5.5 0 0 1 .294.904L11.563 8.85a.5.5 0 0 0-.181.559l1.433 4.41a.5.5 0 0 1-.77.559L8.294 11.65a.5.5 0 0 0-.588 0l-3.751 2.726a.5.5 0 0 1-.77-.56l1.433-4.41a.5.5 0 0 0-.181-.558L.685 6.123A.5.5 0 0 1 .98 5.22h4.637a.5.5 0 0 0 .476-.346z"
-                  fill="#FF532E"
-                />
-              </svg>
-            ))}
-          </div>
-
-          {/* Testimonial text */}
-          <p className="text-sm mt-3 text-black">
-            I've been using imagify for nearly two years, primarily for
-            Instagram, and it has been incredibly user-friendly, making my work
-            much easier.
-          </p>
-
-          {/* User info */}
-          <div className="flex items-center gap-3 mt-4">
-            <img
-              className="h-12 rounded-full"
-              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&h=100&auto=format&fit=crop"
-              alt="James Washington"
-            />
-            <div>
-              <h2 className="text-lg text-gray-900 font-medium">
-                James Washington
-              </h2>
-              <p className="text-sm text-gray-500">SWE npm install @heroicons/react
-2 @ Google</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
-    </div>
-    </div>
-   </>
-  )
-}
+      {/* Custom CSS to hide scrollbar */}
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .hide-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+        }
+      `}</style>
+    </section>
+  );
+};
 
-export default Review
+export default TestimonialsCarousel;

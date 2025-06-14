@@ -12,7 +12,7 @@ import logo from "../../assets/home/Techlogo.png";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getMonth, getYear, format } from "date-fns";          // ⬅️ added format
+import { getMonth, getYear, format } from "date-fns";          
 import img1 from "./../../assets/Home/hero1.jpg";
 import img2 from "./../../assets/Home/hero2.jpg";
 import img3 from "./../../assets/Home/hero3.jpg";
@@ -158,7 +158,7 @@ const Header = () => {
   /* ───────────────────────────── dropdown content definitions ───────────────────────────── */
   const dropdownData = {
     treatments: (
-      <div className="p-4 bg-white rounded-lg shadow-lg w-64 max-h-80 overflow-y-auto">
+      <div className="p-6 bg-white rounded-lg shadow-lg w-64 max-h-80 overflow-y-auto">
         <h3 className="font-semibold mb-3">All Treatment</h3>
         <ul className="space-y-1 text-gray-700">
           <li className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-100">
@@ -184,7 +184,7 @@ const Header = () => {
     ),
 
     location: (
-      <div className="p-4 bg-white rounded-lg shadow-lg w-64">
+      <div className="p-6 bg-white rounded-lg shadow-lg w-64">
         <h3 className="font-semibold mb-3">Suggested Destination</h3>
         {["Current location", "HSR Layout", "Koramangala", "BTM Layout",
           "Electronic City Phase 1", "Electronic City Phase 2"].map((loc) => (
@@ -215,7 +215,7 @@ const Header = () => {
     ),
 
     time: (
-      <div className="p-4 bg-white rounded-lg shadow-lg flex gap-4">
+      <div className="p-6 bg-white rounded-lg shadow-lg flex ">
         {[
           ["Morning", ["9:00 am", "9:30 am", "10:00 am", "10:30 am", "11:00 am", "11:30 am"]],
           ["Afternoon", ["12:00 pm", "12:30 pm", "1:00 pm", "1:30 pm", "2:00 pm"]],
@@ -270,11 +270,11 @@ const Header = () => {
 
   /* ───────────────────────────────────────── JSX ───────────────────────────────────────── */
   return (
-    <div className="min-h-screen font-lufga bg-[#f6f6f6] overflow-x-hidden pb-10">
+    <div className=" p-6">
       {/* ───────────────────────── header ───────────────────────── */}
       <header
         ref={headerRef}
-        className={`flex justify-between items-center px-6 py-4 transition-all duration-300 ${
+        className={`flex justify-between items-center p-6 transition-all duration-300 ${
           isHeaderFixed ? "fixed top-0 left-0 right-0 bg-white shadow-md z-[100]" : ""
         }`}
       >

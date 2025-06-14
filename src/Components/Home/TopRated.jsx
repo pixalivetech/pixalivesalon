@@ -83,14 +83,14 @@ const TopRated = () => {
     ];
 
     return (
-        <div className="px-4 py-8 md:px-10 lg:px-20">
+        <div className="p-6">
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-semibold text-black">Top Rated products</h2>
                 <div className="flex space-x-2">
-                    <button onClick={handlePrev} className="p-2 cursor-pointer rounded-full bg-black hover:bg-black">
+                    <button onClick={handlePrev} className="p-2 cursor-pointer rounded-full hover:bg-gray-400">
                         <ChevronLeft size={20} />
                     </button>
-                    <button onClick={handleNext} className="p-2 cursor-pointer rounded-full bg-gray-400 hover:bg-gray-400">
+                    <button onClick={handleNext} className="p-2 cursor-pointer rounded-full hover:bg-gray-400">
                         <ChevronRight size={20} />
                     </button>
                 </div>
@@ -111,7 +111,7 @@ const TopRated = () => {
                                 <MapPin className="w-4 h-4 mr-1" />
                                 {salon.location}
                             </div>
-                            <span className="inline-block mt-2 px-2 py-1 text-xs bg-black rounded-full">
+                            <span className="inline-block mt-2 px-2 py-1 text-xs bg-gray-100 rounded-full">
                                 {salon.type}
                             </span>
                         </div>
