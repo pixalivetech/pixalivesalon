@@ -91,7 +91,7 @@ const SummaryCard = ({
         {/* Render button only if buttonText is provided */}
         {buttonText && (
           <button
-            className="w-full mt-4 bg-black text-white py-2 rounded-md transition hover:bg-gray-800"
+            className="w-full mt-4 bg-black cursor-pointer text-white py-2 rounded-md transition hover:bg-gray-800"
             onClick={onContinue}
           >
             {buttonText}
