@@ -19,7 +19,7 @@ const amenities = [
 
 const AmenitiesSection = () => {
   return (
-    <div className="max-w-[1440px] mt-4 md:mt-15 mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pt-8 md:p-4 font-lufga">
+    <div className="max-w-[1440px] mt-4 md:mt-15 mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-14 2xl:px-30 pt-8 md:p-4 font-lufga">
       {/* Section Heading */}
       <h2 className="text-3xl font-semibold text-black mb-8">Amenities</h2>
 
