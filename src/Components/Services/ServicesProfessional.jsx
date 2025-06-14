@@ -86,7 +86,7 @@ const ServicesProfessional = ({
       <div className="flex-1">
         <div className="text-sm text-gray-500 mb-6">
           <Link to="/" className="text-gray-500">Home</Link> &nbsp;&gt;&nbsp;
-          <Link to="#" className="text-gray-500">Salon</Link> &nbsp;&gt;&nbsp;
+          <Link to="/salon" className="text-gray-500">Salon</Link> &nbsp;&gt;&nbsp;
           <Link to="#" className="text-gray-500">Bodycraft Salon & Spa</Link> &nbsp;&gt;&nbsp;
           <span className="text-black font-semibold">Booking Professional</span>
         </div>

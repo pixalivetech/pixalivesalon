@@ -1,10 +1,10 @@
 // src/Components/Services/ReviewConfirmPage.jsx
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'; // FiX is no longer needed here
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import { MdOutlineLocalOffer } from 'react-icons/md';
-import { IoCheckmarkCircleOutline } from 'react-icons/io5'; // Import checkmark icon for success popup
+import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 import SummaryCard from './SummaryCard';
 
 const professionalsData = [
@@ -13,20 +13,26 @@ const professionalsData = [
   { id: 'somunasoth', name: 'Somunasoth', subtitle: 'Hair Stylist', icon: 'S' },
 ];
 
+// Dummy coupon data (you would typically fetch this from an API)
+const availableCoupons = [
+  { id: 'BARBER20_1', code: 'BARBER20', offer: 'Get 20% off', details: 'Valid on all barber services. Minimum spend ₹500.' },
+  { id: 'SUMMER10', code: 'SUMMER10', offer: 'Get 10% off', details: 'Valid for new customers only. Max discount ₹100.' },
+  { id: 'FIRSTVISIT', code: 'FIRSTVISIT', offer: 'Get ₹150 off', details: 'Applicable on your first booking over ₹300.' },
+];
+
 const ReviewConfirmPage = ({ selectedServices, totalAmount, bookingDetails }) => {
   const navigate = useNavigate();
   const [paymentOption, setPaymentOption] = useState("full_online");
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
   const [bookingNotes, setBookingNotes] = useState('');
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // State for success popup
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [showDiscountSection, setShowDiscountSection] = useState(false); // Renamed for clarity: controls inline section visibility
+  const [couponInput, setCouponInput] = useState('');
+  const [selectedCouponRadio, setSelectedCouponRadio] = useState(null);
 
   useEffect(() => {
     console.log('ReviewConfirmPage mounted. Current URL:', window.location.pathname);
     console.log('Booking Details received:', bookingDetails);
-
-    // Optional: If you want to automatically trigger the popup upon landing on this page
-    // and if certain booking details are present, you could add logic here.
-    // However, the current requirement is to show it *after* clicking 'Confirm Appointment' here.
   }, [bookingDetails]);
 
   const paymentOptions = [
@@ -40,7 +46,7 @@ const ReviewConfirmPage = ({ selectedServices, totalAmount, bookingDetails }) =>
   };
 
   const handleBack = () => {
-    navigate(-1); // Go back to the previous page (ServicesProfessional)
+    navigate(-1);
   };
 
   const handleFinalConfirmBooking = () => {
@@ -50,20 +56,28 @@ const ReviewConfirmPage = ({ selectedServices, totalAmount, bookingDetails }) =>
     console.log("Payment Option:", paymentOption);
     console.log("Booking Notes:", bookingNotes);
     console.log("Booking Details (Prof, Date, Time):", bookingDetails);
+    console.log("Applied Coupon:", selectedCouponRadio || couponInput);
     console.log("--------------------------");
 
-    // This is where the popup is triggered instead of navigating
     setShowSuccessPopup(true);
-    // You would typically send this data to your backend here
   };
 
   const handleCloseSuccessPopup = () => {
     setShowSuccessPopup(false);
-    // Navigate to the home page or a specific service start page after closing the popup
-    navigate('/'); // or navigate('/service')
+    navigate('/');
   };
 
-  // Find the selected professional object from the imported data
+  const handleApplyCoupon = () => {
+    // Implement coupon application logic here
+    console.log('Applying coupon:', couponInput || selectedCouponRadio);
+    // You'd typically validate the coupon, apply discount, and then collapse the section
+    setShowDiscountSection(false); // Close the section after applying
+    setCouponInput(''); // Clear input after attempting to apply
+    setSelectedCouponRadio(null); // Clear radio selection
+    // In a real app, you would update totalAmount based on the coupon
+  };
+
+  // Find the selected professional object
   const selectedProfessionalObj = professionalsData.find(
     (p) => p.id === bookingDetails.professional
   );
@@ -73,7 +87,7 @@ const ReviewConfirmPage = ({ selectedServices, totalAmount, bookingDetails }) =>
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 p-6 max-w-[1440px] mx-auto relative">
-      {/* Booking Success Pop-up - Conditionally rendered */}
+      {/* Booking Success Pop-up (remains an overlay) */}
       {showSuccessPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-lg shadow-xl text-center max-w-sm w-full relative">
@@ -95,7 +109,7 @@ const ReviewConfirmPage = ({ selectedServices, totalAmount, bookingDetails }) =>
         {/* Breadcrumbs */}
         <div className="text-sm text-gray-500 mb-6">
           <Link to="/" className="text-gray-500">Home</Link> &nbsp;&gt;&nbsp;
-          <Link to="#" className="text-gray-500">Salon</Link> &nbsp;&gt;&nbsp;
+          <Link to="/salon" className="text-gray-500">Salon</Link> &nbsp;&gt;&nbsp;
           <Link to="#" className="text-gray-500">Bodycraft Salon & Spa</Link> &nbsp;&gt;&nbsp;
           <span className="text-black font-semibold">Booking Service</span>
         </div>
@@ -116,7 +130,7 @@ const ReviewConfirmPage = ({ selectedServices, totalAmount, bookingDetails }) =>
                 {showPaymentOptions ? <FaAngleUp /> : <FaAngleDown />}
               </div>
               {showPaymentOptions && (
-                <div className="absolute  top-full left-0 right-0 bg-white border border-gray-300 rounded-lg mt-2 z-10 shadow-lg">
+                <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-lg mt-2 z-10 shadow-lg">
                   {paymentOptions.map((option) => (
                     <div
                       key={option.value}
@@ -133,13 +147,72 @@ const ReviewConfirmPage = ({ selectedServices, totalAmount, bookingDetails }) =>
 
         <div className="mb-8">
           <h3 className="text-xl font-normal text-black mb-4">Discount Code</h3>
-          <button className="flex items-center justify-between w-full border border-gray-300 rounded-lg p-4 text-left">
+          {/* Modified to toggle inline discount section */}
+          <button
+            onClick={() => setShowDiscountSection(!showDiscountSection)} // Toggle visibility
+            className="flex items-center justify-between w-full border border-gray-300 rounded-lg p-4 text-left"
+          >
             <span className="flex items-center gap-2 text-gray-700">
               <MdOutlineLocalOffer className="text-xl text-black" />
               Enter Discount Code
             </span>
-            <FiChevronRight className="text-xl text-gray-500" />
+            {showDiscountSection ? <FaAngleUp className="text-xl text-gray-500" /> : <FiChevronRight className="text-xl text-gray-500" />}
           </button>
+
+          {/* Inline Discount Section Content - Conditionally rendered */}
+          {showDiscountSection && (
+            <div className="mt-4 p-4 border border-gray-300 rounded-lg  shadow-sm">
+              {/* Coupon Input */}
+              <div className="mb-4">
+                <div className="relative flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                  <input
+                    type="text"
+                    placeholder="Enter your coupon code"
+                    className="flex-1 p-3 outline-none text-black"
+                    value={couponInput}
+                    onChange={(e) => setCouponInput(e.target.value)}
+                  />
+                  <button
+                    onClick={handleApplyCoupon}
+                    className="bg-gray-100 text-gray-700 font-medium px-4 py-3 hover:bg-gray-200 transition-colors"
+                  >
+                    Apply
+                  </button>
+                </div>
+              </div>
+
+              {/* Instructions */}
+              <div className="mb-4 text-gray-700 text-sm">
+                <p className="mb-2">&bull; Copy your coupon code from the email, promotional material or choose from a list below.</p>
+                <p>&bull; Paste it here and click Apply to redeem your discount</p>
+              </div>
+
+              {/* Available Coupons */}
+              <div>
+                <h4 className="text-lg font-semibold text-black mb-3">Available Coupons</h4>
+                {availableCoupons.map((coupon) => (
+                  <div key={coupon.id} className="border border-gray-300 rounded-lg p-4 mb-3 flex items-center justify-between">
+                    <div>
+                      <span className="bg-black text-white px-3 py-1 rounded text-sm font-semibold inline-block mb-1">{coupon.code}</span>
+                      <p className="text-black font-medium">{coupon.offer}</p>
+                      <button className="text-blue-600 text-sm mt-1 hover:underline">Show more</button>
+                    </div>
+                    <input
+                      type="radio"
+                      name="couponSelection"
+                      value={coupon.code}
+                      checked={selectedCouponRadio === coupon.code}
+                      onChange={() => {
+                        setSelectedCouponRadio(coupon.code);
+                        setCouponInput(coupon.code); // Also populate the input field
+                      }}
+                      className="form-radio h-5 w-5 text-black"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="mb-8">
@@ -153,7 +226,7 @@ const ReviewConfirmPage = ({ selectedServices, totalAmount, bookingDetails }) =>
         </div>
       </div>
 
-      {/* Summary Card - Its onContinue prop will now trigger the popup */}
+      {/* Summary Card */}
       <SummaryCard
         selectedServices={selectedServices}
         onContinue={handleFinalConfirmBooking}

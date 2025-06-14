@@ -24,7 +24,7 @@ const SummaryCard = ({
 
   return (
     <div className="w-full lg:w-[320px] space-y-6">
-      <div className="border border-gray-200 rounded-xl p-4">
+      <div className="border border-gray-200 rounded-xl p-6">
         <div className="flex gap-3">
           <img src={image1} alt="Salon" className="w-16 h-16 rounded-md object-cover" />
           <div>
