@@ -14,7 +14,7 @@ export default function OpeningTimes() {
   const todayIndex = new Date().getDay(); // 0 = Sunday
 
   return (
-   <div className="max-w-[1440px] mx-auto mt-10 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pt-8 md:p-4 font-lufga">
+   <div className="max-w-[1440px] mx-auto mt-10 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-14 2xl:px-30 pt-8 md:p-4 font-lufga">
       <div className="max-w-xl w-full">
         <h2 className="text-3xl font-lufga text-black mb-6">Opening times</h2>
         <div className="space-y-4">
