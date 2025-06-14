@@ -21,7 +21,7 @@ const Home = () => {
       <DownloadApp />
       <Review />
       <FAQ />
-      <Footer />
+      
     </div>
   )
 }
