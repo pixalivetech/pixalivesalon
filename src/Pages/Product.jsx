@@ -7,25 +7,36 @@ import OpeningTimes from '../Components/Products/OpeningTimes'
 import OtherLocation from '../Components/Products/OtherLocation'
 import Venue from '../Components/Products/Venue'
 import AboutSection from '../Components/Products/AboutSection'
-import Faq from '../Components/Salons/Faq'
+import FAQ from '../Components/Products/FAQ'
 
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Product = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const el = document.querySelector(location.hash);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
+
   return (
     <div>
-        <Header1/>
-        <AmenitiesSection/>
-        <ServicesBook/>
-       <UserReviews/>
-       <AboutSection/>
-       <OpeningTimes/>
-       <OtherLocation/>
-       <Venue/>
-       <Faq/>
-        
-      
+      <Header1 />
+      <AmenitiesSection />
+      <ServicesBook />
+      <UserReviews />
+      <AboutSection />
+      <OpeningTimes />
+      <OtherLocation />
+      <Venue />
+      <FAQ />
     </div>
-  )
-}
+  );
+};
 
-export default Product
+export default Product;
