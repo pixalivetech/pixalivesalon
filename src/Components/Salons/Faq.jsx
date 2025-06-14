@@ -1,112 +1,83 @@
 import React, { useState } from 'react';
-import faqImage from './../../assets/Salon/faqimage.png'; // Renamed to faqImage for clarity
+import { PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
+import faqImg from '../../assets/home/faqimage.png';
 
-const FAQItem = ({ faq, isOpen, onClick }) => {
-  return (
-    <div className="border-b border-gray-200 rounded-lg overflow-hidden"> {/* Added rounded-lg and overflow-hidden */}
-      <button
-        className="flex items-center w-full py-4 px-4 text-left text-lg font-medium text-gray-800 focus:outline-none hover:bg-gray-50 transition-colors duration-200" // Added px-4 and hover effect
-        onClick={onClick}
-      >
-        <span className="text-gray-600 font-semibold text-lg mr-4 flex-shrink-0"> {/* Added flex-shrink-0 */}
-          0{faq.id} {/* Adds leading zero for single-digit IDs */}
-        </span>
-        <span className="flex-grow">{faq.question}</span>
-        <span className="text-gray-400 ml-4">
-          {isOpen ? (
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path>
-            </svg>
-          ) : (
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path>
-            </svg>
-          )}
-        </span>
-      </button>
-      {isOpen && (
-        <div className="pb-4 text-gray-600 pl-16 pr-4"> {/* Adjusted indentation and added right padding */}
-          <p>{faq.answer}</p>
-        </div>
-      )}
-    </div>
-  );
-};
+const faqData = [
+  { question: 'How do I book an appointment?', answer: 'Book salon appointments in under 60 seconds with the Pixalove app or website. Choose services, stylist, time, and pay securely—no calls needed!' },
+  { question: 'Can I request a specific stylist?', answer: 'Absolutely. While booking you can filter by stylist. If your preferred professional is available, you’ll see their slot right away.' },
+  { question: 'What should I do at the salon after booking?', answer: 'Just show the confirmation screen (or email) at the reception and relax—the staff will already have your details.' },
+  { question: 'Can I reschedule or cancel my appointment?', answer: 'Yes. Head to “My Bookings” in the app or website, choose the appointment and tap “Reschedule” or “Cancel”. No extra fees if done 24 h in advance.' },
+  { question: 'Do I need to pay in advance for my appointment?', answer: 'Most salons let you pay in person, but some premium slots require a token advance. You’ll see that clearly before checkout.' },
+  { question: 'Are walk‑in appointments available?', answer: 'Many partner salons do allow walk‑ins, but time‑slot availability isn’t guaranteed. Booking through Pixalove in advance is the best way to secure your preferred time.' },
+];
 
-const FAQSection = () => {
-  const [openFAQId, setOpenFAQId] = useState(null); // State to manage which FAQ is open
+const FAQ = () => {
+  const [active, setActive] = useState(0);
 
-  const toggleFAQ = (id) => {
-    setOpenFAQId(openFAQId === id ? null : id); // Toggle open/close
+  const toggle = (idx) => {
+    if (idx === active) return;
+    setActive(idx);
   };
 
-  const faqs = [
-    {
-      id: 1,
-      question: 'How do I book an appointment?',
-      answer:
-        'Book salon appointments in under 60 seconds with the Pixalive app or website. Choose services, stylist, time, and pay securely—no calls needed!',
-    },
-    {
-      id: 2,
-      question: 'Can I request a specific stylist?',
-      answer:
-        'Yes, most booking systems allow you to choose your preferred stylist when making an appointment. This helps ensure you get the service you expect from someone you trust.',
-    },
-    {
-      id: 3,
-      question: 'What should I do at the salon after booking?',
-      answer:
-        'Upon arrival, check in with the reception. They will guide you to your stylist or waiting area. It\'s a good idea to arrive a few minutes early for your appointment.',
-    },
-    {
-      id: 4,
-      question: 'Can I reschedule or cancel my appointment?',
-      answer:
-        'Yes, most salons allow rescheduling or cancellation through their app or website. Please check their specific policy regarding notice periods for cancellations to avoid any charges.',
-    },
-    {
-      id: 5,
-      question: 'Do I need to pay in advance for my appointment?',
-      answer:
-        'Some salons may require a deposit or full payment in advance, especially for new clients or specific services. This information will typically be provided during the booking process.',
-    },
-  ];
-
   return (
-    <div className=" p-6 "> {/* Increased py-12 to py-20 for more vertical padding */}
-      <div className=" mx-auto"> {/* Centered content wrapper, max-w-6xl for better large screen control */}
-
-        {/* Heading at the top, spanning full width */}
-        <h2 className="text-4xl font-bold text-gray-900 mb-10 text-center sm:text-left"> {/* Increased mb-6 to mb-10 */}
+    <section className="p-6">
+      <div className=" mx-auto">
+        <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800">
           Frequently Asked Questions
         </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start"> {/* Increased gap-8 to gap-12 */}
-          {/* Left Section: Image */}
-          <div className="flex justify-center items-center  mb-6 lg:mb-0"> {/* Added mb-6 for small screen gap, removed on large */}
+        <div className="mt-10 flex flex-col lg:flex-row gap-10">
+          {/* FAQ Image */}
+          <figure className="flex-shrink-0 mx-auto lg:mx-0 w-full sm:w-3/4 md:w-1/2 lg:w-[320px] xl:w-[380px] h-[280px] sm:h-[320px] md:h-[380px] lg:h-[460px] overflow-hidden rounded-lg">
             <img
-              src={faqImage}
-              alt="Salon consultation" // More descriptive alt text
-              className="w-full h-auto rounded-lg shadow-lg object-cover max-h-[500px]" // Increased max-h-96 to max-h-[500px]
+              src={faqImg}
+              alt="Hair stylist cutting client’s hair"
+              className="w-full h-full object-cover"
+              loading="lazy"
             />
-          </div>
+          </figure>
 
-          {/* Right Section: FAQ Items */}
-          <div className="space-y-6"> {/* Increased space-y-4 to space-y-6 for more space between FAQs */}
-            {faqs.map((faq) => (
-              <FAQItem
-                key={faq.id}
-                faq={faq}
-                isOpen={openFAQId === faq.id}
-                onClick={() => toggleFAQ(faq.id)}
-              />
+          {/* Accordion */}
+          <div className="flex-1 overflow-hidden">
+            {faqData.map((item, idx) => (
+              <div key={idx} className="border-gray-200 border-b first:border-t">
+                <button
+                  type="button"
+                  aria-expanded={active === idx}
+                  onClick={() => toggle(idx)}
+                  className="w-full flex items-start justify-between gap-4 py-5 text-left focus:outline-none"
+                >
+                  <div className="flex items-start gap-4">
+                    <span className="text-gray-500 font-medium shrink-0">
+                      {(idx + 1).toString().padStart(2, '0')}
+                    </span>
+                    <span className="text-sm sm:text-base font-medium text-gray-800">
+                      {item.question}
+                    </span>
+                  </div>
+                  {active === idx ? (
+                    <MinusIcon className="w-5 h-5 text-gray-500 shrink-0" />
+                  ) : (
+                    <PlusIcon className="w-5 h-5 text-gray-500 shrink-0" />
+                  )}
+                </button>
+
+                <div
+                  className={`pl-12 pr-4 overflow-hidden transition-all duration-300 ease-in-out ${
+                    active === idx ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                  }`}
+                >
+                  <p className="pb-5 text-xs sm:text-sm text-gray-500 leading-relaxed">
+                    {item.answer}
+                  </p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
-export default FAQSection;
+export default FAQ;
