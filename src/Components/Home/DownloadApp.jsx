@@ -55,7 +55,7 @@ const DownloadApp = () => {
               src={phoneMain}
               alt="Pixalive booking screen"
               loading="lazy"
-              className="w-28 sm:w-36 md:w-40 lg:w-48 xl:w-56 shadow-sm border"
+              className="w-28 sm:w-36 md:w-40 lg:w-48 xl:w-56 shadow-sm "
             />
 
             {/* map phone */}
@@ -63,7 +63,7 @@ const DownloadApp = () => {
               src={phoneMap}
               alt="Nearby salons map"
               loading="lazy"
-              className="w-28 sm:w-36 md:w-40 lg:w-48 xl:w-56 pt-5 shadow-sm border"
+              className="w-28 sm:w-36 md:w-40 lg:w-48 xl:w-56 pt-5 shadow-sm "
             />
           </div>
         </div>

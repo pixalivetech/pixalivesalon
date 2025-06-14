@@ -2,17 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 import { FiUser, FiMenu } from "react-icons/fi";
-import {
-  FaSearch,
-  FaMapMarkerAlt,
-  FaCalendarAlt,
-  FaClock,
-} from "react-icons/fa";
+import { FaSearch, FaMapMarkerAlt, FaCalendarAlt, FaClock, } from "react-icons/fa";
 import logo from "../../assets/home/Techlogo.png";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getMonth, getYear, format } from "date-fns";          // ⬅️ added format
+import { getMonth, getYear, format } from "date-fns";  
 import img1 from "./../../assets/Home/hero1.jpg";
 import img2 from "./../../assets/Home/hero2.jpg";
 import img3 from "./../../assets/Home/hero3.jpg";
@@ -23,12 +18,10 @@ import img6 from "./../../assets/Home/hero6.jpg";
 const Header = () => {
   const images = [img1, img2, img3, img4, img5, img6];
   const allImages = [...images, ...images, ...images];
-
   /* ───────────────────────────────────────── state ───────────────────────────────────────── */
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
-
   // **selected values that drive the button labels**
   const [selectedTreatment, setSelectedTreatment] = useState(
     "All Treatments and venues"
@@ -45,7 +38,6 @@ const Header = () => {
   const locationRef = useRef(null);
   const dateRef = useRef(null);
   const timeRef = useRef(null);
-
   /* ─────────────────────────────────── helpers / handlers ─────────────────────────────────── */
   const getRotation = (index) => {
     const angles = [-1, -6, -5, -3, 2, 4, 6, 2, 4, 9];
@@ -64,7 +56,6 @@ const Header = () => {
     setSelectedTime(val);
     setActiveDropdown(null);
   };
-
   /* ───────────────────────────────────── effect: initial offset ───────────────────────────────────── */
   useEffect(() => {
     if (searchBarRef.current) {
@@ -188,15 +179,15 @@ const Header = () => {
         <h3 className="font-semibold mb-3">Suggested Destination</h3>
         {["Current location", "HSR Layout", "Koramangala", "BTM Layout",
           "Electronic City Phase 1", "Electronic City Phase 2"].map((loc) => (
-          <div
-            key={loc}
-            onClick={() => handleSelectLocation(loc)}
-            className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-100 cursor-pointer text-gray-700"
-          >
-            {loc === "Current location" && <FaMapMarkerAlt />}
-            {loc}
-          </div>
-        ))}
+            <div
+              key={loc}
+              onClick={() => handleSelectLocation(loc)}
+              className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-100 cursor-pointer text-gray-700"
+            >
+              {loc === "Current location" && <FaMapMarkerAlt />}
+              {loc}
+            </div>
+          ))}
       </div>
     ),
 
@@ -274,9 +265,8 @@ const Header = () => {
       {/* ───────────────────────── header ───────────────────────── */}
       <header
         ref={headerRef}
-        className={`flex justify-between items-center px-6 py-4 transition-all duration-300 ${
-          isHeaderFixed ? "fixed top-0 left-0 right-0 bg-white shadow-md z-[100]" : ""
-        }`}
+        className={`flex justify-between items-center px-6 py-4 transition-all duration-300 ${isHeaderFixed ? "fixed top-0 left-0 right-0 bg-white shadow-md z-[100]" : ""
+          }`}
       >
         <img src={logo} alt="logo" loading="lazy" className="cursor-pointer" />
 
@@ -422,9 +412,8 @@ const Header = () => {
       {/* ───────────────────────── main search bar (hero) ───────────────────────── */}
       <div
         ref={searchBarRef}
-        className={`relative w-fit mx-auto mt-10 ${
-          isHeaderFixed ? "hidden" : "block"
-        } px-4 md:px-0 z-20`}
+        className={`relative w-fit mx-auto mt-10 ${isHeaderFixed ? "hidden" : "block"
+          } px-4 md:px-0 z-20`}
       >
         <div className="flex items-center border border-gray-900 rounded-full px-4 py-2 shadow-sm bg-white">
           {/* Treatments */}
@@ -471,7 +460,6 @@ const Header = () => {
           </div>
 
           <div className="w-px h-6 bg-gray-300 mx-1" />
-
           {/* Time */}
           <div
             ref={timeRef}
@@ -484,15 +472,12 @@ const Header = () => {
               {selectedTime}
             </div>
           </div>
-
           <div className="w-px h-6 bg-gray-300 mx-1" />
-
           <button className="bg-black cursor-pointer text-white rounded-full px-5 py-2 text-sm hover:bg-gray-800">
             Search
           </button>
         </div>
       </div>
-
       {/* ───────────────────────── portal mounts ───────────────────────── */}
       {renderPortalDropdown("treatments")}
       {renderPortalDropdown("location")}
@@ -501,5 +486,4 @@ const Header = () => {
     </div>
   );
 };
-
 export default Header;

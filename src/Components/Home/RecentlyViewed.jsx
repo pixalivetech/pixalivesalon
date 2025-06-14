@@ -29,7 +29,7 @@ const salons = [
         rating: 4.3,
         reviews: 32,
         location: 'Electronic City, Bengaluru',
-        type: 'Medspa',
+        type: 'Med spa',
         image: rec3,
     },
     {
@@ -70,10 +70,10 @@ const RecentlyViewed = () => {
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-semibold text-black">Recently Viewed</h2>
                 <div className="flex space-x-2">
-                    <button onClick={handlePrev} className="p-2 cursor-pointer rounded-full bg-black hover:bg-black">
+                    <button onClick={handlePrev} className="p-2 cursor-pointer rounded-full bg-gray-400 hover:bg-gray-300">
                         <ChevronLeft size={20} />
                     </button>
-                    <button onClick={handleNext} className="p-2 cursor-pointer rounded-full bg-gray-400 hover:bg-gray-400">
+                    <button onClick={handleNext} className="p-2 cursor-pointer rounded-full bg-gray-400 hover:bg-gray-300">
                         <ChevronRight size={20} />
                     </button>
                 </div>
@@ -94,7 +94,7 @@ const RecentlyViewed = () => {
                                 <MapPin className="w-4 h-4 mr-1" />
                                 {salon.location}
                             </div>
-                            <span className="inline-block mt-2 px-2 py-1 text-xs bg-black rounded-full">
+                            <span className="inline-block mt-2 px-2 py-1 text-xs bg-black text-white rounded-full">
                                 {salon.type}
                             </span>
                         </div>
