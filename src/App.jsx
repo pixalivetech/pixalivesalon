@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useLocation,
-} from 'react-router-dom';
-
-import Header from './Components/Header/Header';        // optional global header
+import { BrowserRouter, Routes, Route, useLocation, } from 'react-router-dom';
 import Footer from './Components/Footer/Footer';
 import Service from './Pages/Service';
 import Home from './Pages/Home';
@@ -16,9 +9,6 @@ import ScrollToTop from './components/ScrollToTop';
 import ScrollToTopOnRouteChange from './components/ScrollToTopOnRouteChange';
 import HeaderSearchBar from './Components/Home/HeaderSearchBar';
 
-/**
- * Route‑aware wrapper so we can use `useLocation`.
- */
 const AppContent = () => {
   const { pathname } = useLocation();
   const isHomePage = pathname === '/';      // adjust if your Home path differs
@@ -27,7 +17,6 @@ const AppContent = () => {
     <>
       {/* Show on every page EXCEPT Home */}
       {!isHomePage && <HeaderSearchBar />}
-
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -36,7 +25,6 @@ const AppContent = () => {
           <Route path="/salon" element={<Salon />} />
         </Routes>
       </main>
-
       <Footer />
     </>
   );
@@ -46,12 +34,10 @@ const App = () => (
   <BrowserRouter>
     <ScrollToTopOnRouteChange />
     <ScrollToTop />
-
     <div className="min-h-screen bg-[#F6F6F6]">
       <div className="w-full max-w-[1440px] mx-auto">
         {/* Uncomment if you need a global header visible on all pages */}
         {/* <Header /> */}
-
         <AppContent />
       </div>
     </div>
