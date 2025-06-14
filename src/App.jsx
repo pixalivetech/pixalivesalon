@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useLocation,
-} from 'react-router-dom';
- 
+import { BrowserRouter, Routes, Route, useLocation, } from 'react-router-dom';
+
 import Header from './Components/Header/Header';        // optional global header
 import Footer from './Components/Footer/Footer';
 import Service from './Pages/Service';
@@ -15,6 +10,7 @@ import Salon from './Pages/Salon';
 import ScrollToTop from './components/ScrollToTop';
 import ScrollToTopOnRouteChange from './components/ScrollToTopOnRouteChange';
 import HeaderSearchBar from './Components/Home/HeaderSearchBar';
+
 import Product from './Pages/Product';
 import ProductDetails from './Pages/ProductDetails';
  
