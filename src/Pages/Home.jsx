@@ -9,6 +9,7 @@ import DownloadApp from '../Components/Home/DownloadApp'
 import Review from '../Components/Home/Review'
 import FAQ from '../Components/Home/FAQ'
 import Footer from '../Components/Home/Footer'
+import TopRated from '../Components/Home/TopRated'
 
 const Home = () => {
   return (
@@ -18,6 +19,7 @@ const Home = () => {
       <RecentlyViewed />
       <RecommendedSalons />
       <TopFranchises />
+      {/* <TopRated /> */}
       <DownloadApp />
       <Review />
       <FAQ />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, MapPin, Star } from 'lucide-react';
-import rec1 from '../../assets/home/rec1.png'
+import rec1 from '../../assets/home/rat1.jpg'
 import rec2 from '../../assets/home/rec2.png'
 import rec3 from '../../assets/home/rec3.png'
 import rec4 from '../../assets/home/rec5.png'
@@ -61,7 +61,7 @@ const salons = [
     },
 ];
 
-const RecommendedSalons = () => {
+const TopRated = () => {
     const [startIndex, setStartIndex] = useState(0);
     const itemsPerPage = 4;
 
@@ -85,7 +85,7 @@ const RecommendedSalons = () => {
     return (
         <div className="px-4 py-8 md:px-10 lg:px-20">
             <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-semibold text-black">Recommended</h2>
+                <h2 className="text-2xl font-semibold text-black">Top Rated products</h2>
                 <div className="flex space-x-2">
                     <button onClick={handlePrev} className="p-2 cursor-pointer rounded-full bg-black hover:bg-black">
                         <ChevronLeft size={20} />
@@ -122,4 +122,4 @@ const RecommendedSalons = () => {
     );
 };
 
-export default RecommendedSalons;
+export default TopRated;
