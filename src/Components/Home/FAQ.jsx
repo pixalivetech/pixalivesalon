@@ -25,19 +25,29 @@ const faqData = [
       'Yes. Head to “My Bookings” in the app or website, choose the appointment and tap “Reschedule” or “Cancel”. No extra fees if done 24 h in advance.',
   },
   {
-    question: 'Do I need to pay in advance for my appointment?',
-    answer:
-      'Most salons let you pay in person, but some premium slots require a token advance. You’ll see that clearly before checkout.',
-  },
+  question: 'Do I need to pay in advance for my appointment?',
+  answer:
+    'Most salons let you pay in person, but some premium slots require a token advance. You’ll see that clearly before checkout.',
+},
+{
+  question: 'Are walk‑in appointments available?',
+  answer:
+    'Many partner salons do allow walk‑ins, but time‑slot availability isn’t guaranteed. Booking through Pixalove in advance is the best way to secure your preferred time.',
+},
 ];
 
 const FAQ = () => {
-  const [active, setActive] = useState(null); // all closed by default
+  // 🔸 First answer open by default, so index 0 is active.
+  const [active, setActive] = useState(0);
 
-  const toggle = (idx) => setActive(active === idx ? null : idx);
+  // 🔸 Ensure one answer is always open (clicking the open item does nothing)
+  const toggle = (idx) => {
+    if (idx === active) return;     // prevent closing the last open item
+    setActive(idx);
+  };
 
   return (
-    <section className=" py-16">
+    <section className="py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800">
@@ -45,7 +55,7 @@ const FAQ = () => {
         </h2>
 
         {/* Content */}
-        <div className="mt-10 flex flex-col lg:flex-row gap-10">
+        <div className="mt-10 flex flex-col lg:flex-row lg:items-stretch gap-10">
           {/* Fixed‑height image */}
           <figure className="flex-shrink-0 mx-auto lg:mx-0 w-full sm:w-3/4 md:w-1/2 lg:w-[320px] xl:w-[380px] h-[280px] sm:h-[320px] md:h-[380px] lg:h-[460px] overflow-hidden rounded-lg">
             <img
@@ -57,12 +67,9 @@ const FAQ = () => {
           </figure>
 
           {/* FAQ list */}
-          <div className="flex-1">
+          <div className="flex-1 overflow-hidden min-h-[280px] sm:min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
             {faqData.map((item, idx) => (
-              <div
-                key={idx}
-                className="border-gray-200 border-b first:border-t"
-              >
+              <div key={idx} className="border-gray-200 border-b first:border-t">
                 {/* Question row */}
                 <button
                   type="button"

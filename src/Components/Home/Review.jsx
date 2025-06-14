@@ -7,37 +7,48 @@ import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 const TESTIMONIALS = [
   {
     quote:
-      "Pixalive feels less like an office and more like a creative playground. As a freelance designer, I’ve finally found a space that keeps me focused and inspired.",
-    name: "Ananya R",
-    role: "UI/UX Designer",
-    image: "https://i.pravatar.cc/100?img=32",
+      "This salon is my happy place! The hair spa and styling were done so professionally. I loved how calm and soothing the entire experience felt.",
+    name: "Keerthana S",
+    role: "Student",
+    image: "https://randomuser.me/api/portraits/women/65.jpg", // Female
     rating: 5,
   },
   {
     quote:
-      "Pixalive's environment pushes you to grow. The community vibe and the creative flow make it my go‑to workspace.",
-    name: "Rohit M",
-    role: "Developer",
-    image: "https://i.pravatar.cc/100?img=33",
+      "Loved the attention to detail during my haircut. The stylist really understood what I was looking for. Easily one of the best salons in town.",
+    name: "Ajay R",
+    role: "Engineering Graduate",
+    image: "https://randomuser.me/api/portraits/men/43.jpg", // Male
     rating: 4.5,
   },
   {
     quote:
-      "Love the energy at Pixalive! It’s the perfect blend of productivity and inspiration. The design of the place keeps me coming back again and again.",
-    name: "Sneha K",
-    role: "Content Strategist",
-    image: "https://i.pravatar.cc/100?img=34",
+      "Went for a facial and threading session. The staff was polite, skilled, and made me feel super comfortable. Definitely coming back!",
+    name: "Shravya M",
+    role: "Content Creator",
+    image: "https://randomuser.me/api/portraits/women/68.jpg", // Female
     rating: 5,
   },
   {
     quote:
-      "I’ve tried multiple co‑working spaces but none compare to the vibe and aesthetic of Pixalive. The team behind it really gets creatives.",
-    name: "Arjun V",
-    role: "Photographer",
-    image: "https://i.pravatar.cc/100?img=35",
+      "The beard grooming and hair wash experience was amazing. Super clean place with a modern vibe. Highly recommend for guys in their 20s!",
+    name: "Vignesh K",
+    role: "Freelance Videographer",
+    image: "https://randomuser.me/api/portraits/men/56.jpg", // Male
     rating: 4,
   },
+  {
+    quote:
+      "Got my hair colored for the first time and I’m in love with the results! The stylist explained every step clearly and the outcome was perfect.",
+    name: "Divyashree N",
+    role: "Fashion Student",
+    image: "https://randomuser.me/api/portraits/women/71.jpg", // Female
+    rating: 5,
+  },
 ];
+
+
+
 
 /* duplicate so the marquee loops seamlessly */
 const SLIDER_ITEMS = [...TESTIMONIALS, ...TESTIMONIALS];
