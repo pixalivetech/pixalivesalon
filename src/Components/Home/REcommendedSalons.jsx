@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, MapPin, Star } from 'lucide-react';
 import rec1 from '../../assets/home/rec1.png'
 import rec2 from '../../assets/home/rec2.png'
 import rec3 from '../../assets/home/rec3.png'
-import rec4 from '../../assets/home/rec4.png'
+import rec4 from '../../assets/home/rec5.png'
 const salons = [
     {
         id: 1,

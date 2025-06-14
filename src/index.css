@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 /* Custom font family */
 @font-face {
@@ -26,24 +27,4 @@ body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-@plugin "daisyui";
-
-
-
-/* Fully hide scrollbars across browsers */
-/* Custom class to hide scrollbars */
-.no-scrollbar {
-  -ms-overflow-style: none; /* IE 11 */
-  scrollbar-width: none; /* Firefox */
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
-}
-
-@plugins: [
-  require('tailwind-no-scrollbar')
-]
-
-
-
+/* @plugin "daisyui"; */
