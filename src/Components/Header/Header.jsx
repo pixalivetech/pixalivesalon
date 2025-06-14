@@ -12,7 +12,7 @@ import logo from "../../assets/home/Techlogo.png";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getMonth, getYear, format } from "date-fns";          
+import { getMonth, getYear, format } from "date-fns";
 import img1 from "./../../assets/Home/hero1.jpg";
 import img2 from "./../../assets/Home/hero2.jpg";
 import img3 from "./../../assets/Home/hero3.jpg";
@@ -77,6 +77,7 @@ const Header = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (searchBarRef.current && headerRef.current) {
+        // Adjust threshold if the fixed header has different height
         const headerH = headerRef.current.offsetHeight;
         const thresh = searchBarInitialOffset.current - headerH;
         setIsHeaderFixed(window.scrollY >= thresh);
@@ -95,6 +96,7 @@ const Header = () => {
         date: dateRef,
         time: timeRef,
       };
+      // Portal dropdowns only for the hero bar, not the fixed bar
       const ref = isHeaderFixed ? null : map[activeDropdown];
       if (ref && ref.current) {
         const r = ref.current.getBoundingClientRect();
@@ -186,8 +188,14 @@ const Header = () => {
     location: (
       <div className="p-6 bg-white rounded-lg shadow-lg w-64">
         <h3 className="font-semibold mb-3">Suggested Destination</h3>
-        {["Current location", "HSR Layout", "Koramangala", "BTM Layout",
-          "Electronic City Phase 1", "Electronic City Phase 2"].map((loc) => (
+        {[
+          "Current location",
+          "HSR Layout",
+          "Koramangala",
+          "BTM Layout",
+          "Electronic City Phase 1",
+          "Electronic City Phase 2",
+        ].map((loc) => (
           <div
             key={loc}
             onClick={() => handleSelectLocation(loc)}
@@ -210,12 +218,12 @@ const Header = () => {
         inline
         calendarClassName="rounded-lg shadow-lg"
         renderCustomHeader={renderDatePickerHeader}
-        dateFormat="MMMM d, yyyy"
+        dateFormat="MMMM d, MMM"
       />
     ),
 
     time: (
-      <div className="p-6 bg-white rounded-lg shadow-lg flex ">
+      <div className="p-6  rounded-lg shadow-sm flex ">
         {[
           ["Morning", ["9:00 am", "9:30 am", "10:00 am", "10:30 am", "11:00 am", "11:30 am"]],
           ["Afternoon", ["12:00 pm", "12:30 pm", "1:00 pm", "1:30 pm", "2:00 pm"]],
@@ -270,109 +278,117 @@ const Header = () => {
 
   /* ───────────────────────────────────────── JSX ───────────────────────────────────────── */
   return (
-    <div className=" p-6">
+    <div className="flex flex-col items-center mx-auto max-w-[1440px]"> {/* Removed p-6 from here */}
       {/* ───────────────────────── header ───────────────────────── */}
       <header
         ref={headerRef}
-        className={`flex justify-between items-center p-6 transition-all duration-300 ${
-          isHeaderFixed ? "fixed top-0 left-0 right-0 bg-white shadow-md z-[100]" : ""
+        className={`transition-all duration-300 w-full z-[100] ${
+          isHeaderFixed ? "fixed top-0 left-0 right-0" : ""
         }`}
       >
-        <img src={logo} alt="logo" loading="lazy" className="cursor-pointer" />
+        {/*
+          Inner div now has the background color, shadow, padding,
+          max-width, and centering.
+        */}
+        <div className={`flex justify-between items-center w-full max-w-[1440px] mx-auto ${
+            isHeaderFixed ? "bg-white shadow-sm p-6" : "p-6" // Apply p-6 always, but bg/shadow only when fixed
+          }`}>
+          <img src={logo} alt="logo" loading="lazy" className="cursor-pointer" />
 
-        {/* ─── Search bar inside the fixed header ─── */}
-        {isHeaderFixed && (
-          <div className="flex-1 max-w-2xl mx-4 hidden md:block">
-            <div className="flex items-center border border-gray-300 rounded-full px-4 py-2 text-sm bg-white shadow-sm">
-              {/* Treatments */}
-              <div
-                className="group relative flex-1 text-center"
-                onMouseEnter={() => setActiveDropdown("treatments")}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
-                  <FaSearch />
-                  <span className="truncate">{selectedTreatment}</span>
-                </div>
-                {activeDropdown === "treatments" && (
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
-                    {dropdownData.treatments}
+          {/* ─── Search bar inside the fixed header ─── */}
+          {isHeaderFixed && (
+            <div className="flex-1 max-w-2xl mx-4 hidden md:block">
+              <div className="flex items-center border border-gray-300 rounded-full px-4 py-2 text-sm bg-white shadow-sm">
+                {/* Treatments */}
+                <div
+                  className="group relative flex-1 text-center"
+                  onMouseEnter={() => setActiveDropdown("treatments")}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
+                    <FaSearch />
+                    <span className="truncate">{selectedTreatment}</span>
                   </div>
-                )}
-              </div>
-
-              <div className="w-px h-6 bg-gray-300 mx-1" />
-
-              {/* Location */}
-              <div
-                className="group relative flex-1 text-center"
-                onMouseEnter={() => setActiveDropdown("location")}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
-                  <FaMapMarkerAlt />
-                  <span className="truncate">{selectedLocation}</span>
+                  {activeDropdown === "treatments" && (
+                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
+                      {dropdownData.treatments}
+                    </div>
+                  )}
                 </div>
-                {activeDropdown === "location" && (
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
-                    {dropdownData.location}
+
+                <div className="w-px h-6 bg-gray-300 mx-1" />
+
+                {/* Location */}
+                <div
+                  className="group relative flex-1 text-center"
+                  onMouseEnter={() => setActiveDropdown("location")}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
+                    <FaMapMarkerAlt />
+                    <span className="truncate">{selectedLocation}</span>
                   </div>
-                )}
-              </div>
-
-              <div className="w-px h-6 bg-gray-300 mx-1" />
-
-              {/* Date */}
-              <div
-                className="group relative flex-1 text-center"
-                onMouseEnter={() => setActiveDropdown("date")}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
-                  <FaCalendarAlt />
-                  <span className="truncate">
-                    {selectedDate ? format(selectedDate, "MMM d, yyyy") : "Any date"}
-                  </span>
+                  {activeDropdown === "location" && (
+                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
+                      {dropdownData.location}
+                    </div>
+                  )}
                 </div>
-                {activeDropdown === "date" && (
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
-                    {dropdownData.date}
+
+                <div className="w-px h-6 bg-gray-300 mx-1" />
+
+                {/* Date */}
+                <div
+                  className="group relative flex-1 text-center"
+                  onMouseEnter={() => setActiveDropdown("date")}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
+                    <FaCalendarAlt />
+                    <span className="truncate">
+                      {selectedDate ? format(selectedDate, "MMM d, BBBB") : "Any date"}
+                    </span>
                   </div>
-                )}
-              </div>
-
-              <div className="w-px h-6 bg-gray-300 mx-1" />
-
-              {/* Time */}
-              <div
-                className="group relative flex-1 text-center"
-                onMouseEnter={() => setActiveDropdown("time")}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
-                  <FaClock />
-                  <span className="truncate">{selectedTime}</span>
+                  {activeDropdown === "date" && (
+                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
+                      {dropdownData.date}
+                    </div>
+                  )}
                 </div>
-                {activeDropdown === "time" && (
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
-                    {dropdownData.time}
-                  </div>
-                )}
-              </div>
 
-              <button className="ml-2 bg-black text-white rounded-full px-4 py-1 hover:bg-gray-800">
-                Search
-              </button>
+                <div className="w-px h-6 bg-gray-300 mx-1" />
+
+                {/* Time */}
+                <div
+                  className="group relative flex-1 text-center"
+                  onMouseEnter={() => setActiveDropdown("time")}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
+                    <FaClock />
+                    <span className="truncate">{selectedTime}</span>
+                  </div>
+                  {activeDropdown === "time" && (
+                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
+                      {dropdownData.time}
+                    </div>
+                  )}
+                </div>
+
+                <button className="ml-2 bg-black text-white rounded-full px-4 py-1 hover:bg-gray-800">
+                  Search
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <div className="flex items-center gap-4 text-gray-600">
-          <span className="hidden md:inline cursor-pointer hover:underline text-sm">
-            Log in
-          </span>
-          <FiMenu size={24} className="cursor-pointer" />
-          <FiUser size={24} className="cursor-pointer" />
+          <div className="flex items-center gap-4 text-gray-600">
+            <span className="hidden md:inline cursor-pointer hover:underline text-sm">
+              Log in
+            </span>
+            <FiMenu size={24} className="cursor-pointer" />
+            <FiUser size={24} className="cursor-pointer" />
+          </div>
         </div>
       </header>
 
@@ -466,7 +482,7 @@ const Header = () => {
           >
             <div className="flex items-center gap-2 px-4 text-sm text-gray-700 cursor-pointer">
               <FaCalendarAlt />
-              {selectedDate ? format(selectedDate, "MMM d, yyyy") : "Any date"}
+              {selectedDate ? format(selectedDate, "MMM d, BBBB") : "Any date"}
             </div>
           </div>
 

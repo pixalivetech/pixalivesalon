@@ -1,70 +1,76 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import {
-  MagnifyingGlassIcon,
-  Bars3Icon,
-} from "@heroicons/react/24/outline";
-
-// Assuming you still want to import these for the icons in the dropdown data
+import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { FaSearch, FaMapMarkerAlt, FaCalendarAlt, FaClock } from "react-icons/fa";
+import { FiUser, FiMenu } from "react-icons/fi";
+import logo from "../../assets/home/Techlogo.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getMonth, getYear } from 'date-fns';
+import { getMonth, getYear, format } from "date-fns";
 
-import logo from "../../assets/home/Techlogo.png";
-import avatar from "../../assets/home/icon.jpg";
+const Header = () => {
+  /* ───────────────────────────────────────── state ───────────────────────────────────────── */
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
 
-const HeaderSearchBar = () => {
-  const { pathname } = useLocation();
-  const barRef = useRef(null);
+  // **selected values that drive the button labels**
+  const [selectedTreatment, setSelectedTreatment] = useState(
+    "All Treatments and venues"
+  );
+  const [selectedLocation, setSelectedLocation] = useState("Current location");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState("Any time");
 
-  /** 1 Should the bar be visible? */
-  const [visible, setVisible] = useState(pathname !== "/");
+  /* ───────────────────────────────────────── refs ───────────────────────────────────────── */
+  const headerRef = useRef(null);
+  const treatmentsRef = useRef(null);
+  const locationRef = useRef(null);
+  const dateRef = useRef(null);
+  const timeRef = useRef(null);
 
-  /** 2 ▸Remember its height once so we can create a spacer */
-  const [barHeight, setBarHeight] = useState(0);
+  /* ─────────────────────────────────── helpers / handlers ─────────────────────────────────── */
+  const handleSelectTreatment = (val) => {
+    setSelectedTreatment(val);
+    setActiveDropdown(null);
+  };
+  const handleSelectLocation = (val) => {
+    setSelectedLocation(val);
+    setActiveDropdown(null);
+  };
+  const handleSelectTime = (val) => {
+    setSelectedTime(val);
+    setActiveDropdown(null);
+  };
 
-  // DROPDOWN STATES AND REFS (NEWLY ADDED)
-  const [activeDropdown, setActiveDropdown] = useState(null); // State to manage which dropdown is open
-  const [selectedDate, setSelectedDate] = useState(null); // State for selected date
-
-  // Refs for individual search bar items to calculate dropdown position (for FIXED header search bar)
-  const fixedTreatmentsRef = useRef(null);
-  const fixedLocationRef = useRef(null);
-  const fixedDateRef = useRef(null);
-  const fixedTimeRef = useRef(null);
-
-  /* ────────────────────────────────────────────────────────── */
-  /* Decide WHEN the search bar should appear / disappear     */
-  /* ────────────────────────────────────────────────────────── */
+  /* ───────────────────────────── effect: position portal dropdowns ───────────────────────────── */
   useEffect(() => {
-    if (pathname !== "/") {
-      setVisible(true); // every non‑Home page → always show
-      return;
+    const updatePos = () => {
+      const map = {
+        treatments: treatmentsRef,
+        location: locationRef,
+        date: dateRef,
+        time: timeRef,
+      };
+      const ref = map[activeDropdown];
+      if (ref && ref.current) {
+        const r = ref.current.getBoundingClientRect();
+        setDropdownPosition({
+          top: r.bottom + window.scrollY + 5,
+          left: r.left + r.width / 2,
+        });
+      }
+    };
+    if (activeDropdown) {
+      updatePos();
+      window.addEventListener("scroll", updatePos);
+      window.addEventListener("resize", updatePos);
     }
+    return () => {
+      window.removeEventListener("scroll", updatePos);
+      window.removeEventListener("resize", updatePos);
+    };
+  }, [activeDropdown]);
 
-    const hero = document.getElementById("home-hero-header");
-    if (!hero) { setVisible(true); return; }
-
-    const io = new IntersectionObserver(
-      ([entry]) => setVisible(!entry.isIntersecting),
-      { threshold: 0 }
-    );
-    io.observe(hero);
-    return () => io.disconnect();
-  }, [pathname]);
-
-  /* ────────────────────────────────────────────────────────── */
-  /* Measure bar height once (after it’s in the DOM)          */
-  /* ────────────────────────────────────────────────────────── */
-  useEffect(() => {
-    if (visible && barRef.current && !barHeight) {
-      setBarHeight(barRef.current.offsetHeight);
-    }
-  }, [visible, barHeight]);
-
-
-  // Calendar rendering logic for custom header (from previous Header.jsx)
+  /* ──────────────────────────────── date‑picker custom header ──────────────────────────────── */
   const renderDatePickerHeader = ({
     date,
     changeYear,
@@ -74,294 +80,250 @@ const HeaderSearchBar = () => {
     prevMonthButtonDisabled,
     nextMonthButtonDisabled,
   }) => (
-    <div
-      style={{
-        margin: 10,
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <button type="button" onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
+    <div className="flex justify-center gap-2 my-2">
+      <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
         {"<"}
       </button>
       <select
         value={getYear(date)}
-        onChange={({ target: { value } }) => changeYear(parseInt(value))}
+        onChange={({ target: { value } }) => changeYear(+value)}
       >
-        {Array.from({ length: 10 }, (_, i) => getYear(new Date()) + i).map((year) => (
-          <option key={year} value={year}>
-            {year}
-          </option>
-        ))}
+        {Array.from({ length: 10 }, (_, i) => getYear(new Date()) + i).map(
+          (y) => (
+            <option key={y} value={y}>
+              {y}
+            </option>
+          )
+        )}
       </select>
-
       <select
         value={getMonth(date)}
-        onChange={({ target: { value } }) => changeMonth(parseInt(value))}
+        onChange={({ target: { value } }) => changeMonth(+value)}
       >
-        {Array.from({ length: 12 }, (_, i) => i).map((month) => (
-          <option key={month} value={month}>
-            {new Date(2000, month).toLocaleString('default', { month: 'long' })}
+        {Array.from({ length: 12 }, (_, i) => i).map((m) => (
+          <option key={m} value={m}>
+            {new Date(2000, m).toLocaleString("default", { month: "long" })}
           </option>
         ))}
       </select>
-
-      <button type="button" onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+      <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
         {">"}
       </button>
     </div>
   );
 
-
-  // Dropdown data (from previous Header.jsx)
+  /* ───────────────────────────── dropdown content definitions ───────────────────────────── */
   const dropdownData = {
     treatments: (
-      <div className="p-4 bg-white rounded-lg shadow-lg w-64 max-h-80 overflow-y-auto">
-        <h3 className="font-semibold mb-2">All Treatment</h3>
+      <div className="p-6 bg-white rounded-lg shadow-lg w-64 max-h-80 overflow-y-auto">
+        <h3 className="font-semibold mb-3">All Treatment</h3>
         <ul className="space-y-1 text-gray-700">
-          <li>Categories</li>
-          <li className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">
-            <span className="text-lg">💇‍♀️</span> Hair & Styling
+          <li className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-100">
+            Categories
           </li>
-          <li className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">
-            <span className="text-lg">💅</span> Parlor
-          </li>
-          <li className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">
-            <span className="text-lg">🧖‍♀️</span> Nail Salon
-          </li>
-          <li className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">
-            <span className="text-lg">🧘</span> Spa
-          </li>
-        </ul>
-        <h3 className="font-semibold mb-2 mt-4">Venues</h3>
-        <ul className="space-y-1 text-gray-700">
-          <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">
-            <p className="font-medium">Bodysurfing Salon & Spa</p>
-            <p className="text-xs text-gray-500">2B, Primrose, Lancaster Gate, W2 3NJ</p>
-          </li>
-          <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">
-            <p className="font-medium">Bodysurfing Salon & Spa</p>
-            <p className="text-xs text-gray-500">2B, Primrose, Lancaster Gate, W2 3NJ</p>
-          </li>
-          <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">
-            <p className="font-medium">Bodysurfing Salon & Spa</p>
-            <p className="text-xs text-gray-500">2B, Primrose, Lancaster Gate, W2 3NJ</p>
-          </li>
+          {[
+            ["💇‍♀️ Hair & Styling", "Hair & Styling"],
+            ["💅 Parlor", "Parlor"],
+            ["🧖‍♀️ Nail Salon", "Nail Salon"],
+            ["🧘 Spa", "Spa"],
+          ].map(([label, val]) => (
+            <li
+              key={val}
+              onClick={() => handleSelectTreatment(val)}
+              className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-100 cursor-pointer"
+            >
+              <span className="text-lg">{label.split(" ")[0]}</span>
+              {label.split(" ").slice(1).join(" ")}
+            </li>
+          ))}
         </ul>
       </div>
     ),
+
     location: (
-      <div className="p-4 bg-white rounded-lg shadow-lg w-64">
-        <h3 className="font-semibold mb-2">Suggested Destination</h3>
-        <ul className="space-y-1 text-gray-700">
-          <li className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">
-            <FaMapMarkerAlt /> Current Location
-          </li>
-          <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">HSR Layout</li>
-          <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">Koramangala</li>
-          <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">BTM Layout</li>
-          <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">Electronic City Phase 1</li>
-          <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">Electronic City Phase 2</li>
-        </ul>
+      <div className="p-6 bg-white rounded-lg shadow-lg w-64">
+        <h3 className="font-semibold mb-3">Suggested Destination</h3>
+        {[
+          "Current location",
+          "HSR Layout",
+          "Koramangala",
+          "BTM Layout",
+          "Electronic City Phase 1",
+          "Electronic City Phase 2",
+        ].map((loc) => (
+          <div
+            key={loc}
+            onClick={() => handleSelectLocation(loc)}
+            className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-100 cursor-pointer text-gray-700"
+          >
+            {loc === "Current location" && <FaMapMarkerAlt />}
+            {loc}
+          </div>
+        ))}
       </div>
     ),
+
     date: (
-        <DatePicker
-          selected={selectedDate}
-          onChange={(date) => {
-            setSelectedDate(date);
-          }}
-          inline
-          calendarClassName="rounded-lg shadow-lg"
-          renderCustomHeader={renderDatePickerHeader}
-          dateFormat="MMMM d,yyyy"
-        />
+      <DatePicker
+        selected={selectedDate}
+        onChange={(d) => {
+          setSelectedDate(d);
+          setActiveDropdown(null);
+        }}
+        inline
+        calendarClassName="rounded-lg shadow-lg"
+        renderCustomHeader={renderDatePickerHeader}
+        dateFormat="MMMM d, BBBB"
+      />
     ),
+
     time: (
-      <div className="p-4 bg-white rounded-lg shadow-lg flex gap-4">
-        <div>
-          <h4 className="font-semibold mb-2">Morning</h4>
-          <ul className="space-y-1 text-gray-700">
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">9:00 am</li>
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">9:30 am</li>
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">10:00 am</li>
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">10:30 am</li>
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">11:00 am</li>
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">11:30 am</li>
-          </ul>
-        </div>
-        <div>
-          <h4 className="font-semibold mb-2">Afternoon</h4>
-          <ul className="space-y-1 text-gray-700">
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">12:00 pm</li>
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">12:30 pm</li>
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">1:00 pm</li>
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">1:30 pm</li>
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">2:00 pm</li>
-          </ul>
-        </div>
-        <div>
-          <h4 className="font-semibold mb-2">Evening</h4>
-          <ul className="space-y-1 text-gray-700">
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">3:00 pm</li>
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">3:30 pm</li>
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">4:00 pm</li>
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">4:30 pm</li>
-            <li className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer">5:00 pm</li>
-          </ul>
-        </div>
+      <div className="p-6 bg-white rounded-lg shadow-lg flex ">
+        {[
+          ["Morning", ["9:00 am", "9:30 am", "10:00 am", "10:30 am", "11:00 am", "11:30 am"]],
+          ["Afternoon", ["12:00 pm", "12:30 pm", "1:00 pm", "1:30 pm", "2:00 pm"]],
+          ["Evening", ["3:00 pm", "3:30 pm", "4:00 pm", "4:30 pm", "5:00 pm"]],
+        ].map(([title, arr]) => (
+          <div key={title}>
+            <h4 className="font-semibold mb-2">{title}</h4>
+            <ul className="space-y-1 text-gray-700">
+              {arr.map((t) => (
+                <li
+                  key={t}
+                  onClick={() => handleSelectTime(t)}
+                  className="py-1 px-2 rounded hover:bg-gray-100 cursor-pointer"
+                >
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     ),
   };
 
-  /* ────────────────────────────────────────────────────────── */
-  /* If the bar shouldn’t be displayed, render nothing          */
-  /* ────────────────────────────────────────────────────────── */
-  if (!visible) return null;
+  /* ────────────────────────────── portal helper (with hover keep‑alive) ────────────────────────────── */
+  const renderPortalDropdown = (key) => {
+    if (!activeDropdown || activeDropdown !== key || !document.getElementById("dropdown-root"))
+      return null;
 
-  /* ────────────────────────────────────────────────────────── */
-  /* Render spacer + fixed nav bar                            */
-  /* ────────────────────────────────────────────────────────── */
+    return createPortal(
+      <div
+        style={{
+          position: "absolute",
+          top: dropdownPosition.top,
+          left: dropdownPosition.left,
+          transform: "translateX(-40%)",
+          zIndex: 9999,
+        }}
+        onMouseEnter={() => setActiveDropdown(key)}
+        onMouseLeave={() => setActiveDropdown(null)}
+      >
+        {dropdownData[key]}
+      </div>,
+      document.getElementById("dropdown-root")
+    );
+  };
+
+  /* ───────────────────────────────────────── JSX ───────────────────────────────────────── */
   return (
     <>
-      {/* 1 ◂ Spacer — stops layout jump */}
-      <div style={{ height: barHeight }} aria-hidden />
-
-      {/* 2 ◂ Fixed bar */}
       <header
-        ref={barRef}
-        className="
-          fixed top-0 left-1/2 -translate-x-1/2 z-50
-          w-full max-w-[1440px] px-6 // Added max-w-[1440px] and px-6
-          border-b border-gray-200 bg-[#F6F6F6]
-        "
+        ref={headerRef}
+        className=" shadow-sm z-[100]" // Removed fixed positioning
       >
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between"> {/* Removed px-4 md:px-8 lg:px-12 here as px-6 is on parent */}
-          {/* logo */}
-          <Link to="/">
-            <img
-              src={logo}
-              alt="Brand logo"
-              className="h-9 w-auto shrink-0 cursor-pointer"
-              loading="lazy"
-            />
-          </Link>
+        <div className="max-w-[1440px] mx-auto flex justify-between items-center p-6">
+          <img src={logo} alt="logo" loading="lazy" className="cursor-pointer" />
 
-          {/* central search pill */}
-          <div className="hidden lg:flex grow justify-center">
-            <div className="flex items-center overflow-hidden rounded-full border border-gray-300 bg-white text-sm font-medium text-black">
-              <div className="flex divide-x divide-gray-300">
-                {/* Treatments */}
-                <div
-                  ref={fixedTreatmentsRef} // Attach ref
-                  className="group relative text-center"
-                  onMouseEnter={() => setActiveDropdown("treatments")}
-                  onMouseLeave={() => setActiveDropdown(null)}
-                >
-                  <span className="px-6 py-3 whitespace-nowrap cursor-pointer">
-                    All Treatments and venues
-                  </span>
-                  {activeDropdown === "treatments" && (
-                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
-                      {dropdownData.treatments}
-                    </div>
-                  )}
-                </div>
-
-                {/* Location */}
-                <div
-                  ref={fixedLocationRef} // Attach ref
-                  className="group relative text-center"
-                  onMouseEnter={() => setActiveDropdown("location")}
-                  onMouseLeave={() => setActiveDropdown(null)}
-                >
-                  <span className="px-6 py-3 whitespace-nowrap cursor-pointer">
-                    Current&nbsp;location
-                  </span>
-                  {activeDropdown === "location" && (
-                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
-                      {dropdownData.location}
-                    </div>
-                  )}
-                </div>
-
-                {/* Date */}
-                <div
-                  ref={fixedDateRef} // Attach ref
-                  className="group relative text-center"
-                  onMouseEnter={() => setActiveDropdown("date")}
-                  onMouseLeave={() => setActiveDropdown(null)}
-                >
-                  <span className="px-6 py-3 whitespace-nowrap cursor-pointer">
-                    Any date
-                  </span>
-                  {activeDropdown === "date" && (
-                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
-                      {dropdownData.date}
-                    </div>
-                  )}
-                </div>
-
-                {/* Time */}
-                <div
-                  ref={fixedTimeRef} // Attach ref
-                  className="group relative text-center"
-                  onMouseEnter={() => setActiveDropdown("time")}
-                  onMouseLeave={() => setActiveDropdown(null)}
-                >
-                  <span className="px-6 py-3 whitespace-nowrap cursor-pointer">
-                    Any time
-                  </span>
-                  {activeDropdown === "time" && (
-                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
-                      {dropdownData.time}
-                    </div>
-                  )}
+          {/* Search bar */}
+          <div className="flex-1 max-w-2xl mx-4 hidden md:block">
+            <div
+              className="flex items-center border border-gray-300 rounded-full px-4 py-2 text-sm bg-white shadow-sm"
+            >
+              {/* Treatments */}
+              <div
+                ref={treatmentsRef}
+                className="group relative flex-1 text-center"
+                onMouseEnter={() => setActiveDropdown("treatments")}
+                onMouseLeave={() => setActiveDropdown(null)}
+              >
+                <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
+                  <FaSearch />
+                  <span className="truncate">{selectedTreatment}</span>
                 </div>
               </div>
 
-              <button
-                type="button"
-                className="ml-2 mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-black text-white"
+              <div className="w-px h-6 bg-gray-300 mx-1" />
+
+              {/* Location */}
+              <div
+                ref={locationRef}
+                className="group relative flex-1 text-center"
+                onMouseEnter={() => setActiveDropdown("location")}
+                onMouseLeave={() => setActiveDropdown(null)}
               >
-                <MagnifyingGlassIcon className="h-4 w-4" />
+                <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
+                  <FaMapMarkerAlt />
+                  <span className="truncate">{selectedLocation}</span>
+                </div>
+              </div>
+
+              <div className="w-px h-6 bg-gray-300 mx-1" />
+
+              {/* Date */}
+              <div
+                ref={dateRef}
+                className="group relative flex-1 text-center"
+                onMouseEnter={() => setActiveDropdown("date")}
+                onMouseLeave={() => setActiveDropdown(null)}
+              >
+                <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
+                  <FaCalendarAlt />
+                  <span className="truncate">
+                    {selectedDate ? format(selectedDate, "MMM d, BBBB") : "Any date"}
+                  </span>
+                </div>
+              </div>
+
+              <div className="w-px h-6 bg-gray-300 mx-1" />
+
+              {/* Time */}
+              <div
+                ref={timeRef}
+                className="group relative flex-1 text-center"
+                onMouseEnter={() => setActiveDropdown("time")}
+                onMouseLeave={() => setActiveDropdown(null)}
+              >
+                <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
+                  <FaClock />
+                  <span className="truncate">{selectedTime}</span>
+                </div>
+              </div>
+
+              <button className="ml-2 bg-black text-white rounded-full px-4 py-1 hover:bg-gray-800">
+                Search
               </button>
             </div>
           </div>
 
-          {/* menu + avatar pill */}
-          <div className="hidden sm:flex">
-            <div className="flex items-center gap-4 rounded-full border border-gray-300 bg-white px-4 py-2">
-              <Bars3Icon className="h-5 w-5 text-gray-700" />
-              <img
-                src={avatar}
-                alt="User"
-                className="h-8 w-8 rounded-full object-cover cursor-pointer"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* mobile search */}
-        <div className="lg:hidden px-4 pb-4">
-          <div className="flex items-center rounded-full border border-gray-300 bg-white pl-4 pr-2">
-            <input
-              type="text"
-              placeholder="Search"
-              className="w-full bg-transparent py-2 pr-4 text-sm outline-none placeholder:text-gray-400"
-            />
-            <button
-              type="button"
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white"
-            >
-              <MagnifyingGlassIcon className="h-4 w-4" />
-            </button>
+          <div className="flex items-center gap-4 text-gray-600">
+            <span className="hidden md:inline cursor-pointer hover:underline text-sm">
+              Log in
+            </span>
+            <FiMenu size={24} className="cursor-pointer" />
+            <FiUser size={24} className="cursor-pointer" />
           </div>
         </div>
       </header>
+
+      {/* Portal mounts for dropdowns */}
+      {renderPortalDropdown("treatments")}
+      {renderPortalDropdown("location")}
+      {renderPortalDropdown("date")}
+      {renderPortalDropdown("time")}
     </>
   );
 };
 
-export default HeaderSearchBar;
+export default Header;
