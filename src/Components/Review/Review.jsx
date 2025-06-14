@@ -99,7 +99,7 @@ const BookingReviewPage = () => {
               <div>
                 <h3 className="font-semibold">BarberCo - Men's Salon and Barbershop</h3>
                 <p className="text-sm text-gray-600">
-                  4.2 <span className="text-yellow-500">⭐⭐⭐⭐⭐</span> (20)
+                 4.2<span className="text-black text-1x1">★★★★★</span>(20)
                 </p>
                 <p className="text-sm text-gray-600">Koramangala, Bengaluru</p>
               </div>
