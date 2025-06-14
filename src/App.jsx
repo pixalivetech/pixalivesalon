@@ -12,6 +12,7 @@ import ScrollToTopOnRouteChange from './components/ScrollToTopOnRouteChange';
 import HeaderSearchBar from './Components/Home/HeaderSearchBar';
 
 import Product from './Pages/Product';
+import ProductDetails from './Pages/ProductDetails';
  
 /**
  * Route‑aware wrapper so we can use `useLocation`.
@@ -30,6 +31,7 @@ const AppContent = () => {
           <Route path="/" element={<Home />} />
           <Route path="/product/*" element={<Product />} />
           <Route path="/service/*" element={<Service />} />
+          <Route path="/product-details" element={<ProductDetails />} />
           <Route path="/map" element={<MapLanding />} />
           <Route path="/salon" element={<Salon />} />
         </Routes>

@@ -3,7 +3,7 @@ import faqImage from './../../assets/Salon/faqimage.png'; // Renamed to faqImage
 
 const FAQItem = ({ faq, isOpen, onClick }) => {
   return (
-    <div className='px-4 sm:px-6 md:px-8 lg:px-12 xl:px-14 2xl:px-30 pt-8 md:p-4 font-lufga'>
+    
     <div className="border-b border-gray-200 rounded-lg overflow-hidden"> {/* Added rounded-lg and overflow-hidden */}
       <button
         className="flex items-center w-full py-4 px-4 text-left text-lg font-medium text-gray-800 focus:outline-none hover:bg-gray-50 transition-colors duration-200" // Added px-4 and hover effect
@@ -30,7 +30,6 @@ const FAQItem = ({ faq, isOpen, onClick }) => {
           <p>{faq.answer}</p>
         </div>
       )}
-    </div>
     </div>
   );
 };
@@ -76,8 +75,8 @@ const FAQSection = () => {
   ];
 
   return (
-    <div className="  px-4 sm:px-6 md:px-8 lg:px-12 xl:px-14 2xl:px-30 pt-8 md:p-4 font-lufga "> {/* Increased py-12 to py-20 for more vertical padding */}
-      <div className=" max-w-7xl mx-auto"> {/* Centered content wrapper, max-w-6xl for better large screen control */}
+    <div className=" p-6 "> {/* Increased py-12 to py-20 for more vertical padding */}
+      <div className=" mx-auto"> {/* Centered content wrapper, max-w-6xl for better large screen control */}
 
         {/* Heading at the top, spanning full width */}
         <h2 className="text-4xl font-bold text-gray-900 mb-10 text-center sm:text-left"> {/* Increased mb-6 to mb-10 */}

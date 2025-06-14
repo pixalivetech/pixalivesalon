@@ -125,7 +125,7 @@ const SalonPage = () => {
                 className="w-full h-full rounded-lg object-cover"
               />
               <Link 
-                to="/see-more"
+                to="/product-details"
                 className="absolute inset-0 bg-black/80 bg-opacity-70 flex items-center justify-center text-white text-lg font-medium"
               >
                 See more
