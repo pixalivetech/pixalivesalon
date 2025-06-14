@@ -5,6 +5,9 @@ import ServicesBook from '../Components/Products/Servicesbook'
 import UserReviews from '../Components/Products/UserReviews'
 import OpeningTimes from '../Components/Products/OpeningTimes'
 import OtherLocation from '../Components/Products/OtherLocation'
+import Venue from '../Components/Products/Venue'
+import AboutSection from '../Components/Products/AboutSection'
+import Faq from '../Components/Salons/Faq'
 
 
 const Product = () => {
@@ -14,8 +17,11 @@ const Product = () => {
         <AmenitiesSection/>
         <ServicesBook/>
        <UserReviews/>
+       <AboutSection/>
        <OpeningTimes/>
        <OtherLocation/>
+       <Venue/>
+       <Faq/>
         
       
     </div>

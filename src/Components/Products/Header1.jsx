@@ -42,12 +42,12 @@ const SalonPage = () => {
   const mapsUrl = "https://www.google.com/maps/dir/?api=1&destination=Koramangala+Mantri+Avenue+Bengaluru";
 
   return (
-    <div className=" px-6 font-lufga">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pt-8 md:p-4 font-lufga">
       {/* Breadcrumb */}
       <nav className="text-sm md:text-md xl:text-md text-gray-500 mb-6 flex items-center space-x-1">
         <Link to="/" className="text-gray-500 hover:underline cursor-pointer">Home</Link> &nbsp;&gt;&nbsp;
-        <Link to="#" className="text-gray-500 hover:underline cursor-pointer">Salon</Link> &nbsp;&gt;&nbsp;
-        <span className="text-black font-medium">Bodycraft Salon & Spa</span>
+        <Link to="/salon" className="text-gray-500 hover:underline cursor-pointer">Salon</Link> &nbsp;&gt;&nbsp;
+        <Link to="/product" className="text-black font-medium hover:underline cursor-pointer">Bodycraft Salon & Spa</Link>
       </nav>
 
       {/* Title and meta */}
@@ -73,14 +73,12 @@ const SalonPage = () => {
             <span className="text-[#B0B0B0] text-md">
               Koramangala Mantri Avenue Bengaluru
             </span>
-            <a
-              href={mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:underline text-md"
+            <Link 
+                to="/map"
+                className="text-blue-600 hover:underline cursor-pointer"
             >
-              Get direction
-            </a>
+            Get directions
+            </Link>
           </div>
         </div>
         <div className="flex mt-2 md:mt-11 cursor-pointer gap-2">
@@ -156,7 +154,7 @@ const SalonPage = () => {
               Services start from
             </p>
             <p className="text-xl font-semibold mb-3">₹99</p>
-            <Link to="/service" className=" hover:underline ">
+            <Link to="/service" className=" hover:underline cursor-pointer">
             <button className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-900 cursor-pointer">
               Book now
             </button>
@@ -180,14 +178,12 @@ const SalonPage = () => {
                   Bengaluru Karnataka
                 </span>
               </div>
-              <a
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:underline mt-2 text-right"
-              >
-                Get direction
-              </a>
+            <Link 
+                to="/map"
+                className="text-blue-600 hover:underline cursor-pointer"
+            >
+            Get directions
+            </Link>
             </div>
 
             <div className="flex items-center justify-between">

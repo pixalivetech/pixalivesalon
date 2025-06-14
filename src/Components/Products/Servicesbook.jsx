@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const tabs = [
   { name: "Women's Cut & Blow Dry", key: "cut" },
@@ -35,8 +36,8 @@ const allServices = [
 
 const Services = () => {
   const [activeTab, setActiveTab] = useState("cut");
-  const [selectedService, setSelectedService] = useState(null);
   const scrollRef = useRef(null);
+  const navigate = useNavigate();
 
   const scrollTabs = (direction) => {
     if (scrollRef.current) {
@@ -76,10 +77,10 @@ const Services = () => {
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`min-w-fit px-4 py-2 text-sm font-semibold md:text-base  transition ${
+                className={`min-w-fit px-4 py-2 text-sm font-semibold md:text-base transition ${
                   activeTab === tab.key
-                    ? "bg-black text-white  rounded-full"
-                    : " text-black "
+                    ? "bg-black text-white rounded-full"
+                    : "text-black"
                 }`}
               >
                 {tab.name}
@@ -113,7 +114,7 @@ const Services = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.05 }}
-              className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col sm:flex-row sm:justify-between sm:items-center shadow-md"
+              className="border border-[#D1D1D1] rounded-xl p-6 flex flex-col sm:flex-row sm:justify-between sm:items-center shadow-md"
             >
               <div>
                 <h3 className="text-base md:text-lg font-semibold text-gray-900">
@@ -122,11 +123,12 @@ const Services = () => {
                 <p className="text-sm md:text-base text-gray-500">{service.duration}</p>
                 <p className="text-lg font-bold text-gray-800 mt-1">{service.price}</p>
               </div>
+
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => setSelectedService(service)}
-                className="mt-4 sm:mt-0 border border-gray-300 text-sm px-5 py-2 rounded-md hover:bg-gray-100 transition"
+                onClick={() => navigate("/service")}
+                className="mt-4 sm:mt-0 border text-[#4F4F4F] border-gray-300 text-sm px-5 py-2 rounded-md hover:bg-gray-100 transition"
               >
                 Book
               </motion.button>
@@ -145,50 +147,11 @@ const Services = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="border border-gray-400 rounded-md px-6 py-2 text-sm font-medium hover:bg-gray-100 transition"
+            className="border border-gray-400 rounded-md px-6 py-2 text-sm font-semibold hover:bg-gray-100 transition"
           >
             See all
           </motion.button>
         </motion.div>
-
-        {/* Booking Modal */}
-        <AnimatePresence>
-          {selectedService && (
-            <motion.div
-              className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm"
-              >
-                <h3 className="text-lg font-semibold mb-2">Confirm Booking</h3>
-                <p className="text-sm mb-4">{selectedService.title}</p>
-                <div className="flex justify-end gap-2">
-                  <button
-                    onClick={() => setSelectedService(null)}
-                    className="px-4 py-2 rounded border text-sm hover:bg-gray-100"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={() => {
-                      alert(`Booked: ${selectedService.title}`);
-                      setSelectedService(null);
-                    }}
-                    className="px-4 py-2 rounded bg-black text-white text-sm hover:bg-gray-800"
-                  >
-                    Confirm
-                  </button>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </div>
   );
