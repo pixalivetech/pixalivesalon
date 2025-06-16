@@ -1,46 +1,49 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, MapPin, Star } from 'lucide-react';
-import rec1 from '../../assets/home/rec1.png'
-import rec2 from '../../assets/home/rec2.png'
-import rec3 from '../../assets/home/rec3.png'
-import rec4 from '../../assets/home/rec4.png'
+import rec1 from './../../assets/Product/rec.png'
+import Frame1 from './../../assets/Product/Frame1.png'
+import Frame2 from './../../assets/Product/Frame2.png'
+import Frame3 from './../../assets/Product/Frame3.png'
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
 const salons = [
     {
         id: 1,
-        name: 'Hair Speak Family Salon',
+        name: 'The Aesthetic Studio',
         rating: 4.3,
         reviews: 32,
         location: 'Electronic City, Bengaluru',
-        type: 'Hair Salon',
+        type: 'Medspa',
         image: rec1,
     },
     {
         id: 2,
-        name: 'Celebrate life Elite Salon',
+        name: 'Bodycraft Salon & Spa',
+        rating: 4.3,
+        reviews: 32,
+        location: 'Electronic City, Bengaluru',
+        type: 'Barber',
+        image: Frame1,
+    },
+    {
+        id: 3,
+        name: 'Essensuals by Toni& Guy',
         rating: 4.3,
         reviews: 32,
         location: 'Electronic City, Bengaluru',
         type: 'Massage',
-        image: rec2,
-    },
-    {
-        id: 3,
-        name: 'Joni Signature Salon',
-        rating: 4.3,
-        reviews: 32,
-        location: 'Electronic City, Bengaluru',
-        type: 'Med spa',
-        image: rec3,
+        image: Frame2,
     },
     {
         id: 4,
-        name: 'Classic Cut Unisex Salon',
+        name: 'Toni & Guy Hairdressing',
         rating: 4.3,
         reviews: 32,
         location: 'Electronic City, Bengaluru',
-        type: 'Hair Salon',
-        image: rec4,
+        type: 'Medspa',
+        image: Frame3,
     },
+   
     
 ];
 
@@ -68,14 +71,20 @@ const RecentlyViewed = () => {
     return (
         <div className="p-6">
             <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-semibold text-black">Recently Viewed</h2>
+                <h2 className="text-2xl md:text-3xl font-lufga text-black">Venues nearby</h2>
                 <div className="flex space-x-2">
-                    <button onClick={handlePrev} className="p-2 cursor-pointer rounded-full hover:bg-gray-400">
-                        <ChevronLeft size={20} />
-                    </button>
-                    <button onClick={handleNext} className="p-2 cursor-pointer rounded-full  hover:bg-gray-400">
-                        <ChevronRight size={20} />
-                    </button>
+                <button
+                onClick={() => scrollTabs("left")}
+                className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 shadow-sm flex items-center justify-center"
+                >
+                <FaChevronLeft size={14} />
+                 </button>
+                <button
+                onClick={() => scrollTabs("right")}
+                className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 shadow-sm flex items-center justify-center"
+                >
+                <FaChevronRight size={14} />
+               </button>
                 </div>
             </div>
 
@@ -90,11 +99,11 @@ const RecentlyViewed = () => {
                                 <Star className="w-4 h-4 fill-black text-black" />
                                 <span className="text-blue-600 underline cursor-pointer">({salon.reviews})</span>
                             </div>
-                            <div className="flex items-center text-black text-sm">
+                            <div className="flex items-center text-black text-md">
                                 <MapPin className="w-4 h-4 mr-1" />
                                 {salon.location}
                             </div>
-                            <span className="inline-block mt-2 px-2 py-1 text-xs bg-gray-100 rounded-full">
+                            <span className="inline-block mt-2 px-2 py-1 text-md border cursor-pointer border-gray-300 rounded-full">
                                 {salon.type}
                             </span>
                         </div>

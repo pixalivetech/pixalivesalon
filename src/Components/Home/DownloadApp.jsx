@@ -6,7 +6,7 @@ import phoneMap from "../../assets/home/phone2.png";
 const DownloadApp = () => {
   return (
     // The section now takes full width without initial padding
-    <section className="py-8 md:px-10 lg:px-20">
+    <section className="w-full">
       <div className="w-full flex flex-col-reverse lg:flex-row items-center gap-12 py-12 px-4 sm:px-6 lg:px-8"> {/* Added py-12 for vertical spacing, and px for responsive horizontal padding */}
         {/* ───────────────────────── LEFT */}
         <div className="w-full lg:w-6/12 text-center lg:text-left">
@@ -54,7 +54,7 @@ const DownloadApp = () => {
           <div className="flex items-start gap-6 sm:gap-10">
             {/* main phone - using placeholder image */}
             <img
-              src={phoneMain} 
+              src={phoneMain} // Placeholder for phoneMain
               alt="Pixalive booking screen"
               loading="lazy"
               className="w-28 sm:w-36 md:w-40 lg:w-48 xl:w-56 shadow-sm border border-gray-200 rounded-lg"
@@ -62,7 +62,7 @@ const DownloadApp = () => {
 
             {/* map phone - using placeholder image */}
             <img
-              src={phoneMap}
+              src={phoneMap} // Placeholder for phoneMap
               alt="Nearby salons map"
               loading="lazy"
               className="w-28 sm:w-36 md:w-40 lg:w-48 xl:w-50 pt-5 mt-20 shadow-sm border-2 border-black rounded-lg" // pt-5 retained to maintain the staggered visual effect

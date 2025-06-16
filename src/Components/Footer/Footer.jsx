@@ -49,7 +49,7 @@ const Footer = () => {
                     <div className="flex-1 max-w-md lg:text-right">
                         <h3 className="text-lg font-semibold mb-5">Contact</h3>
                         <ul className="space-y-4 text-sm text-gray-300 lg:items-end lg:flex lg:flex-col">
-                            <li className="flex items-start lg:justify-end gap-3">
+                            <li className="flex items-start lg:justify- gap-3">
                                 <EnvelopeIcon className="w-4 h-4 shrink-0" />
                                 <a
                                     href="mailto:contact@pixalivetech.com"

@@ -87,7 +87,7 @@ const ServicesProfessional = ({
         <div className="text-sm text-gray-500 mb-6">
           <Link to="/" className="text-gray-500 cursor-pointer">Home</Link> &nbsp;&gt;&nbsp;
           <Link to="/salon" className="text-gray-500 cursor-pointer">Salon</Link> &nbsp;&gt;&nbsp;
-          <Link to="#" className="text-gray-500 cursor-pointer">Bodycraft Salon & Spa</Link> &nbsp;&gt;&nbsp;
+          <Link to="/product" className="text-gray-500 cursor-pointer">Bodycraft Salon & Spa</Link> &nbsp;&gt;&nbsp;
           <span className="text-black font-semibold cursor-pointer">Booking Professional</span>
         </div>
 

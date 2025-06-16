@@ -73,9 +73,9 @@ const Stars = ({ value }) => {
 
 /* -------------------------------- component -------------------------------- */
 const Review = () => (
-  <section className="px-4 py-8 md:px-10 lg:px-20">
+  <section className="p-6">
     {/* heading (left‑aligned) */}
-    <h2 className="text-3xl md:text-4xl font-bold mb-10 text-gray-900 px-4 md:px-0 max-w-7xl mx-auto text-left">
+    <h2 className="text-3xl  font-semibold mb-10 ">
       Hear from our users
     </h2>
 
@@ -97,8 +97,8 @@ const Review = () => (
             className="
               w-[280px] sm:w-[320px] md:w-[360px] lg:w-[400px]
               h-[340px] sm:h-[360px] md:h-[380px] lg:h-[300px]
-              shrink-0 bg-[#f9f9f9] rounded-xl p-6
-              shadow-md hover:shadow-lg transition-shadow
+              shrink-0  rounded-lg p-4
+                bg-white
               flex flex-col
             "
             style={{ "--clamp": 6 }}
@@ -122,11 +122,11 @@ const Review = () => (
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-12 h-12 rounded-full object-cover"
+                className="w-12 h-12 mt-20 rounded-full object-cover"
                 loading="lazy"
               />
               <div>
-                <p className="font-semibold text-gray-900">{item.name}</p>
+                <p className="font-semibold mt-20 ">{item.name}</p>
                 <p className="text-sm text-gray-600">{item.role}</p>
               </div>
             </div>

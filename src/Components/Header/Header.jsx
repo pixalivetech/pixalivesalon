@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { motion } from "framer-motion";
-import { FiUser, FiMenu } from "react-icons/fi";
-import { FaSearch, FaMapMarkerAlt, FaCalendarAlt, FaClock, } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion"; // Import AnimatePresence for exit animations
+import { FiUser, FiMenu, FiX } from "react-icons/fi"; // Added FiX for close icon
 import {
   Bars3Icon,
 } from "@heroicons/react/24/outline";
@@ -25,6 +24,8 @@ const Header = () => {
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // New state for mobile menu
+
   // **selected values that drive the button labels**
   const [selectedTreatment, setSelectedTreatment] = useState(
     "All Treatments and venues"
@@ -41,6 +42,8 @@ const Header = () => {
   const locationRef = useRef(null);
   const dateRef = useRef(null);
   const timeRef = useRef(null);
+  const mobileMenuRef = useRef(null); // Ref for the mobile menu
+
   /* ─────────────────────────────────── helpers / handlers ─────────────────────────────────── */
   const getRotation = (index) => {
     const angles = [-1, -6, -5, -3, 2, 4, 6, 2, 4, 9];
@@ -50,15 +53,51 @@ const Header = () => {
   const handleSelectTreatment = (val) => {
     setSelectedTreatment(val);
     setActiveDropdown(null);
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close menu after selection
   };
   const handleSelectLocation = (val) => {
     setSelectedLocation(val);
     setActiveDropdown(null);
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close menu after selection
   };
   const handleSelectTime = (val) => {
     setSelectedTime(val);
     setActiveDropdown(null);
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close menu after selection
   };
+  const handleSelectDate = (d) => {
+    setSelectedDate(d);
+    setActiveDropdown(null);
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close menu after selection
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target) &&
+        event.target.closest(".fi-menu") === null // Don't close if hamburger is clicked
+      ) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
+
   /* ───────────────────────────────────── effect: initial offset ───────────────────────────────────── */
   useEffect(() => {
     if (searchBarRef.current) {
@@ -89,7 +128,9 @@ const Header = () => {
         date: dateRef,
         time: timeRef,
       };
-      const ref = isHeaderFixed ? null : map[activeDropdown];
+      // Portal dropdowns only for the hero bar, not the fixed bar or mobile menu
+      const ref =
+        isHeaderFixed || isMobileMenuOpen ? null : map[activeDropdown];
       if (ref && ref.current) {
         const r = ref.current.getBoundingClientRect();
         setDropdownPosition({
@@ -105,7 +146,7 @@ const Header = () => {
       window.removeEventListener("scroll", updatePos);
       window.removeEventListener("resize", updatePos);
     };
-  }, [activeDropdown, isHeaderFixed]);
+  }, [activeDropdown, isHeaderFixed, isMobileMenuOpen]);
 
   /* ──────────────────────────────── date‑picker custom header ──────────────────────────────── */
   const renderDatePickerHeader = ({
@@ -152,7 +193,7 @@ const Header = () => {
   /* ───────────────────────────── dropdown content definitions ───────────────────────────── */
   const dropdownData = {
     treatments: (
-      <div className="p-4 bg-white rounded-lg shadow-lg w-64 max-h-80 overflow-y-auto">
+      <div className="p-6 bg-white rounded-lg shadow-lg w-64 max-h-80 overflow-y-auto">
         <h3 className="font-semibold mb-3">All Treatment</h3>
         <ul className="space-y-1 text-gray-700">
           <li className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-100">
@@ -178,44 +219,47 @@ const Header = () => {
     ),
 
     location: (
-      <div className="p-4 bg-white rounded-lg shadow-lg w-64">
+      <div className="p-6 bg-white rounded-lg shadow-lg w-64">
         <h3 className="font-semibold mb-3">Suggested Destination</h3>
-        {["Current location", "HSR Layout", "Koramangala", "BTM Layout",
-          "Electronic City Phase 1", "Electronic City Phase 2"].map((loc) => (
-            <div
-              key={loc}
-              onClick={() => handleSelectLocation(loc)}
-              className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-100 cursor-pointer text-gray-700"
-            >
-              {loc === "Current location" && <FaMapMarkerAlt />}
-              {loc}
-            </div>
-          ))}
+        {[
+          "Current location",
+          "HSR Layout",
+          "Koramangala",
+          "BTM Layout",
+          "Electronic City Phase 1",
+          "Electronic City Phase 2",
+        ].map((loc) => (
+          <div
+            key={loc}
+            onClick={() => handleSelectLocation(loc)}
+            className="flex items-center gap-2 py-1 px-2 rounded hover:bg-gray-100 cursor-pointer text-gray-700"
+          >
+            {loc === "Current location" && <FaMapMarkerAlt />}
+            {loc}
+          </div>
+        ))}
       </div>
     ),
 
     date: (
       <DatePicker
         selected={selectedDate}
-        onChange={(d) => {
-          setSelectedDate(d);
-          setActiveDropdown(null);
-        }}
+        onChange={handleSelectDate} // Use the new handler
         inline
         calendarClassName="rounded-lg shadow-lg"
         renderCustomHeader={renderDatePickerHeader}
-        dateFormat="MMMM d, yyyy"
+        dateFormat="MMMM d, BBBB"
       />
     ),
 
     time: (
-      <div className="p-4 bg-white rounded-lg shadow-lg flex gap-4">
+      <div className="p-6 rounded-lg shadow-sm flex flex-wrap gap-4">
         {[
           ["Morning", ["9:00 am", "9:30 am", "10:00 am", "10:30 am", "11:00 am", "11:30 am"]],
           ["Afternoon", ["12:00 pm", "12:30 pm", "1:00 pm", "1:30 pm", "2:00 pm"]],
           ["Evening", ["3:00 pm", "3:30 pm", "4:00 pm", "4:30 pm", "5:00 pm"]],
         ].map(([title, arr]) => (
-          <div key={title}>
+          <div key={title} className="flex-1 min-w-[120px]">
             <h4 className="font-semibold mb-2">{title}</h4>
             <ul className="space-y-1 text-gray-700">
               {arr.map((t) => (
@@ -240,7 +284,8 @@ const Header = () => {
       !activeDropdown ||
       activeDropdown !== key ||
       !document.getElementById("dropdown-root") ||
-      isHeaderFixed // only for hero bar
+      isHeaderFixed || // only for hero bar
+      isMobileMenuOpen // not when mobile menu is open
     )
       return null;
 
@@ -264,115 +309,122 @@ const Header = () => {
 
   /* ───────────────────────────────────────── JSX ───────────────────────────────────────── */
   return (
-    <div className="min-h-screen font-lufga bg-[#f6f6f6] overflow-x-hidden ">
+    <div className="flex flex-col items-center mx-auto max-w-[1440px]">
       {/* ───────────────────────── header ───────────────────────── */}
       <header
         ref={headerRef}
-        className={`flex justify-between items-center px-4 py-4 md:px-10 lg:px-20 transition-all duration-300 ${isHeaderFixed ? "fixed top-0 left-0 right-0 bg-white shadow-md z-[100]" : ""
-          }`}
+        className={`transition-all duration-300 w-full z-[100] ${
+          isHeaderFixed ? "fixed top-0 left-0 right-0" : ""
+        }`}
       >
-        <img src={logo} alt="logo" loading="lazy" className="cursor-pointer" />
+        <div
+          className={`flex justify-between items-center w-full max-w-[1440px] mx-auto ${
+            isHeaderFixed ? "bg-white shadow-sm p-6" : "p-6"
+          }`}
+        >
+          <img src={logo} alt="logo" loading="lazy" className="cursor-pointer" />
 
-        {/* ─── Search bar inside the fixed header ─── */}
-        {isHeaderFixed && (
-          <div className="flex-1 max-w-2xl mx-4 hidden md:block">
-            <div className="flex items-center border border-gray-300 rounded-full px-4 py-2 text-sm bg-white shadow-sm">
-              {/* Treatments */}
-              <div
-                className="group relative flex-1 text-center"
-                onMouseEnter={() => setActiveDropdown("treatments")}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
-                  <FaSearch />
-                  <span className="truncate">{selectedTreatment}</span>
-                </div>
-                {activeDropdown === "treatments" && (
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
-                    {dropdownData.treatments}
+          {/* ─── Search bar inside the fixed header (visible on medium and up) ─── */}
+          {isHeaderFixed && (
+            <div className="flex-1 max-w-2xl mx-4 hidden md:block">
+              <div className="flex items-center border border-gray-300 rounded-full px-4 py-2 text-sm bg-white shadow-sm">
+                {/* Treatments */}
+                <div
+                  className="group relative flex-1 text-center"
+                  onMouseEnter={() => setActiveDropdown("treatments")}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
+                    <FaSearch />
+                    <span className="truncate">{selectedTreatment}</span>
                   </div>
-                )}
-              </div>
-
-              <div className="w-px h-6 bg-gray-300 mx-1" />
-
-              {/* Location */}
-              <div
-                className="group relative flex-1 text-center"
-                onMouseEnter={() => setActiveDropdown("location")}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
-                  <FaMapMarkerAlt />
-                  <span className="truncate">{selectedLocation}</span>
+                  {activeDropdown === "treatments" && (
+                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
+                      {dropdownData.treatments}
+                    </div>
+                  )}
                 </div>
-                {activeDropdown === "location" && (
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
-                    {dropdownData.location}
+
+                <div className="w-px h-6 bg-gray-300 mx-1" />
+
+                {/* Location */}
+                <div
+                  className="group relative flex-1 text-center"
+                  onMouseEnter={() => setActiveDropdown("location")}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
+                    <FaMapMarkerAlt />
+                    <span className="truncate">{selectedLocation}</span>
                   </div>
-                )}
-              </div>
-
-              <div className="w-px h-6 bg-gray-300 mx-1" />
-
-              {/* Date */}
-              <div
-                className="group relative flex-1 text-center"
-                onMouseEnter={() => setActiveDropdown("date")}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
-                  <FaCalendarAlt />
-                  <span className="truncate">
-                    {selectedDate ? format(selectedDate, "MMM d, yyyy") : "Any date"}
-                  </span>
+                  {activeDropdown === "location" && (
+                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
+                      {dropdownData.location}
+                    </div>
+                  )}
                 </div>
-                {activeDropdown === "date" && (
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
-                    {dropdownData.date}
+
+                <div className="w-px h-6 bg-gray-300 mx-1" />
+
+                {/* Date */}
+                <div
+                  className="group relative flex-1 text-center"
+                  onMouseEnter={() => setActiveDropdown("date")}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <div className="flex items-center justify-center bg gap-2 text-gray-700 cursor-pointer">
+                    <FaCalendarAlt />
+                    <span className="truncate">
+                      {selectedDate ? format(selectedDate, "MMM d, BBBB") : "Any date"}
+                    </span>
                   </div>
-                )}
-              </div>
-
-              <div className="w-px h-6 bg-gray-300 mx-1" />
-
-              {/* Time */}
-              <div
-                className="group relative flex-1 text-center"
-                onMouseEnter={() => setActiveDropdown("time")}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <div className="flex items-center justify-center gap-2 text-gray-700 cursor-pointer">
-                  <FaClock />
-                  <span className="truncate">{selectedTime}</span>
+                  {activeDropdown === "date" && (
+                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
+                      {dropdownData.date}
+                    </div>
+                  )}
                 </div>
-                {activeDropdown === "time" && (
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
-                    {dropdownData.time}
-                  </div>
-                )}
-              </div>
 
-              <button className="ml-2 bg-black text-white rounded-full px-4 py-1 hover:bg-gray-800">
-                Search
-              </button>
+                <div className="w-px h-6 bg-gray-300 mx-1" />
+
+                {/* Time */}
+                <div
+                  className="group relative flex-1 text-center bg-white"
+                  onMouseEnter={() => setActiveDropdown("time")}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <div className="flex items-center justify-center bg-white gap-2 text-gray-700 cursor-pointer">
+                    <FaClock />
+                    <span className="truncate">{selectedTime}</span>
+                  </div>
+                  {activeDropdown === "time" && (
+                    <div className="absolute bg-white top-full mt-2 left-1/2 -translate-x-1/2 z-[9999] min-w-max">
+                      {dropdownData.time}
+                    </div>
+                  )}
+                </div>
+
+                <button className="ml-2 bg-black text-white rounded-full px-4 py-1 hover:bg-gray-800">
+                  Search
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* new logo and menu button */}
-        <div className="hidden sm:flex">
-            <div className="flex items-center gap-4 rounded-full border border-gray-300 bg-white px-4 py-2">
-              <Bars3Icon className="h-6 w-7 text-gray-700 cursor-pointer" />
-              <img
-                src="https://i.pravatar.cc/40?img=56"
-                alt="User"
-                className="h-9 w-9 rounded-full cursor-pointer object-cover "
-                loading="lazy"
-              />
-            </div>
+          <div className="flex items-center gap-4 text-gray-600">
+            <span className="hidden md:inline cursor-pointer hover:underline text-sm">
+              Log in
+            </span>
+            {/* Hamburger menu icon, visible on small screens */}
+            <FiMenu
+              size={24}
+              className="cursor-pointer md:hidden fi-menu"
+              onClick={toggleMobileMenu}
+            />
+            {/* User icon, always visible */}
+            <FiUser size={24} className="cursor-pointer" />
           </div>
-
+        </div>
       </header>
 
       {/* Placeholder to avoid content jump */}
@@ -421,8 +473,9 @@ const Header = () => {
       {/* ───────────────────────── main search bar (hero) ───────────────────────── */}
       <div
         ref={searchBarRef}
-        className={`relative w-fit mx-auto mt-10 ${isHeaderFixed ? "hidden" : "block"
-          } px-4 md:px-0 z-20`}
+        className={`relative w-fit mx-auto mt-10 ${
+          isHeaderFixed ? "hidden" : "hidden md:block" // Hidden on mobile, block on md and up
+        } px-4 md:px-0 z-20`}
       >
         <div className="flex items-center border border-gray-900 rounded-full px-4 py-2 shadow-sm bg-white">
           {/* Treatments */}
@@ -464,7 +517,7 @@ const Header = () => {
           >
             <div className="flex items-center gap-2 px-4 text-sm text-gray-700 cursor-pointer">
               <FaCalendarAlt />
-              {selectedDate ? format(selectedDate, "MMM d, yyyy") : "Any date"}
+              {selectedDate ? format(selectedDate, "MMM d, BBBB") : "Any date"}
             </div>
           </div>
 
@@ -472,11 +525,11 @@ const Header = () => {
           {/* Time */}
           <div
             ref={timeRef}
-            className="group relative flex flex-col items-center"
+            className="group relative flex flex-col bg-white items-center"
             onMouseEnter={() => setActiveDropdown("time")}
             onMouseLeave={() => setActiveDropdown(null)}
           >
-            <div className="flex items-center gap-2 px-4 text-sm text-gray-700 cursor-pointer">
+            <div className="flex items-center gap-2 px-4 text-sm bg-white text-gray-700 cursor-pointer">
               <FaClock />
               {selectedTime}
             </div>
@@ -487,6 +540,119 @@ const Header = () => {
           </button>
         </div>
       </div>
+
+      {/* ───────────────────────── Mobile Side Menu ───────────────────────── */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            ref={mobileMenuRef}
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "tween", duration: 0.3 }}
+            className="fixed inset-y-0 right-0 w-64 bg-white shadow-lg z-[200] p-6 flex flex-col md:hidden overflow-y-auto"
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold">Menu</h2>
+              <FiX size={24} className="cursor-pointer" onClick={toggleMobileMenu} />
+            </div>
+
+            <nav className="flex flex-col space-y-4 mb-8">
+              <a href="#" className="text-gray-800 hover:text-black font-semibold">
+                Log In
+              </a>
+              
+            </nav>
+
+            <div className="border-t border-gray-200 pt-6">
+              <h3 className="font-bold mb-4">Book a Service</h3>
+              {/* Mobile-friendly search options */}
+              <div className="flex flex-col space-y-4">
+                <button
+                  className="flex items-center gap-2 p-3 border border-gray-300 rounded-lg text-left"
+                  onClick={() =>
+                    setActiveDropdown(activeDropdown === "treatments" ? null : "treatments")
+                  }
+                >
+                  <FaSearch className="text-gray-600" />
+                  <span className="flex-1 truncate">{selectedTreatment}</span>
+                </button>
+                {activeDropdown === "treatments" && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    {dropdownData.treatments}
+                  </div>
+                )}
+
+                <button
+                  className="flex items-center gap-2 p-3 border border-gray-300 rounded-lg text-left"
+                  onClick={() =>
+                    setActiveDropdown(activeDropdown === "location" ? null : "location")
+                  }
+                >
+                  <FaMapMarkerAlt className="text-gray-600" />
+                  <span className="flex-1 truncate">{selectedLocation}</span>
+                </button>
+                {activeDropdown === "location" && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    {dropdownData.location}
+                  </div>
+                )}
+
+                <button
+                  className="flex items-center gap-2 p-3 border border-gray-300 rounded-lg text-left"
+                  onClick={() =>
+                    setActiveDropdown(activeDropdown === "date" ? null : "date")
+                  }
+                >
+                  <FaCalendarAlt className="text-gray-600" />
+                  <span className="flex-1 truncate">
+                    {selectedDate ? format(selectedDate, "MMM d, BBBB") : "Any date"}
+                  </span>
+                </button>
+                {activeDropdown === "date" && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    {dropdownData.date}
+                  </div>
+                )}
+
+                <button
+                  className="flex items-center gap-2 p-3 border border-gray-300 rounded-lg text-left"
+                  onClick={() =>
+                    setActiveDropdown(activeDropdown === "time" ? null : "time")
+                  }
+                >
+                  <FaClock className="text-gray-600" />
+                  <span className="flex-1 truncate">{selectedTime}</span>
+                </button>
+                {activeDropdown === "time" && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    {dropdownData.time}
+                  </div>
+                )}
+
+                <button className="bg-black text-white rounded-lg px-5 py-3 text-base hover:bg-gray-800 w-full mt-4">
+                  Search
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Overlay when mobile menu is open */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.5 }}
+            exit={{ opacity: 0 }}
+            transition={{ type: "tween", duration: 0.3 }}
+            className="fixed inset-0 bg-black z-[150] md:hidden"
+            onClick={toggleMobileMenu} // Close menu on overlay click
+          />
+        )}
+      </AnimatePresence>
+
       {/* ───────────────────────── portal mounts ───────────────────────── */}
       {renderPortalDropdown("treatments")}
       {renderPortalDropdown("location")}

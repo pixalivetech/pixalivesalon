@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, MapPin, Star } from 'lucide-react';
-import rec1 from '../../assets/home/rec1.png'
-import rec2 from '../../assets/home/rec2.png'
-import rec3 from '../../assets/home/rec3.png'
-import rec4 from '../../assets/home/rec4.png'
+import rec1 from './../../assets/Product/rec.png'
+import rec2 from './../../assets/Product/rec.png'
+
 const salons = [
     {
         id: 1,
@@ -20,27 +19,10 @@ const salons = [
         rating: 4.3,
         reviews: 32,
         location: 'Electronic City, Bengaluru',
-        type: 'Massage',
+        type: 'Hair Salon',
         image: rec2,
     },
-    {
-        id: 3,
-        name: 'Joni Signature Salon',
-        rating: 4.3,
-        reviews: 32,
-        location: 'Electronic City, Bengaluru',
-        type: 'Med spa',
-        image: rec3,
-    },
-    {
-        id: 4,
-        name: 'Classic Cut Unisex Salon',
-        rating: 4.3,
-        reviews: 32,
-        location: 'Electronic City, Bengaluru',
-        type: 'Hair Salon',
-        image: rec4,
-    },
+   
     
 ];
 
@@ -68,15 +50,8 @@ const RecentlyViewed = () => {
     return (
         <div className="p-6">
             <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-semibold text-black">Recently Viewed</h2>
-                <div className="flex space-x-2">
-                    <button onClick={handlePrev} className="p-2 cursor-pointer rounded-full hover:bg-gray-400">
-                        <ChevronLeft size={20} />
-                    </button>
-                    <button onClick={handleNext} className="p-2 cursor-pointer rounded-full  hover:bg-gray-400">
-                        <ChevronRight size={20} />
-                    </button>
-                </div>
+                <h2 className="text-2xl md:text-3xl font-lufga text-black">Other locations</h2>
+
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -90,11 +65,11 @@ const RecentlyViewed = () => {
                                 <Star className="w-4 h-4 fill-black text-black" />
                                 <span className="text-blue-600 underline cursor-pointer">({salon.reviews})</span>
                             </div>
-                            <div className="flex items-center text-black text-sm">
+                            <div className="flex items-center text-black text-md">
                                 <MapPin className="w-4 h-4 mr-1" />
                                 {salon.location}
                             </div>
-                            <span className="inline-block mt-2 px-2 py-1 text-xs bg-gray-100 rounded-full">
+                            <span className="inline-block mt-2 px-2 py-1 text-md border border-gray-300 rounded-full">
                                 {salon.type}
                             </span>
                         </div>
