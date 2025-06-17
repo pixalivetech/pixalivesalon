@@ -31,7 +31,7 @@ const AppContent = () => {
           <Route path="/" element={<Home />} />
           <Route path="/product/*" element={<Product />} />
           <Route path="/service/*" element={<Service />} />
-          <Route path="/product-details" element={<ProductDetails />} />
+         
           <Route path="/map" element={<MapLanding />} />
           <Route path="/salon" element={<Salon />} />
         </Routes>
@@ -48,7 +48,7 @@ const App = () => (
     <ScrollToTop />
  
     <div className="min-h-screen bg-[#F6F6F6]">
-      <div className="w-full max-w-[1440px] mx-auto">
+      <div className="w-full max-w-[1600px] mx-auto">
         {/* Uncomment if you need a global header visible on all pages */}
         {/* <Header /> */}
  

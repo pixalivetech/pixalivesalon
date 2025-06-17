@@ -29,7 +29,7 @@ const salons = [
         rating: 4.3,
         reviews: 32,
         location: 'Electronic City, Bengaluru',
-        type: 'Med spa',
+        type: 'Medspa',
         image: rec3,
     },
     {

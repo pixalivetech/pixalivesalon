@@ -86,7 +86,7 @@ const ReviewConfirmPage = ({ selectedServices, totalAmount, bookingDetails }) =>
   const bookingDateObject = bookingDetails.date ? new Date(bookingDetails.date) : null;
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 p-6 max-w-[1440px] mx-auto relative">
+    <div className="flex flex-col lg:flex-row gap-8 p-6 max-w-[1600px] mx-auto relative">
       {/* Booking Success Pop-up (remains an overlay) */}
       {showSuccessPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

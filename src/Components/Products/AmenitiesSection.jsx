@@ -19,7 +19,7 @@ const amenities = [
 
 const AmenitiesSection = () => {
   return (
-    <div className="p-6">
+    <div className="">
       {/* Section Heading */}
       <h2 className="text-3xl font-semibold text-black mb-8">Amenities</h2>
 

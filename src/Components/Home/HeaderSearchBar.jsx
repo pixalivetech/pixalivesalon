@@ -215,7 +215,7 @@ const Header = () => {
     ),
 
     time: (
-      <div className="p-6 rounded-lg shadow-sm flex flex-wrap gap-4"> {/* Adjusted for better mobile wrapping */}
+      <div className="p-6 rounded-lg shadow-sm bg-white flex flex-wrap gap-4"> {/* Adjusted for better mobile wrapping */}
         {[
           ["Morning", ["9:00 am", "9:30 am", "10:00 am", "10:30 am", "11:00 am", "11:30 am"]],
           ["Afternoon", ["12:00 pm", "12:30 pm", "1:00 pm", "1:30 pm", "2:00 pm"]],
@@ -271,7 +271,7 @@ const Header = () => {
         ref={headerRef}
         className="shadow-sm z-[100] w-full bg-white" // Added bg-white for consistent background
       >
-        <div className="max-w-[1440px] mx-auto flex justify-between items-center p-6">
+        <div className="max-w-[1600px] mx-auto flex justify-between items-center p-6">
           <img src={logo} alt="logo" loading="lazy" className="cursor-pointer" />
 
           {/* Search bar - visible only on medium and up screens */}

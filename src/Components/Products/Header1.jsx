@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   FiClock,
   FiChevronDown,
@@ -13,10 +13,44 @@ import thumb2 from "./../../assets/Product/thumb2.png";
 import thumb3 from "./../../assets/Product/thumb3.png";
 import Icon1 from "./../../assets/Product/icon1.png";
 import Icon2 from "./../../assets/Product/icon2.png";
-import { Link, useNavigate } from 'react-router-dom';
+
+import { Link } from 'react-router-dom';
+
+import AmenitiesSection from "./AmenitiesSection";
+import Services from "./Servicesbook";
+import Navbar from "../SeeMore/Navbar";
+
+import UserReviews from './UserReviews';
+import OpeningTimes from './OpeningTimes';
+import OtherLocation from './OtherLocation';
+import Venue from './Venue';
+import AboutSection from './AboutSection';
+import FAQ from '../Salons/Faq';
 
 const SalonPage = () => {
   const [liked, setLiked] = useState(false);
+  const [showStickyNav, setShowStickyNav] = useState(false);
+
+  const amenitiesRef = useRef(null);
+  const faqRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const amenitiesTop = amenitiesRef.current?.getBoundingClientRect().top;
+      const faqBottom = faqRef.current?.getBoundingClientRect().bottom;
+
+      if (amenitiesTop !== undefined && faqBottom !== undefined) {
+        if (amenitiesTop <= 0 && faqBottom > 0) {
+          setShowStickyNav(true);
+        } else {
+          setShowStickyNav(false);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleShare = () => {
     if (navigator.share) {
@@ -33,21 +67,20 @@ const SalonPage = () => {
   const handleContact = () => {
     const confirm = window.confirm("Would you like to call or WhatsApp?");
     if (confirm) {
-      // Simple direct call, or you can trigger WhatsApp Web with:
-      // window.location.href = "https://wa.me/919167886732";
       window.location.href = "tel:9167886732";
     }
   };
 
-  const mapsUrl = "https://www.google.com/maps/dir/?api=1&destination=Koramangala+Mantri+Avenue+Bengaluru";
-
   return (
-    <div className=" p-6">
+    <div className="p-6">
+      {/* Sticky Navbar */}
+      {showStickyNav && <Navbar />}
+
       {/* Breadcrumb */}
       <nav className="text-sm md:text-md xl:text-md text-gray-500 mb-6 flex items-center space-x-1">
-        <Link to="/" className="text-gray-500 hover:underline cursor-pointer">Home</Link> &nbsp;&gt;&nbsp;
-        <Link to="/salon" className="text-gray-500 hover:underline cursor-pointer">Salon</Link> &nbsp;&gt;&nbsp;
-        <Link to="/product" className="text-black font-medium hover:underline cursor-pointer">Bodycraft Salon & Spa</Link>
+        <Link to="/" className="text-gray-500 hover:underline">Home</Link> &nbsp;&gt;&nbsp;
+        <Link to="/salon" className="text-gray-500 hover:underline">Salon</Link> &nbsp;&gt;&nbsp;
+        <Link to="/product" className="text-black font-medium hover:underline">Bodycraft Salon & Spa</Link>
       </nav>
 
       {/* Title and meta */}
@@ -73,22 +106,16 @@ const SalonPage = () => {
             <span className="text-[#B0B0B0] text-md">
               Koramangala Mantri Avenue Bengaluru
             </span>
-            <Link 
-                to="/map"
-                className="text-blue-600 hover:underline cursor-pointer"
-            >
-            Get directions
+            <Link to="/map" className="text-blue-600 hover:underline">
+              Get directions
             </Link>
           </div>
         </div>
         <div className="flex mt-2 md:mt-11 cursor-pointer gap-2">
-          <button className="p-2 cursor-pointer" onClick={handleShare}>
+          <button className="p-2" onClick={handleShare}>
             <img src={Icon1} alt="Share" className="w-[38.3px] h-[38.3px]" />
           </button>
-          <button
-            className="p-2 cursor-pointer transition-colors duration-300"
-            onClick={() => setLiked(!liked)}
-          >
+          <button className="p-2" onClick={() => setLiked(!liked)}>
             {liked ? (
               <FaHeart className="text-red-600 w-[25.3px] h-[25.3px]" />
             ) : (
@@ -108,28 +135,13 @@ const SalonPage = () => {
             className="rounded-xl md:w-[747px] md:h-[533px] object-cover"
           />
           <div className="flex flex-col sm:flex-row gap-[20px] mt-4">
-            <img
-              src={thumb1}
-              alt="thumb1"
-              className="w-full sm:w-[236px] h-[163px] rounded-lg object-cover"
-            />
-            <img
-              src={thumb2}
-              alt="thumb2"
-              className="w-full sm:w-[236px] h-[163px] rounded-lg object-cover"
-            />
-              <div className="relative w-full sm:w-[236px] h-[163px] rounded-lg  cursor-pointer overflow-hidden">
-              <img
-                src={thumb3}
-                alt="thumb3"
-                className="w-full h-full rounded-lg object-cover"
-              />
-              <Link 
-                to="/product-details"
-                className="absolute inset-0 bg-black/80 bg-opacity-70 flex items-center justify-center text-white text-lg font-medium"
-              >
+            <img src={thumb1} alt="thumb1" className="w-full sm:w-[236px] h-[163px] rounded-lg object-cover" />
+            <img src={thumb2} alt="thumb2" className="w-full sm:w-[236px] h-[163px] rounded-lg object-cover" />
+            <div className="relative w-full sm:w-[236px] h-[163px] rounded-lg cursor-pointer overflow-hidden">
+              <img src={thumb3} alt="thumb3" className="w-full h-full rounded-lg object-cover" />
+              <a href="/see-more" className="absolute inset-0 bg-black/80 flex items-center justify-center text-white text-lg font-medium">
                 See more
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -145,27 +157,22 @@ const SalonPage = () => {
             </span>
             <div className="flex items-center gap-1 text-sm mb-2">
               <span className="font-semibold">4.3</span>
-              <span className="ml-1 text-black">
-                <FaStar size={18} />
-              </span>
+              <span className="ml-1 text-black"><FaStar size={18} /></span>
               <span className="ml-1 text-blue-600">(32)</span>
             </div>
-            <p className="text-sm md:text-md text-black mb-1">
-              Services start from
-            </p>
+            <p className="text-sm md:text-md text-black mb-1">Services start from</p>
             <p className="text-xl font-semibold mb-3">₹99</p>
-            <Link to="/service" className=" hover:underline cursor-pointer">
-            <button className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-900 cursor-pointer">
-              Book now
-            </button>
+            <Link to="/service" className="hover:underline">
+              <button className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-900">
+                Book now
+              </button>
             </Link>
           </div>
 
           <div className="bg-white rounded-xl p-4 shadow-sm space-y-2 text-sm">
             <span className="flex items-center gap-2">
               <FiClock size={14} className="text-gray-500" />
-              <span className="text-green-600 font-medium">Open</span>
-              until 10:00 pm
+              <span className="text-green-600 font-medium">Open</span> until 10:00 pm
               <FiChevronDown size={16} className="text-gray-500" />
             </span>
 
@@ -173,17 +180,13 @@ const SalonPage = () => {
               <div className="flex items-center mt-2 gap-2">
                 <FiMapPin size={16} className="text-gray-500" />
                 <span>
-                  Shop No: A008, Koramangala
-                  <br />
+                  Shop No: A008, Koramangala<br />
                   Bengaluru Karnataka
                 </span>
               </div>
-            <Link 
-                to="/map"
-                className="text-blue-600 hover:underline cursor-pointer"
-            >
-            Get directions
-            </Link>
+              <Link to="/map" className="text-blue-600 hover:underline">
+                Get directions
+              </Link>
             </div>
 
             <div className="flex items-center justify-between">
@@ -199,6 +202,41 @@ const SalonPage = () => {
               </button>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Section - Amenities to FAQ */}
+      <div className="mt-10">
+        <div id="amenities" ref={amenitiesRef}>
+          <AmenitiesSection />
+        </div>
+
+        <div id="Servicesbook">
+          <Services />
+        </div>
+
+        <div id="about">
+          <AboutSection />
+        </div>
+
+        <div id="times">
+          <OpeningTimes />
+        </div>
+
+        <div id="other-location">
+          <OtherLocation />
+        </div>
+
+        <div id="reviews">
+          <UserReviews />
+        </div>
+
+        <div id="venue">
+          <Venue />
+        </div>
+
+        <div id="FAQ" ref={faqRef}>
+          <FAQ />
         </div>
       </div>
     </div>

@@ -72,7 +72,7 @@ const ServicesPage = ({
   }, []);
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 p-6 max-w-[1440px] mx-auto relative">
+    <div className="flex flex-col lg:flex-row gap-8 p-6 max-w-[1600px] mx-auto relative">
       {popupMessage && (
         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-black text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300">
           {popupMessage}

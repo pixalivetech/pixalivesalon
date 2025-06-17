@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion"; 
-import { FiUser, FiMenu, FiX } from "react-icons/fi"; 
-import { FaSearch, FaMapMarkerAlt, FaCalendarAlt, FaClock, } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion"; // Import AnimatePresence for exit animations
+import { FiUser, FiMenu, FiX } from "react-icons/fi"; // Added FiX for close icon
+import {
+  FaSearch,
+  FaMapMarkerAlt,
+  FaCalendarAlt,
+  FaClock,
+} from "react-icons/fa";
 import logo from "../../assets/home/Techlogo.png";
-import { Bars3Icon } from '@heroicons/react/24/outline';
-
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -310,16 +313,18 @@ const Header = () => {
 
   
   return (
-    <div className="flex flex-col items-center mx-auto max-w-[1440px]">
-      
+    <div className="flex flex-col items-center mx-auto max-w-[1600px]">
+      {/* ───────────────────────── header ───────────────────────── */}
       <header
         ref={headerRef}
-        className={`transition-all duration-300 w-full z-[100] ${isHeaderFixed ? "fixed top-0 left-0 right-0" : ""
-          }`}
+        className={`transition-all duration-300 w-full z-[100] ${
+          isHeaderFixed ? "fixed top-0 left-0 right-0" : ""
+        }`}
       >
         <div
-          className={`flex justify-between items-center w-full max-w-[1440px] mx-auto ${isHeaderFixed ? "bg-white shadow-sm p-6" : "p-6"
-            }`}
+          className={`flex justify-between items-center w-full max-w-[1600 px] mx-auto ${
+            isHeaderFixed ? "bg-white shadow-sm p-6" : "p-6"
+          }`}
         >
           <img src={logo} alt="logo" loading="lazy" className="cursor-pointer" />
 
@@ -410,19 +415,19 @@ const Header = () => {
             </div>
           )}
 
-         <div className="flex items-center gap-4 rounded-full border border-gray-300 bg-white px-4 py-2">
-  <Bars3Icon
-    className="h-6 w-7 text-gray-700 cursor-pointer"
-    onClick={toggleMobileMenu}
-  />
-  <img
-    src="https://i.pravatar.cc/40?img=56"
-    alt="User"
-    className="h-9 w-9 rounded-full cursor-pointer object-cover"
-    loading="lazy"
-  />
-</div>
-
+          <div className="flex items-center gap-4 text-gray-600">
+            <span className="hidden md:inline cursor-pointer hover:underline text-sm">
+              Log in
+            </span>
+            {/* Hamburger menu icon, visible on small screens */}
+            <FiMenu
+              size={24}
+              className="cursor-pointer md:hidden fi-menu"
+              onClick={toggleMobileMenu}
+            />
+            {/* User icon, always visible */}
+            <FiUser size={24} className="cursor-pointer" />
+          </div>
         </div>
       </header>
 
@@ -473,6 +478,9 @@ const Header = () => {
         ref={searchBarRef}
         className={`relative w-fit mx-auto mt-10 ${isHeaderFixed ? "hidden" : "hidden md:block" 
           } px-4 md:px-0 z-20`}
+        className={`relative w-fit mx-auto mt-10 ${
+          isHeaderFixed ? "hidden" : "hidden md:block" // Hidden on mobile, block on md and up
+        } px-4 md:px-0 z-20`}
       >
         <div className="flex items-center border border-gray-900 rounded-full px-4 py-2 shadow-sm bg-white">
           
@@ -561,7 +569,7 @@ const Header = () => {
               <a href="#" className="text-gray-800 hover:text-black font-semibold">
                 Log In
               </a>
-
+              
             </nav>
 
             <div className="border-t border-gray-200 pt-6">

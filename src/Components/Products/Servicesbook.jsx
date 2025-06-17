@@ -51,8 +51,8 @@ const Services = () => {
   const filteredServices = allServices.filter((s) => s.category === activeTab);
 
   return (
-    <div className="p-6">
-      <div className="w-full xl:w-[98%] mx-auto">
+    <div className="mt-10">
+      <div className="">
         {/* Title */}
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
