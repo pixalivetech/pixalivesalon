@@ -7,6 +7,7 @@ import salon5 from '../../assets/Salon/salon5.jpg';
 import salon6 from '../../assets/Salon/salon6.png'; 
 import salon7 from '../../assets/Salon/salon7.png'; 
 import salon8 from '../../assets/Salon/salon8.jpg'; 
+import salon9 from '../../assets/Salon/salon9.jpg';
 import { Link } from 'react-router-dom';
 
 
@@ -79,8 +80,8 @@ const HairSalonListing = () => {
       ],
     },
     {
-      id: 6,
-      image: salon6 ,// Replace with your actual image import or path
+      id: 9,
+      image: salon9 ,// Replace with your actual image import or path
       name: 'The Aesthetic Studio',
       rating: 4.3,
       reviews: 32,
@@ -117,11 +118,25 @@ const HairSalonListing = () => {
         { name: 'Brow Lift', price: '₹399', duration: '30min' },
       ],
     },
+    {
+      id: 6,
+      image: salon6 ,// Replace with your actual image import or path
+      name: 'The Aesthetic Studio',
+      rating: 4.3,
+      reviews: 32,
+      location: 'Electronic City, Bengaluru',
+      services: [
+        { name: 'Ladies- Crazy Colour (By Quotation)', price: '₹299', duration: '1h 45min - 2h 15min' },
+        { name: 'Alopecia Areta Injection', price: '₹599', duration: '40min' },
+        { name: 'Brow Lift', price: '₹399', duration: '30min' },
+      ],
+    },
+
 
   ];
 
   return (
-    <div className="min-h-screen   p-6">
+    <div className="min-h-screen   p-6 cursor-pointer">
       <div className=" mx-auto">
         {/* Header Section */}
         <div className="mb-10">

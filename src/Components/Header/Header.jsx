@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion"; // Import AnimatePresence for exit animations
-import { FiUser, FiMenu, FiX } from "react-icons/fi"; // Added FiX for close icon
+import { motion, AnimatePresence } from "framer-motion"; 
+import { FiUser, FiMenu, FiX } from "react-icons/fi"; 
 import { FaSearch, FaMapMarkerAlt, FaCalendarAlt, FaClock, } from "react-icons/fa";
 import logo from "../../assets/home/Techlogo.png";
 import { Bars3Icon } from '@heroicons/react/24/outline';
@@ -21,13 +21,13 @@ const Header = () => {
   const images = [img1, img2, img3, img4, img5, img6];
   const allImages = [...images, ...images, ...images];
 
-  /* ───────────────────────────────────────── state ───────────────────────────────────────── */
+  
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // New state for mobile menu
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
 
-  // **selected values that drive the button labels**
+  
   const [selectedTreatment, setSelectedTreatment] = useState(
     "All Treatments and venues"
   );
@@ -35,7 +35,7 @@ const Header = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState("Any time");
 
-  /* ───────────────────────────────────────── refs ───────────────────────────────────────── */
+  
   const headerRef = useRef(null);
   const searchBarRef = useRef(null);
   const searchBarInitialOffset = useRef(0);
@@ -43,9 +43,9 @@ const Header = () => {
   const locationRef = useRef(null);
   const dateRef = useRef(null);
   const timeRef = useRef(null);
-  const mobileMenuRef = useRef(null); // Ref for the mobile menu
+  const mobileMenuRef = useRef(null); 
 
-  /* ─────────────────────────────────── helpers / handlers ─────────────────────────────────── */
+  
   const getRotation = (index) => {
     const angles = [-1, -6, -5, -3, 2, 4, 6, 2, 4, 9];
     return angles[index % angles.length];
@@ -54,35 +54,35 @@ const Header = () => {
   const handleSelectTreatment = (val) => {
     setSelectedTreatment(val);
     setActiveDropdown(null);
-    if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close menu after selection
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false); 
   };
   const handleSelectLocation = (val) => {
     setSelectedLocation(val);
     setActiveDropdown(null);
-    if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close menu after selection
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false); 
   };
   const handleSelectTime = (val) => {
     setSelectedTime(val);
     setActiveDropdown(null);
-    if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close menu after selection
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false); 
   };
   const handleSelectDate = (d) => {
     setSelectedDate(d);
     setActiveDropdown(null);
-    if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close menu after selection
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false); 
   };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Close mobile menu when clicking outside
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target) &&
-        event.target.closest(".fi-menu") === null // Don't close if hamburger is clicked
+        event.target.closest(".fi-menu") === null 
       ) {
         setIsMobileMenuOpen(false);
       }
@@ -99,7 +99,7 @@ const Header = () => {
     };
   }, [isMobileMenuOpen]);
 
-  /* ───────────────────────────────────── effect: initial offset ───────────────────────────────────── */
+  
   useEffect(() => {
     if (searchBarRef.current) {
       searchBarInitialOffset.current =
@@ -107,7 +107,7 @@ const Header = () => {
     }
   }, []);
 
-  /* ───────────────────────────────────── effect: sticky header ───────────────────────────────────── */
+  
   useEffect(() => {
     const handleScroll = () => {
       if (searchBarRef.current && headerRef.current) {
@@ -120,7 +120,7 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* ───────────────────────────── effect: position portal dropdowns ───────────────────────────── */
+  
   useEffect(() => {
     const updatePos = () => {
       const map = {
@@ -129,7 +129,7 @@ const Header = () => {
         date: dateRef,
         time: timeRef,
       };
-      // Portal dropdowns only for the hero bar, not the fixed bar or mobile menu
+      
       const ref =
         isHeaderFixed || isMobileMenuOpen ? null : map[activeDropdown];
       if (ref && ref.current) {
@@ -149,7 +149,7 @@ const Header = () => {
     };
   }, [activeDropdown, isHeaderFixed, isMobileMenuOpen]);
 
-  /* ──────────────────────────────── date‑picker custom header ──────────────────────────────── */
+  
   const renderDatePickerHeader = ({
     date,
     changeYear,
@@ -191,7 +191,7 @@ const Header = () => {
     </div>
   );
 
-  /* ───────────────────────────── dropdown content definitions ───────────────────────────── */
+  
   const dropdownData = {
     treatments: (
       <div className="p-6 bg-white rounded-lg shadow-lg w-64 max-h-80 overflow-y-auto">
@@ -245,7 +245,7 @@ const Header = () => {
     date: (
       <DatePicker
         selected={selectedDate}
-        onChange={handleSelectDate} // Use the new handler
+        onChange={handleSelectDate}
         inline
         calendarClassName="rounded-lg shadow-lg"
         renderCustomHeader={renderDatePickerHeader}
@@ -279,14 +279,14 @@ const Header = () => {
     ),
   };
 
-  /* ────────────────────────────── portal helper (with hover keep‑alive) ────────────────────────────── */
+  
   const renderPortalDropdown = (key) => {
     if (
       !activeDropdown ||
       activeDropdown !== key ||
       !document.getElementById("dropdown-root") ||
-      isHeaderFixed || // only for hero bar
-      isMobileMenuOpen // not when mobile menu is open
+      isHeaderFixed || 
+      isMobileMenuOpen 
     )
       return null;
 
@@ -308,10 +308,10 @@ const Header = () => {
     );
   };
 
-  /* ───────────────────────────────────────── JSX ───────────────────────────────────────── */
+  
   return (
     <div className="flex flex-col items-center mx-auto max-w-[1440px]">
-      {/* ───────────────────────── header ───────────────────────── */}
+      
       <header
         ref={headerRef}
         className={`transition-all duration-300 w-full z-[100] ${isHeaderFixed ? "fixed top-0 left-0 right-0" : ""
@@ -323,11 +323,11 @@ const Header = () => {
         >
           <img src={logo} alt="logo" loading="lazy" className="cursor-pointer" />
 
-          {/* ─── Search bar inside the fixed header (visible on medium and up) ─── */}
+          
           {isHeaderFixed && (
             <div className="flex-1 max-w-2xl mx-4 hidden md:block">
               <div className="flex items-center border border-gray-300 rounded-full px-4 py-2 text-sm bg-white shadow-sm">
-                {/* Treatments */}
+                
                 <div
                   className="group relative flex-1 text-center"
                   onMouseEnter={() => setActiveDropdown("treatments")}
@@ -346,7 +346,7 @@ const Header = () => {
 
                 <div className="w-px h-6 bg-gray-300 mx-1" />
 
-                {/* Location */}
+                
                 <div
                   className="group relative flex-1 text-center"
                   onMouseEnter={() => setActiveDropdown("location")}
@@ -365,7 +365,7 @@ const Header = () => {
 
                 <div className="w-px h-6 bg-gray-300 mx-1" />
 
-                {/* Date */}
+                
                 <div
                   className="group relative flex-1 text-center"
                   onMouseEnter={() => setActiveDropdown("date")}
@@ -410,19 +410,6 @@ const Header = () => {
             </div>
           )}
 
-          {/* <div className="flex items-center gap-4 text-gray-600">
-            <span className="hidden md:inline cursor-pointer hover:underline text-sm">
-              Log in
-            </span>
-           
-            <FiMenu
-              size={24}
-              className="cursor-pointer md:hidden fi-menu"
-              onClick={toggleMobileMenu}
-            />
-
-            <FiUser size={24} className="cursor-pointer" />
-          </div> */}
          <div className="flex items-center gap-4 rounded-full border border-gray-300 bg-white px-4 py-2">
   <Bars3Icon
     className="h-6 w-7 text-gray-700 cursor-pointer"
@@ -439,15 +426,14 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Placeholder to avoid content jump */}
+      
       {isHeaderFixed && (
         <div style={{ height: headerRef.current?.offsetHeight || "72px" }} />
       )}
 
-      {/* ───────────────────────── hero section ───────────────────────── */}
       {!isHeaderFixed && (
         <>
-          {/* Carousel */}
+          
           <div className="relative w-full overflow-hidden py-8 mt-4">
             <motion.div
               className="flex gap-4"
@@ -471,7 +457,7 @@ const Header = () => {
             </motion.div>
           </div>
 
-          {/* Title */}
+         
           <div className="text-center px-4 mt-10">
             <h1 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight">
               Book local beauty and
@@ -482,14 +468,14 @@ const Header = () => {
         </>
       )}
 
-      {/* ───────────────────────── main search bar (hero) ───────────────────────── */}
+      
       <div
         ref={searchBarRef}
-        className={`relative w-fit mx-auto mt-10 ${isHeaderFixed ? "hidden" : "hidden md:block" // Hidden on mobile, block on md and up
+        className={`relative w-fit mx-auto mt-10 ${isHeaderFixed ? "hidden" : "hidden md:block" 
           } px-4 md:px-0 z-20`}
       >
         <div className="flex items-center border border-gray-900 rounded-full px-4 py-2 shadow-sm bg-white">
-          {/* Treatments */}
+          
           <div
             ref={treatmentsRef}
             className="group relative flex flex-col items-center"
@@ -504,7 +490,7 @@ const Header = () => {
 
           <div className="w-px h-6 bg-gray-300 mx-1" />
 
-          {/* Location */}
+          
           <div
             ref={locationRef}
             className="group relative flex flex-col items-center"
@@ -519,7 +505,7 @@ const Header = () => {
 
           <div className="w-px h-6 bg-gray-300 mx-1" />
 
-          {/* Date */}
+         
           <div
             ref={dateRef}
             className="group relative flex flex-col items-center"
@@ -534,7 +520,7 @@ const Header = () => {
 
           <div className="w-px h-6 bg-gray-300 mx-1" />
 
-          {/* Time */}
+          
           <div
             ref={timeRef}
             className="group relative flex flex-col bg-white items-center"
@@ -555,7 +541,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* ───────────────────────── Mobile Side Menu ───────────────────────── */}
+      
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -580,7 +566,7 @@ const Header = () => {
 
             <div className="border-t border-gray-200 pt-6">
               <h3 className="font-bold mb-4">Book a Service</h3>
-              {/* Mobile-friendly search options */}
+              
               <div className="flex flex-col space-y-4">
                 <button
                   className="flex items-center gap-2 p-3 border border-gray-300 rounded-lg text-left"
@@ -653,7 +639,7 @@ const Header = () => {
         )}
       </AnimatePresence>
 
-      {/* Overlay when mobile menu is open */}
+      
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -662,12 +648,12 @@ const Header = () => {
             exit={{ opacity: 0 }}
             transition={{ type: "tween", duration: 0.3 }}
             className="fixed inset-0 bg-black z-[150] md:hidden"
-            onClick={toggleMobileMenu} // Close menu on overlay click
+            onClick={toggleMobileMenu} 
           />
         )}
       </AnimatePresence>
 
-      {/* ───────────────────────── portal mounts ───────────────────────── */}
+      
       {renderPortalDropdown("treatments")}
       {renderPortalDropdown("location")}
       {renderPortalDropdown("date")}
