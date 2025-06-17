@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import React, { useState, useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup, useMap, ZoomControl } from "react-leaflet";
 import L from "leaflet";
 import { salons } from "../../data/salonMapData";
 import SalonList from "./SalonMapList";
-import { ZoomControl } from "react-leaflet";
 import FilterBox from "./FilterBox";
 
 const defaultIcon = new L.Icon({
@@ -13,7 +12,7 @@ const defaultIcon = new L.Icon({
 
 const selectedIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
-  iconSize: [45, 45],  // increased size for selected marker
+  iconSize: [45, 45],
 });
 
 
@@ -21,7 +20,7 @@ const selectedIcon = new L.Icon({
 function MapFlyToLocation({ selectedSalon }) {
   const map = useMap();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (selectedSalon) {
       map.flyTo([selectedSalon.lat, selectedSalon.lng], 13, {
         duration: 1.5,
