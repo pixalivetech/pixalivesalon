@@ -1,5 +1,6 @@
 import React from "react";
-import phoneMain from "../../assets/home/phone1.png";  
+import phoneMain from "../../assets/home/phone1.png";   // booking‑screen phone (larger)
+
 import phoneMap from "../../assets/home/phone2.png";
 
 
@@ -9,7 +10,7 @@ const DownloadApp = () => {
     <section className="w-full">
       <div className="w-full flex flex-col-reverse lg:flex-row items-center gap-12 py-12 px-4 sm:px-6 lg:px-8"> {/* Added py-12 for vertical spacing, and px for responsive horizontal padding */}
         {/* ───────────────────────── LEFT */}
-        <div className="w-full lg:w-6/12 text-center lg:text-left">
+        <div className="w-full lg:w-5/12 text-center lg:text-left">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight text-black">
             Download the<br className="hidden sm:block" /> Pixalive&nbsp;app
           </h2>

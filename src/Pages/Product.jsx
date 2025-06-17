@@ -27,15 +27,9 @@ const Product = () => {
   return (
     <div>
       <Header1 />
-      <AmenitiesSection />
-      <ServicesBook />
       
-      <AboutSection />
-      <OpeningTimes />
-      <OtherLocation />
-      <UserReviews />
-      <Venue />
-      <FAQ />
+      
+      
     </div>
   );
 };
