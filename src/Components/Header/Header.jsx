@@ -9,7 +9,13 @@ import {
   FaClock,
 } from "react-icons/fa";
 import logo from "../../assets/home/Techlogo.png";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCoverflow, Autoplay } from "swiper/modules";
+import "swiper/css";
 
+import "swiper/css/effect-coverflow";
+ 
+ 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getMonth, getYear, format } from "date-fns";
@@ -19,26 +25,30 @@ import img3 from "./../../assets/Home/hero3.jpg";
 import img4 from "./../../assets/Home/hero4.jpg";
 import img5 from "./../../assets/Home/hero5.jpg";
 import img6 from "./../../assets/Home/hero6.jpg";
-
+import img7 from "./../../assets/Home/hero3.jpg";
+import img8 from "./../../assets/Home/hero4.jpg";
+ 
 const Header = () => {
-  const images = [img1, img2, img3, img4, img5, img6];
+  const images = [img1, img2, img3, img4, img5, img6,img7,img8];
   const allImages = [...images, ...images, ...images];
-
-  /* ───────────────────────────────────────── state ───────────────────────────────────────── */
+ 
+  
+ 
+  
   const [isHeaderFixed, setIsHeaderFixed] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // New state for mobile menu
-
-  // **selected values that drive the button labels**
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+ 
+  
   const [selectedTreatment, setSelectedTreatment] = useState(
     "All Treatments and venues"
   );
   const [selectedLocation, setSelectedLocation] = useState("Current location");
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState("Any time");
-
-  /* ───────────────────────────────────────── refs ───────────────────────────────────────── */
+ 
+  
   const headerRef = useRef(null);
   const searchBarRef = useRef(null);
   const searchBarInitialOffset = useRef(0);
@@ -46,71 +56,71 @@ const Header = () => {
   const locationRef = useRef(null);
   const dateRef = useRef(null);
   const timeRef = useRef(null);
-  const mobileMenuRef = useRef(null); // Ref for the mobile menu
-
-  /* ─────────────────────────────────── helpers / handlers ─────────────────────────────────── */
+  const mobileMenuRef = useRef(null);
+ 
+  
   const getRotation = (index) => {
     const angles = [-1, -6, -5, -3, 2, 4, 6, 2, 4, 9];
     return angles[index % angles.length];
   };
-
+ 
   const handleSelectTreatment = (val) => {
     setSelectedTreatment(val);
     setActiveDropdown(null);
-    if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close menu after selection
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
   };
   const handleSelectLocation = (val) => {
     setSelectedLocation(val);
     setActiveDropdown(null);
-    if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close menu after selection
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
   };
   const handleSelectTime = (val) => {
     setSelectedTime(val);
     setActiveDropdown(null);
-    if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close menu after selection
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
   };
   const handleSelectDate = (d) => {
     setSelectedDate(d);
     setActiveDropdown(null);
-    if (isMobileMenuOpen) setIsMobileMenuOpen(false); // Close menu after selection
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
   };
-
+ 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-
-  // Close mobile menu when clicking outside
+ 
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target) &&
-        event.target.closest(".fi-menu") === null // Don't close if hamburger is clicked
+        event.target.closest(".fi-menu") === null
       ) {
         setIsMobileMenuOpen(false);
       }
     };
-
+ 
     if (isMobileMenuOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
     }
-
+ 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMobileMenuOpen]);
-
-  /* ───────────────────────────────────── effect: initial offset ───────────────────────────────────── */
+ 
+  
   useEffect(() => {
     if (searchBarRef.current) {
       searchBarInitialOffset.current =
         searchBarRef.current.getBoundingClientRect().top + window.scrollY;
     }
   }, []);
-
-  /* ───────────────────────────────────── effect: sticky header ───────────────────────────────────── */
+ 
+  
   useEffect(() => {
     const handleScroll = () => {
       if (searchBarRef.current && headerRef.current) {
@@ -122,8 +132,8 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  /* ───────────────────────────── effect: position portal dropdowns ───────────────────────────── */
+ 
+  
   useEffect(() => {
     const updatePos = () => {
       const map = {
@@ -132,7 +142,7 @@ const Header = () => {
         date: dateRef,
         time: timeRef,
       };
-      // Portal dropdowns only for the hero bar, not the fixed bar or mobile menu
+      
       const ref =
         isHeaderFixed || isMobileMenuOpen ? null : map[activeDropdown];
       if (ref && ref.current) {
@@ -151,8 +161,8 @@ const Header = () => {
       window.removeEventListener("resize", updatePos);
     };
   }, [activeDropdown, isHeaderFixed, isMobileMenuOpen]);
-
-  /* ──────────────────────────────── date‑picker custom header ──────────────────────────────── */
+ 
+  
   const renderDatePickerHeader = ({
     date,
     changeYear,
@@ -193,8 +203,8 @@ const Header = () => {
       </button>
     </div>
   );
-
-  /* ───────────────────────────── dropdown content definitions ───────────────────────────── */
+ 
+  
   const dropdownData = {
     treatments: (
       <div className="p-6 bg-white rounded-lg shadow-lg w-64 max-h-80 overflow-y-auto">
@@ -221,7 +231,7 @@ const Header = () => {
         </ul>
       </div>
     ),
-
+ 
     location: (
       <div className="p-6 bg-white rounded-lg shadow-lg w-64">
         <h3 className="font-semibold mb-3">Suggested Destination</h3>
@@ -244,18 +254,18 @@ const Header = () => {
         ))}
       </div>
     ),
-
+ 
     date: (
       <DatePicker
         selected={selectedDate}
-        onChange={handleSelectDate} // Use the new handler
+        onChange={handleSelectDate}
         inline
         calendarClassName="rounded-lg shadow-lg"
         renderCustomHeader={renderDatePickerHeader}
         dateFormat="MMMM d, BBBB"
       />
     ),
-
+ 
     time: (
       <div className="p-6 rounded-lg shadow-sm flex flex-wrap gap-4">
         {[
@@ -281,18 +291,18 @@ const Header = () => {
       </div>
     ),
   };
-
-  /* ────────────────────────────── portal helper (with hover keep‑alive) ────────────────────────────── */
+ 
+  
   const renderPortalDropdown = (key) => {
     if (
       !activeDropdown ||
       activeDropdown !== key ||
       !document.getElementById("dropdown-root") ||
-      isHeaderFixed || // only for hero bar
-      isMobileMenuOpen // not when mobile menu is open
+      isHeaderFixed ||
+      isMobileMenuOpen
     )
       return null;
-
+ 
     return createPortal(
       <div
         style={{
@@ -310,10 +320,10 @@ const Header = () => {
       document.getElementById("dropdown-root")
     );
   };
-
-  /* ───────────────────────────────────────── JSX ───────────────────────────────────────── */
+ 
+  
   return (
-    <div className="flex flex-col items-center mx-auto max-w-[1600px]">
+    <div className="flex flex-col items-center ">
       {/* ───────────────────────── header ───────────────────────── */}
       <header
         ref={headerRef}
@@ -322,17 +332,17 @@ const Header = () => {
         }`}
       >
         <div
-          className={`flex justify-between items-center w-full max-w-[1600 px] mx-auto ${
+          className={`flex justify-between items-center w-full  ${
             isHeaderFixed ? "bg-white shadow-sm p-6" : "p-6"
           }`}
         >
           <img src={logo} alt="logo" loading="lazy" className="cursor-pointer" />
-
-          {/* ─── Search bar inside the fixed header (visible on medium and up) ─── */}
+ 
+          
           {isHeaderFixed && (
             <div className="flex-1 max-w-2xl mx-4 hidden md:block">
               <div className="flex items-center border border-gray-300 rounded-full px-4 py-2 text-sm bg-white shadow-sm">
-                {/* Treatments */}
+                
                 <div
                   className="group relative flex-1 text-center"
                   onMouseEnter={() => setActiveDropdown("treatments")}
@@ -348,10 +358,10 @@ const Header = () => {
                     </div>
                   )}
                 </div>
-
+ 
                 <div className="w-px h-6 bg-gray-300 mx-1" />
-
-                {/* Location */}
+ 
+                
                 <div
                   className="group relative flex-1 text-center"
                   onMouseEnter={() => setActiveDropdown("location")}
@@ -367,10 +377,10 @@ const Header = () => {
                     </div>
                   )}
                 </div>
-
+ 
                 <div className="w-px h-6 bg-gray-300 mx-1" />
-
-                {/* Date */}
+ 
+                
                 <div
                   className="group relative flex-1 text-center"
                   onMouseEnter={() => setActiveDropdown("date")}
@@ -388,9 +398,9 @@ const Header = () => {
                     </div>
                   )}
                 </div>
-
+ 
                 <div className="w-px h-6 bg-gray-300 mx-1" />
-
+ 
                 {/* Time */}
                 <div
                   className="group relative flex-1 text-center bg-white"
@@ -407,14 +417,14 @@ const Header = () => {
                     </div>
                   )}
                 </div>
-
+ 
                 <button className="ml-2 bg-black text-white rounded-full px-4 py-1 hover:bg-gray-800">
                   Search
                 </button>
               </div>
             </div>
           )}
-
+ 
           <div className="flex items-center gap-4 text-gray-600">
             <span className="hidden md:inline cursor-pointer hover:underline text-sm">
               Log in
@@ -430,40 +440,53 @@ const Header = () => {
           </div>
         </div>
       </header>
-
-      {/* Placeholder to avoid content jump */}
+ 
+      
       {isHeaderFixed && (
         <div style={{ height: headerRef.current?.offsetHeight || "72px" }} />
       )}
-
-      {/* ───────────────────────── hero section ───────────────────────── */}
+ 
       {!isHeaderFixed && (
         <>
-          {/* Carousel */}
-          <div className="relative w-full overflow-hidden py-8 mt-4">
-            <motion.div
-              className="flex gap-4"
-              animate={{ x: ["0%", "-33.33%"] }}
-              transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
-            >
-              {allImages.map((src, i) => (
-                <div
-                  key={i}
-                  className="w-28 h-36 shrink-0 rounded-xl overflow-hidden shadow-md"
-                  style={{ transform: `rotate(${getRotation(i)}deg)` }}
-                >
-                  <img
-                    src={src}
-                    alt={`img-${i}`}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Title */}
+          
+          <div className="w-full bg-[#f6f6f6] py-10 px-4 flex justify-center">
+      <Swiper
+        effect="coverflow"
+        grabCursor={true}
+        centeredSlides={true}
+        loop={true}
+        slidesPerView={5.8} // <- ensure this is fixed, not "auto"
+        spaceBetween={14}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        coverflowEffect={{
+          rotate: 0,
+          stretch: 3,
+          depth: 150,
+          modifier: 0.9,
+          slideShadows: false,
+        }}
+        modules={[EffectCoverflow, Autoplay]}
+        className="w-full max-w-[1400px]"
+      >
+        {images.map((src, i) => (
+          <SwiperSlide
+            key={i}
+            className="!w-90 !h-115  overflow-hidden shadow-xl bg-white"
+          >
+            <img
+              src={src}
+              alt={`img-${i}`}
+              className="w-full h-full object-cover "
+              loading="lazy"
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+         
           <div className="text-center px-4 mt-10">
             <h1 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight">
               Book local beauty and
@@ -473,16 +496,17 @@ const Header = () => {
           </div>
         </>
       )}
-
-      {/* ───────────────────────── main search bar (hero) ───────────────────────── */}
-      <div
-        ref={searchBarRef}
-        className={`relative w-fit mx-auto mt-10 ${
-          isHeaderFixed ? "hidden" : "hidden md:block" // Hidden on mobile, block on md and up
-        } px-4 md:px-0 z-20`}
-      >
+ 
+      
+<div
+  ref={searchBarRef}
+  className={`relative w-fit mx-auto mt-10 ${
+    isHeaderFixed ? "hidden" : "hidden md:block"
+  } px-4 md:px-0 z-20`}
+>
+ 
         <div className="flex items-center border border-gray-900 rounded-full px-4 py-2 shadow-sm bg-white">
-          {/* Treatments */}
+          
           <div
             ref={treatmentsRef}
             className="group relative flex flex-col items-center"
@@ -494,10 +518,10 @@ const Header = () => {
               {selectedTreatment}
             </div>
           </div>
-
+ 
           <div className="w-px h-6 bg-gray-300 mx-1" />
-
-          {/* Location */}
+ 
+          
           <div
             ref={locationRef}
             className="group relative flex flex-col items-center"
@@ -509,10 +533,10 @@ const Header = () => {
               {selectedLocation}
             </div>
           </div>
-
+ 
           <div className="w-px h-6 bg-gray-300 mx-1" />
-
-          {/* Date */}
+ 
+         
           <div
             ref={dateRef}
             className="group relative flex flex-col items-center"
@@ -524,10 +548,10 @@ const Header = () => {
               {selectedDate ? format(selectedDate, "MMM d, BBBB") : "Any date"}
             </div>
           </div>
-
+ 
           <div className="w-px h-6 bg-gray-300 mx-1" />
-
-          {/* Time */}
+ 
+          
           <div
             ref={timeRef}
             className="group relative flex flex-col bg-white items-center"
@@ -539,16 +563,16 @@ const Header = () => {
               {selectedTime}
             </div>
           </div>
-
+ 
           <div className="w-px h-6 bg-gray-300 mx-1" />
-
+ 
           <button className="bg-black cursor-pointer text-white rounded-full px-5 py-2 text-sm hover:bg-gray-800">
             Search
           </button>
         </div>
       </div>
-
-      {/* ───────────────────────── Mobile Side Menu ───────────────────────── */}
+ 
+      
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -563,17 +587,17 @@ const Header = () => {
               <h2 className="text-xl font-bold">Menu</h2>
               <FiX size={24} className="cursor-pointer" onClick={toggleMobileMenu} />
             </div>
-
+ 
             <nav className="flex flex-col space-y-4 mb-8">
               <a href="#" className="text-gray-800 hover:text-black font-semibold">
                 Log In
               </a>
               
             </nav>
-
+ 
             <div className="border-t border-gray-200 pt-6">
               <h3 className="font-bold mb-4">Book a Service</h3>
-              {/* Mobile-friendly search options */}
+              
               <div className="flex flex-col space-y-4">
                 <button
                   className="flex items-center gap-2 p-3 border border-gray-300 rounded-lg text-left"
@@ -589,7 +613,7 @@ const Header = () => {
                     {dropdownData.treatments}
                   </div>
                 )}
-
+ 
                 <button
                   className="flex items-center gap-2 p-3 border border-gray-300 rounded-lg text-left"
                   onClick={() =>
@@ -604,7 +628,7 @@ const Header = () => {
                     {dropdownData.location}
                   </div>
                 )}
-
+ 
                 <button
                   className="flex items-center gap-2 p-3 border border-gray-300 rounded-lg text-left"
                   onClick={() =>
@@ -621,7 +645,7 @@ const Header = () => {
                     {dropdownData.date}
                   </div>
                 )}
-
+ 
                 <button
                   className="flex items-center gap-2 p-3 border border-gray-300 rounded-lg text-left"
                   onClick={() =>
@@ -636,7 +660,7 @@ const Header = () => {
                     {dropdownData.time}
                   </div>
                 )}
-
+ 
                 <button className="bg-black text-white rounded-lg px-5 py-3 text-base hover:bg-gray-800 w-full mt-4">
                   Search
                 </button>
@@ -645,8 +669,8 @@ const Header = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Overlay when mobile menu is open */}
+ 
+      
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -655,12 +679,12 @@ const Header = () => {
             exit={{ opacity: 0 }}
             transition={{ type: "tween", duration: 0.3 }}
             className="fixed inset-0 bg-black z-[150] md:hidden"
-            onClick={toggleMobileMenu} // Close menu on overlay click
+            onClick={toggleMobileMenu}
           />
         )}
       </AnimatePresence>
-
-      {/* ───────────────────────── portal mounts ───────────────────────── */}
+ 
+      
       {renderPortalDropdown("treatments")}
       {renderPortalDropdown("location")}
       {renderPortalDropdown("date")}
@@ -668,5 +692,6 @@ const Header = () => {
     </div>
   );
 };
-
+ 
 export default Header;
+ 

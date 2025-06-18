@@ -1,145 +1,161 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
-import user1 from "./../../assets/Product/user1.png";
-import user2 from "./../../assets/Product/user2.png";
-import user3 from "./../../assets/Product/user3.png";
-import user4 from "./../../assets/Product/user4.png";
-import user5 from "./../../assets/Product/user5.png";
-import user6 from "./../../assets/Product/user6.png";
-
-const reviews = [
+import { HiOutlinePencil } from "react-icons/hi";
+ 
+const users = [
   {
     name: "Somanathan",
     role: "UI/UX Designer",
-    image: user1,
+    avatar: "https://i.pravatar.cc/150?img=1",
     rating: 4.5,
     review:
-      "Pixalive feels less like an office and more like a creative playground. As a freelance designer, I’ve finally found a space that keeps me focused and inspired.",
+      "Pixalive feels less like an office and more like a creative playground. As a freelance designer, I’ve finally found a space that keeps me focused and",
   },
   {
     name: "Somanathan",
     role: "UI/UX Designer",
-    image: user2,
+    avatar: "https://i.pravatar.cc/150?img=2",
     rating: 4.5,
     review:
-      "Pixalive feels less like an office and more like a creative playground. As a freelance designer, I’ve finally found a space that keeps me focused and inspired.",
+      "Pixalive feels less like an office and more like a creative playground. As a freelance designer, I’ve finally found a space that keeps me focused and",
   },
   {
     name: "Somanathan",
     role: "UI/UX Designer",
-    image: user3,
+    avatar: "https://i.pravatar.cc/150?img=3",
     rating: 4.5,
-    review:
-      "Pixalive feels less like an office and more like a creative playground. As a freelance designer, I’ve finally found a space that keeps me focused and inspired.",
   },
   {
     name: "Somanathan",
     role: "UI/UX Designer",
-    image: user4,
+    avatar: "https://i.pravatar.cc/150?img=4",
     rating: 4.5,
-    review:
-      "Pixalive feels less like an office and more like a creative playground. As a freelance designer, I’ve finally found a space that keeps me focused and inspired.",
   },
   {
     name: "Somanathan",
     role: "UI/UX Designer",
-    image: user5,
+    avatar: "https://i.pravatar.cc/150?img=5",
     rating: 4.5,
-    review:
-      "Pixalive feels less like an office and more like a creative playground. As a freelance designer, I’ve finally found a space that keeps me focused and inspired.",
   },
   {
     name: "Somanathan",
     role: "UI/UX Designer",
-    image: user6,
+    avatar: "https://i.pravatar.cc/150?img=6",
     rating: 4.5,
-    review:
-      "Pixalive feels less like an office and more like a creative playground. As a freelance designer, I’ve finally found a space that keeps me focused and inspired.",
   },
 ];
-
+ 
 const StarRating = ({ rating }) => {
-  const fullStars = Math.floor(rating);
-  const hasHalfStar = rating % 1 !== 0;
-
-  return (
-    <div className="flex items-center gap-1">
-      {[...Array(fullStars)].map((_, i) => (
-        <FaStar key={i} className="text-black" />
-      ))}
-      {hasHalfStar && <FaStarHalfAlt className="text-black" />}
-      {[...Array(5 - fullStars - (hasHalfStar ? 1 : 0))].map((_, i) => (
-        <FaRegStar key={i} className="text-black" />
-      ))}
-    </div>
-  );
+  const stars = [];
+  for (let i = 1; i <= 5; i++) {
+    if (rating >= i) {
+      stars.push(<FaStar key={i} className="text-black" />);
+    } else if (rating >= i - 0.5) {
+      stars.push(<FaStarHalfAlt key={i} className="text-black" />);
+    } else {
+      stars.push(<FaRegStar key={i} className="text-black" />);
+    }
+  }
+  return <div className="flex gap-0.5">{stars}</div>;
 };
-
-export default function Testimonials() {
-  const [expandedIndex, setExpandedIndex] = useState(null);
-
-  const toggleReadMore = (index) => {
-    setExpandedIndex(index === expandedIndex ? null : index);
-  };
-
+ 
+const TestimonialSection = () => {
+  const [user1, user2, ...rest] = users;
+ 
   return (
-     <div className="p-6">
-      <div className="font-lufga">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-          <h2 className="text-3xl font-bold text-black mb-4 md:mb-0">Hear from our users</h2>
-          <button className="flex items-center gap-2 border border-gray-500 px-4 py-2 rounded-full hover:bg-gray-200 transition">
-            Write a review
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-4 h-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.83 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.686a4.5 4.5 0 011.13-1.897L16.863 4.487z"
-              />
-            </svg>
+    <div className="mt-10 text-black">
+      {/* Header Row (only 2 cols used) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start mb-6">
+        {/* Column 1: Heading + Rating */}
+        <div>
+          <h2 className="text-3xl  md:text-3xlfont-meadium mb-1">Hear from our users</h2>
+          <div className="flex items-center gap-2 text-sm">
+            <span className="font-medium">4.3</span>
+            <FaStar className="text-black" />
+            <a href="#" className="text-blue-500 underline">(32)</a>
+          </div>
+        </div>
+ 
+        {/* Column 2: Button */}
+        <div className="flex justify-start md:justify-end">
+          <button className="flex items-center gap-2 border border-gray-300 px-4 py-2 rounded-full text-sm hover:bg-gray-100">
+            Write a review <HiOutlinePencil className="text-md" />
           </button>
         </div>
-
-        <div className="mb-6 text-black font-semibold flex items-center gap-2">
-          <span>4.3</span>
-          <FaStar className="text-black" />
-          <span className="text-blue-600 cursor-pointer">(32)</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {reviews.map((item, idx) => (
-            <div key={idx} className="bg-white p-4 rounded-lg shadow">
-              <div className="flex items-center gap-4 mb-2">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
+ 
+        {/* Column 3: empty */}
+        <div className="hidden md:block" />
+      </div>
+ 
+      {/* Testimonials */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Column 1 */}
+        <div className="flex flex-col gap-6">
+          {/* Review user 1 */}
+          <div className="bg-white rounded-lg p-4">
+            <div className="flex items-center gap-3 mb-2">
+              <img src={user1.avatar} className="w-10 h-10 rounded-full" />
+              <div>
+                <p className="font-semibold">{user1.name}</p>
+                <p className="text-xs text-gray-500">{user1.role}</p>
+              </div>
+            </div>
+            <StarRating rating={user1.rating} />
+            <p className="text-sm mt-2">{user1.review}</p>
+            <a href="#" className="text-blue-600 text-sm mt-1 inline-block">Read more</a>
+          </div>
+ 
+          {/* Brief users */}
+          {rest.slice(0, 2).map((user, i) => (
+            <div key={i} className="bg-white rounded-lg p-4">
+              <div className="flex items-center gap-3 mb-2">
+                <img src={user.avatar} className="w-10 h-10 rounded-full" />
                 <div>
-                  <h3 className="font-semibold text-black">{item.name}</h3>
-                  <p className="text-gray-500 text-sm">{item.role}</p>
+                  <p className="font-semibold">{user.name}</p>
+                  <p className="text-xs text-gray-500">{user.role}</p>
                 </div>
               </div>
-              <StarRating rating={item.rating} />
-              <p className="text-black mt-2 mb-1">
-                {expandedIndex === idx ? item.review : `${item.review.slice(0, 120)}...`}
-              </p>
-              <button
-                className="text-blue-600 hover:underline"
-                onClick={() => toggleReadMore(idx)}
-              >
-                {expandedIndex === idx ? "Show less" : "Read more"}
-              </button>
+              <StarRating rating={user.rating} />
             </div>
           ))}
         </div>
+ 
+        {/* Column 2 */}
+        <div className="flex flex-col gap-6">
+          {/* Review user 2 */}
+          <div className="bg-white rounded-lg p-4">
+            <div className="flex items-center gap-3 mb-2">
+              <img src={user2.avatar} className="w-10 h-10 rounded-full" />
+              <div>
+                <p className="font-semibold">{user2.name}</p>
+                <p className="text-xs text-gray-500">{user2.role}</p>
+              </div>
+            </div>
+            <StarRating rating={user2.rating} />
+            <p className="text-sm mt-2">{user2.review}</p>
+            <a href="#" className="text-blue-600 text-sm mt-1 inline-block">Read more</a>
+          </div>
+ 
+          {/* Brief users */}
+          {rest.slice(2, 4).map((user, i) => (
+            <div key={i} className="bg-white rounded-lg p-4">
+              <div className="flex items-center gap-3 mb-2">
+                <img src={user.avatar} className="w-10 h-10 rounded-full" />
+                <div>
+                  <p className="font-semibold">{user.name}</p>
+                  <p className="text-xs text-gray-500">{user.role}</p>
+                </div>
+              </div>
+              <StarRating rating={user.rating} />
+            </div>
+          ))}
+        </div>
+ 
+        {/* Column 3: Empty */}
+        <div className="hidden md:block" />
       </div>
     </div>
   );
-}
+};
+ 
+export default TestimonialSection;

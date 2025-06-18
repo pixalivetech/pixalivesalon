@@ -19,7 +19,7 @@ const amenities = [
 
 const AmenitiesSection = () => {
   return (
-    <div className="">
+    <div className="mt-10">
       {/* Section Heading */}
       <h2 className="text-3xl font-semibold text-black mb-8">Amenities</h2>
 
@@ -49,7 +49,7 @@ const AmenitiesSection = () => {
         </div>
 
         {/* Right Half - Reserved / Empty */}
-        <div className="hidden md:block md: w-2/3" />
+        <div className="hidden md:block md:w-2/3 lg:w-2/4" />
       </div>
     </div>
   );

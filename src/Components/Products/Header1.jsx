@@ -132,12 +132,12 @@ const SalonPage = () => {
           <img
             src={mainImg}
             alt="Salon main"
-            className="rounded-xl md:w-[747px] md:h-[533px] object-cover"
+            className="rounded-xl md:w-[970px] md:h-[533px] object-cover"
           />
           <div className="flex flex-col sm:flex-row gap-[20px] mt-4">
-            <img src={thumb1} alt="thumb1" className="w-full sm:w-[236px] h-[163px] rounded-lg object-cover" />
-            <img src={thumb2} alt="thumb2" className="w-full sm:w-[236px] h-[163px] rounded-lg object-cover" />
-            <div className="relative w-full sm:w-[236px] h-[163px] rounded-lg cursor-pointer overflow-hidden">
+            <img src={thumb1} alt="thumb1" className="w-full sm:w-[236px] lg:w-[310px] h-[163px] rounded-lg object-cover" />
+            <img src={thumb2} alt="thumb2" className="w-full sm:w-[236px] lg:w-[310px] h-[163px] rounded-lg object-cover" />
+            <div className="relative w-full sm:w-[236px] lg:w-[310px] h-[163px] rounded-lg cursor-pointer overflow-hidden">
               <img src={thumb3} alt="thumb3" className="w-full h-full rounded-lg object-cover" />
               <a href="/see-more" className="absolute inset-0 bg-black/80 flex items-center justify-center text-white text-lg font-medium">
                 See more
@@ -214,6 +214,9 @@ const SalonPage = () => {
         <div id="Servicesbook">
           <Services />
         </div>
+        <div id="reviews">
+          <UserReviews />
+        </div>
 
         <div id="about">
           <AboutSection />
@@ -227,9 +230,7 @@ const SalonPage = () => {
           <OtherLocation />
         </div>
 
-        <div id="reviews">
-          <UserReviews />
-        </div>
+
 
         <div id="venue">
           <Venue />
